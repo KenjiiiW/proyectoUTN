@@ -4,6 +4,7 @@ import OtraPagina from '@/views/OtraPagina.vue'
 import Personas from '@/views/Personas.vue'
 import AltaPersona from '@/views/AltaPersona.vue'
 import TesisPosgrado from '@/views/TesisPosgrado.vue'
+import AltaTesisPosgrado from '@/views/AltaTesisPosgrado.vue'
 
 Vue.use(VueRouter)
 
@@ -23,6 +24,10 @@ const routes = [{
     {
         path: '/TesisPosgrado',
         component: TesisPosgrado
+    },
+    {
+        path: '/AltaTesisPosgrado',
+        component: AltaTesisPosgrado
     }
 ]
 

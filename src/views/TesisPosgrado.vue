@@ -8,7 +8,7 @@
     <v-row>
         <v-col>
             <v-hover v-slot:default="{ hover }">
-                <v-card :elevation="hover ? 12 : 2" :class="{ 'on-hover': hover }" to="AltaPersona">
+                <v-card :elevation="hover ? 12 : 2" :class="{ 'on-hover': hover }" to="AltaTesisPosgrado">
                     <v-card-title class="justify-center">Dar de alta tesis</v-card-title>
                 </v-card>
             </v-hover>

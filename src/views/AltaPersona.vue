@@ -1,9 +1,10 @@
 <template>
     <v-container>
         <v-card elevation="12">
-            <v-card-title class="blue lighten-4">REGISTRO DE PERSONA</v-card-title>
+            <v-card-title class="blue lighten-4 justify-center">REGISTRO DE PERSONA</v-card-title>
             <v-card-text>
                 <v-form v-model="validoFormulario" ref="formularioRegistro">
+
                     <v-row>
                         <v-col>
                             <v-text-field
@@ -20,13 +21,14 @@
                             :rules="reglaCampoVacio"></v-text-field>
                         </v-col>
                     </v-row>
+
                     <v-row>
                         <v-col>
                             <v-text-field
                             label="DNI*"
                             hint="Escriba el DNI sin espacios ni guiones*"
                             v-model="nuevaPersona.dni"
-                            :rules="reglaCampoVacio"
+                            :rules="reglaCampoVacio && reglaCantidadNegativa"
                             type="number"></v-text-field>
                         </v-col>
                         <v-col>
@@ -34,9 +36,11 @@
                             label="CUIL*"
                             hint="Escriba el cuil sin espacios ni guiones"
                             v-model="nuevaPersona.cuil"
-                            :rules="reglaCampoVacio"></v-text-field>
+                            :rules="reglaCampoVacio"
+                            type="number"></v-text-field>
                         </v-col>
                     </v-row>
+
                     <v-row>
                         <v-col>
                             <v-text-field
@@ -52,7 +56,15 @@
                             v-model="nuevaPersona.emailInstitucional"></v-text-field>
                         </v-col>
                     </v-row>
+
                     <v-row>
+                        <v-col>
+                            <v-text-field
+                            label="Teléfono"
+                            hint="Escriba un telefono particular (no obligatorio)"
+                            v-model="nuevaPersona.telefono"
+                            type="number"></v-text-field>
+                        </v-col>
                         <v-col>
                             <v-text-field
                             label="Email personal*"
@@ -60,78 +72,129 @@
                             v-model="nuevaPersona.emailPersonal"
                             :rules="reglaEmail"></v-text-field>
                         </v-col>
-                        <v-col>
-                            <v-text-field
-                            label="Teléfono"
-                            hint="Escriba un telefono particular (no obligatorio)"
-                            v-model="nuevaPersona.telefono"></v-text-field>
-                        </v-col>
                     </v-row>
+
                     <v-row>
                         <v-col>
                             <v-text-field
                             label="Celular *"
                             hint="Escriba su telefono celular"
                             v-model="nuevaPersona.celular"
-                            :rules="reglaCampoVacio"></v-text-field>
+                            :rules="reglaCampoVacio"
+                            type="number"></v-text-field>
                         </v-col>
                         <v-col>
                             <v-select
-                            label="Tipo de investigador"
+                            label="Tipo de investigador*"
                             :items="tiposInvestigador"
-                            :rules="reglaCampoVacio"></v-select>
+                            :rules="reglaCampoVacio"
+                            v-model="nuevaPersona.tipoInvestigador"></v-select>
                         </v-col>
                     </v-row>
-                    <v-row>
-                        <v-col>
-                            <v-select
-                            label="Posición"
-                            hint="Indique si es alumno, graduado o docente (si es alumno/graduado ayudante, seleccione docente)"
-                            :items="opcionTipoPersona"
-                            v-model="nuevaPersona.posicion"
-                            :rules="reglaCampoVacio"></v-select>
-                        </v-col>
-                        <v-col>
-                            <v-text-field
-                            label="Numero de pasaporte"
-                            hint="Escriba el numero del pasaporte"
-                            v-model="nuevaPersona.pasaporte.numero"
-                            v-if="nuevaPersona.pasaporte.tiene == 'Si'"
-                            :rules="reglaCampoVacio"></v-text-field>
-                        </v-col>
-                    </v-row>
-                    <v-row>
-                        <v-col>
-                            <v-row>
-                                <v-col>
-                                <v-btn block v-if="nuevaPersona.posicion == 'Docente'" @click="mostrarDialogMateria">Cargar materia en la que participa</v-btn>
-                            </v-col>
-                            <v-col>
-                                <v-btn block v-if="nuevaPersona.posicion == 'Docente'" @click="mostrarListaMaterias">Mostrar materias agregadas</v-btn>
-                            </v-col>
 
-                            </v-row>
+                    <v-row>
+                        <v-col>
+                            <v-select v-if="nuevaPersona.tipoInvestigador == 'UTN'"
+                            label="Categoría de investigador"
+                            :items="categoriasUTN"
+                            v-model="nuevaPersona.categoriaInvestigador">
+                            </v-select>
+                            <v-select v-if="nuevaPersona.tipoInvestigador == 'Nacional'"
+                            label="Categoría de investigador"
+                            :items="categoriasNacional"
+                            v-model="nuevaPersona.categoriaInvestigador">
+                            </v-select>
+                            <v-select v-if="nuevaPersona.tipoInvestigador == 'CONICET'"
+                            label="Categoría de investigador"
+                            :items="categoriasCONICET"
+                            v-model="nuevaPersona.categoriaInvestigador">
+                            </v-select>
+                            <v-select v-if="nuevaPersona.tipoInvestigador == 'CIC'"
+                            label="Categoría de investigador"
+                            :items="categoriasCIC"
+                            v-model="nuevaPersona.categoriaInvestigador">
+                            </v-select>
+                            <v-select v-if="nuevaPersona.tipoInvestigador == ''"
+                            label="Categoría de investigador">
+                            </v-select>
                         </v-col>
                         <v-col>
                             <v-text-field
-                            label="Fecha de vencimiento de pasaporte"
-                            v-model="nuevaPersona.pasaporte.fechaVencimiento"
-                            v-if="nuevaPersona.pasaporte.tiene == 'Si'"
-                            :rules="reglaCampoVacio">
+                            label="Fecha de obtención de la categoria"
+                            v-model="nuevaPersona.fechaObtencionCategoria">
                             </v-text-field>
                         </v-col>
                     </v-row>
                     <v-row>
                         <v-col>
                             <v-select
-                            label="Pasaporte"
+                            label="Situación académica"
+                            hint="Indique si es alumno, graduado o docente (si es alumno/graduado ayudante, seleccione docente)"
+                            :items="opcionTipoPersona"
+                            v-model="nuevaPersona.situacionAcademica"
+                            :rules="reglaCampoVacio"></v-select>
+                        </v-col>
+                        <v-col>
+                            <v-text-field
+                            label="Número de resolución de la categoría"
+                            hint="Ingrese el número de resolución"
+                            v-model="nuevaPersona.numeroResolucion"
+                            type="number"></v-text-field>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col>
+                            <v-select v-if="nuevaPersona.situacionAcademica == 'Alumno'"
+                            label="Ingrese cantidad de horas semanales dedicadas a investigación*"
+                            :items="horasAlumno"
+                            v-model="nuevaPersona.horaSemanal"
+                            :rules="reglaCampoVacio">
+                            </v-select>
+                            <v-select v-if="nuevaPersona.situacionAcademica == 'Graduado'"
+                            label="Ingrese cantidad de horas semanales dedicadas a investigación*"
+                            :items="horasGraduado"
+                            v-model="nuevaPersona.horaSemanal"
+                            :rules="reglaCampoVacio">
+                            </v-select>
+                            <v-select v-if="nuevaPersona.situacionAcademica == 'Docente'"
+                            label="Ingrese cantidad de horas semanales dedicadas a investigación*"
+                            :items="horasDocente"
+                            v-model="nuevaPersona.horaSemanal"
+                            :rules="reglaCampoVacio"></v-select>
+                            <v-select v-if="nuevaPersona.situacionAcademica == ''"
+                            label="Ingrese cantidad de horas semanales dedicadas a investigación*"
+                            :rules="reglaCampoVacio">
+                            </v-select>
+                        </v-col>
+                        <v-col>
+                            <v-select
+                            label="Pasaporte*"
                             hint="Indique si posee pasaporte"
                             :items="opcionPasaporte"
                             v-model="nuevaPersona.pasaporte.tiene"
                             :rules="reglaCampoVacio"></v-select>
                         </v-col>
+                    </v-row>
+                    <v-row>
                         <v-col>
-                            <v-text-field></v-text-field>
+                            <v-row v-if="nuevaPersona.situacionAcademica == 'Docente'">
+                                   <v-col>
+                                        <v-btn block @click="mostrarDialogMateria">Cargar materia en la que participa</v-btn>
+                                    </v-col>
+                                    <v-col>
+                                        <v-btn block @click="mostrarListaMaterias">Mostrar materias agregadas</v-btn>
+                                    </v-col>
+                            </v-row>
+                        </v-col>
+                        <v-col>
+                            <v-row>
+                                <v-col v-if="nuevaPersona.pasaporte.tiene == 'Si'">
+                                    <v-btn block @click="mostrarDialogPasaporte">Cargar datos de pasaporte</v-btn>
+                                </v-col>
+                                <v-col v-if="nuevaPersona.pasaporte.tiene == 'Si'">
+                                    <v-btn block>Mostrar datos de pasaporte</v-btn>
+                                </v-col>
+                            </v-row>
                         </v-col>
                     </v-row>
                 </v-form>
@@ -180,7 +243,6 @@
                     <v-btn @click="cerrarDialogMateria" text color="deep-orange darken-4">Cancelar</v-btn>
                 </v-card-actions>
             </v-card>
-
         </v-dialog>
         <v-dialog v-model="dialogListaMaterias">
             <v-card>
@@ -189,9 +251,37 @@
                 </v-card-text>
             </v-card>
         </v-dialog>
+        <v-dialog max-width="50%" v-model="dialogPasaporte">
+            <v-card>
+                <v-card-title class="justify-center blue lighten-4">CARGAR DATOS DE PASAPORTE</v-card-title>
+                <v-card-text>
+                    <v-form v-model="validoPasaporte" ref="formularioPasaporte">
+                        <v-row>
+                            <v-col>
+                                <v-text-field
+                                label="Número de pasaporte"
+                                v-model="nuevaPersona.pasaporte.numero"
+                                type="number"
+                                :rules="reglaCampoVacio"></v-text-field>
+                            </v-col>
+                            <v-col>
+                                <v-date-picker>
+
+                                </v-date-picker>
+                                
+                            </v-col>
+                        </v-row>
+                    </v-form>
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn :disabled="!validoPasaporte" text color="success" @click="cargarPasaporte">Confirmar datos</v-btn>
+                    <v-btn @click="cerrarDialogPasaporte" text color="deep-orange darken-4">Cancelar</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </v-container>
 </template>
-
 <script>
 export default {
 data () {
@@ -208,16 +298,46 @@ data () {
             fechaNacimiento:'',
             pasaporte:{
                 tiene:'',
-                numero:''
+                numero:'',
+                fechaVencimiento:''
             },
-            posicion:'',
-            materias:[]
+            situacionAcademica:'',
+            materias:[],
+            tipoInvestigador:'',
+            categoriaInvestigador:'',
+            fechaObtencionCategoria:'',
+            numeroResolucion:'',
+            horaSemanal:''
             },
-        itemsHoras: [
-            '6',
-            '12',
-            '18',
-            'Otro'
+        categoriasUTN: [
+            'A',
+            'B',
+            'C',
+            'D',
+            'E',
+            'F',
+            'G'
+        ],
+        categoriasNacional: [
+            'I',
+            'II',
+            'III',
+            'IV',
+            'V'
+        ],
+        categoriasCONICET: [
+            'Superior',
+            'Principal',
+            'Independiente',
+            'Adjunto',
+            'Asistente'
+        ],
+        categoriasCIC: [
+            'Superior',
+            'Principal',
+            'Independiente',
+            'Adjunto',
+            'Asistente'
         ],
         opcionPasaporte: [
             'Si',
@@ -247,11 +367,30 @@ data () {
             'CONICET',
             'CIC'
         ],
+        horasAlumno: [
+            '6',
+            '12',
+            '18',
+            'Otro'
+        ],
+        horasGraduado: [
+            '12',
+            '20',
+            'Otro'
+        ],
+        horasDocente: [
+            '10',
+            '15',
+            '20',
+            '40',
+            'Otro'
+        ],
         validoFormulario:false,
         validoMateria:false,
+        validoPasaporte:false,
         reglaCampoVacio:[
             (texto)=>{
-                if(texto && texto.length>0){
+                if(texto){
                     return true
                 }
                 return 'Este campo es obligatorio'
@@ -275,6 +414,7 @@ data () {
         ],
         dialogMateria:false,
         dialogListaMaterias:false,
+        dialogPasaporte:false,
         nuevaMateriaAux:{
             nombre:'',
             cargo:'',
@@ -298,6 +438,7 @@ methods: {
     },
     validar(){
         this.$refs.formularioRegistro.validate()
+        this.$refs.formularioRegistro.reset()
     },
     mostrarDialogMateria(){
         this.dialogMateria = true
@@ -317,13 +458,21 @@ methods: {
         nuevaMateria.dedicacion = this.nuevaMateriaAux.dedicacion
         this.nuevaPersona.materias.push(nuevaMateria)
         this.dialogMateria = false
+        this.nuevaMateriaAux.nombre = ''
+        this.nuevaMateriaAux.cargo = ''
+        this.nuevaMateriaAux.dedicacion = ''
+    },
+    mostrarDialogPasaporte(){
+        this.dialogPasaporte = true
+    },
+    cerrarDialogPasaporte(){
+        this.$refs.formularioPasaporte.reset()
+        this.dialogPasaporte = false
+    },
+    cargarPasaporte(){
+        this.$refs.formularioPasaporte.validate()
+        this.dialogPasaporte = false
     }
 }
 }
 </script>
-
-<style scoped>
-    .miForm {
-        background-color: white;
-    }
-</style>

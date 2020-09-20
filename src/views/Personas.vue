@@ -18,7 +18,7 @@
         <v-col>
             <v-hover v-slot:default="{ hover }">
                 <v-card :elevation="hover ? 12 : 2" :class="{ 'on-hover': hover }" to="AltaPersona">
-                    <v-card-title class="justify-center">Buscar y consultar persona</v-card-title>
+                    <v-card-title class="justify-center">Consultar persona</v-card-title>
                 </v-card>
             </v-hover>
         </v-col>      
@@ -27,7 +27,7 @@
         <v-col>
             <v-hover v-slot:default="{ hover }">
                 <v-card :elevation="hover ? 12 : 2" :class="{ 'on-hover': hover }" to="AltaPersona">
-                    <v-card-title class="justify-center">Buscar y eliminar persona</v-card-title>
+                    <v-card-title class="justify-center">Eliminar persona</v-card-title>
                 </v-card>
             </v-hover>
         </v-col>      
@@ -36,7 +36,7 @@
         <v-col>
             <v-hover v-slot:default="{ hover }">
                 <v-card :elevation="hover ? 12 : 2" :class="{ 'on-hover': hover }" to="AltaPersona">
-                    <v-card-title class="justify-center">Buscar y modificar persona</v-card-title>
+                    <v-card-title class="justify-center">Modificar persona</v-card-title>
                 </v-card>
             </v-hover>
         </v-col>      
