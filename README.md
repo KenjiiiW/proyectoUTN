@@ -1,5 +1,7 @@
 # proyectovuetify
 
+[Link to github page](https://kenjiiiw.github.io/proyectoUTN/)
+
 ## Project setup
 ```
 npm install
