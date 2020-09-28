@@ -42,7 +42,7 @@
                     </v-row>
 
                     <v-row>
-                        <v-col>
+                        <v-col >
                             <v-text-field
                             label="Dirección postal*"
                             hint="Escriba la dirección"
@@ -114,15 +114,34 @@
                             :items="categoriasCIC"
                             v-model="nuevaPersona.categoriaInvestigador">
                             </v-select>
-                            <v-select v-if="nuevaPersona.tipoInvestigador == ''"
+                            <v-select v-if="nuevaPersona.tipoInvestigador == null"
                             label="Categoría de investigador">
                             </v-select>
                         </v-col>
                         <v-col>
-                            <v-text-field
-                            label="Fecha de obtención de la categoria"
-                            v-model="nuevaPersona.fechaObtencionCategoria">
-                            </v-text-field>
+                            <v-menu
+                            ref="menu"
+                            v-model="menu"
+                            :close-on-content-click="false"
+                            :return-value.sync="nuevaPersona.fechaObtencionCategoria"
+                            transition="scale-transition"
+                            offset-y
+                            min-width="290px">
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-text-field
+                                    v-model="nuevaPersona.fechaObtencionCategoria"
+                                    label="Fecha de obtención de la categoría"
+                                    readonly
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    ></v-text-field>
+                                </template>
+                                <v-date-picker v-model="nuevaPersona.fechaObtencionCategoria" no-title scrollable>
+                                <v-spacer></v-spacer>
+                                <v-btn text color="deep-orange darken-4" @click="menu = false">Cancelar</v-btn>
+                                <v-btn text color="success" @click="$refs.menu.save(nuevaPersona.fechaObtencionCategoria)">OK</v-btn>
+                                </v-date-picker>
+                            </v-menu>
                         </v-col>
                     </v-row>
                     <v-row>
@@ -161,7 +180,7 @@
                             :items="horasDocente"
                             v-model="nuevaPersona.horaSemanal"
                             :rules="reglaCampoVacio"></v-select>
-                            <v-select v-if="nuevaPersona.situacionAcademica == ''"
+                            <v-select v-if="nuevaPersona.situacionAcademica == null"
                             label="Ingrese cantidad de horas semanales dedicadas a investigación*"
                             :rules="reglaCampoVacio">
                             </v-select>
@@ -178,12 +197,12 @@
                     <v-row>
                         <v-col>
                             <v-row v-if="nuevaPersona.situacionAcademica == 'Docente'">
-                                   <v-col>
-                                        <v-btn block @click="mostrarDialogMateria">Cargar materia en la que participa</v-btn>
-                                    </v-col>
-                                    <v-col>
-                                        <v-btn block @click="mostrarListaMaterias">Mostrar materias agregadas</v-btn>
-                                    </v-col>
+                               <v-col>
+                                    <v-btn block @click="mostrarDialogMateria">Cargar materia en la que participa</v-btn>
+                                </v-col>
+                                <v-col>
+                                    <v-btn block @click="mostrarListaMaterias">Mostrar materias agregadas</v-btn>
+                                </v-col>
                             </v-row>
                         </v-col>
                         <v-col>
@@ -201,8 +220,9 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn :disabled="!validoFormulario" text color="success" @click="validar">Confirmar registro</v-btn>
+                <v-btn :disabled="!validoFormulario" text color="success" @click="agregarPersona(nuevaPersona)">Confirmar registro</v-btn>
                 <v-btn @click="limpiar()" text color="deep-orange darken-4">Limpiar campos</v-btn>
+                <v-btn @click="mostrarPersona">MOSTRAR PERSONA AGREGADA</v-btn>
             </v-card-actions>
         </v-card>
         <v-dialog max-width="50%" v-model="dialogMateria">
@@ -265,10 +285,29 @@
                                 :rules="reglaCampoVacio"></v-text-field>
                             </v-col>
                             <v-col>
-                                <v-date-picker>
-
-                                </v-date-picker>
-                                
+                                <v-menu
+                                ref="menu2"
+                                v-model="menu2"
+                                :close-on-content-click="false"
+                                :return-value.sync="nuevaPersona.pasaporte.fechaVencimiento"
+                                transition="scale-transition"
+                                offset-y
+                                min-width="290px">
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-text-field
+                                        v-model="nuevaPersona.pasaporte.fechaVencimiento"
+                                        label="Fecha de vencimiento"
+                                        readonly
+                                        v-bind="attrs"
+                                        v-on="on"
+                                        ></v-text-field>
+                                    </template>
+                                    <v-date-picker v-model="nuevaPersona.pasaporte.fechaVencimiento" no-title scrollable>
+                                    <v-spacer></v-spacer>
+                                    <v-btn text color="deep-orange darken-4" @click="menu2 = false">Cancelar</v-btn>
+                                    <v-btn text color="success" @click="$refs.menu2.save(nuevaPersona.pasaporte.fechaVencimiento)">OK</v-btn>
+                                    </v-date-picker>
+                                </v-menu>
                             </v-col>
                         </v-row>
                     </v-form>
@@ -295,17 +334,17 @@ data () {
             emailInstitucional:'',
             emailPersonal:'',
             telefono:'',
-            fechaNacimiento:'',
+            celular: '',
             pasaporte:{
                 tiene:'',
                 numero:'',
-                fechaVencimiento:''
+                fechaVencimiento:new Date().toISOString().substr(0, 10)
             },
-            situacionAcademica:'',
+            situacionAcademica:null,
             materias:[],
-            tipoInvestigador:'',
+            tipoInvestigador:null,
             categoriaInvestigador:'',
-            fechaObtencionCategoria:'',
+            fechaObtencionCategoria:new Date().toISOString().substr(0, 10),
             numeroResolucion:'',
             horaSemanal:''
             },
@@ -388,6 +427,8 @@ data () {
         validoFormulario:false,
         validoMateria:false,
         validoPasaporte:false,
+        menu:false,
+        menu2:false,
         reglaCampoVacio:[
             (texto)=>{
                 if(texto){
@@ -430,7 +471,7 @@ data () {
     },
 methods: {
     mostrarPersona(){
-        console.log(this.nuevaPersona)
+        console.log(this.personas)
     },
     limpiar(){
         this.$refs.formularioRegistro.reset()

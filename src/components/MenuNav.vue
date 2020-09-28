@@ -1,36 +1,32 @@
 <template>
-    <v-navigation-drawer color="blue lighten-5" clipped v-model="drawer" app>
-       <v-list-item to="Personas">
+    <v-navigation-drawer style="background-color:#DAE3E5" height="100%" clipped v-model="drawer" app>
+       <v-list-item class="personas" to="Persona">
            <v-list-item-icon><v-icon>persons</v-icon></v-list-item-icon>
-           <v-list-item-title>Personas</v-list-item-title>
+           <v-list-item-title><strong>Personas</strong></v-list-item-title>
        </v-list-item>
-       <v-list-item to="TesisPosgrado">
+       <v-list-item class="tesisPosgrado" to="TesisPosgrado">
            <v-list-item-icon><v-icon>persons</v-icon></v-list-item-icon>
-           <v-list-item-title>Tesis de posgrado</v-list-item-title>
+           <v-list-item-title><strong>Tesis de posgrado</strong></v-list-item-title>
        </v-list-item>
-       <v-list-item>
+       <v-list-item class="tesisLicenciatura" to="TesisLicenciatura">
            <v-list-item-icon><v-icon>persons</v-icon></v-list-item-icon>
-           <v-list-item-title>Tesinas de licenciatura</v-list-item-title>
+           <v-list-item-title><strong>Tesinas de licenciatura</strong></v-list-item-title>
        </v-list-item>
-       <v-list-item>
+       <v-list-item class="proyectoFinal" to="ProyectoFinal">
            <v-list-item-icon><v-icon>persons</v-icon></v-list-item-icon>
-           <v-list-item-title>Proyectos finales de ingeniería</v-list-item-title>
+           <v-list-item-title><strong>Proyectos finales de ingeniería</strong></v-list-item-title>
        </v-list-item>
-       <v-list-item>
+       <v-list-item class="practicaSupervisada" to="PracticaSupervisadaIngenieria">
            <v-list-item-icon><v-icon>persons</v-icon></v-list-item-icon>
-           <v-list-item-title>Trabajo integrador de pregrado</v-list-item-title>
+           <v-list-item-title><strong>Prácticas supervisadas de ingeniería</strong></v-list-item-title>
        </v-list-item>
-       <v-list-item>
+       <v-list-item class="practicaProfesionalizanteSecundaria" to="PracticaProfesionalizanteSecundaria">
            <v-list-item-icon><v-icon>persons</v-icon></v-list-item-icon>
-           <v-list-item-title>Prácticas profesionalizantes de escuelas secundarias</v-list-item-title>
+           <v-list-item-title><strong>Prácticas profesionalizantes de escuelas secundarias</strong></v-list-item-title>
        </v-list-item>
-       <v-list-item>
+       <v-list-item class="ensayoCatedra" to="EnsayoCatedra">
            <v-list-item-icon><v-icon>persons</v-icon></v-list-item-icon>
-           <v-list-item-title>Prácticas supervisadas de ingeniería</v-list-item-title>
-       </v-list-item>
-       <v-list-item>
-           <v-list-item-icon><v-icon>persons</v-icon></v-list-item-icon>
-           <v-list-item-title>Prácticas de cátedras</v-list-item-title>
+           <v-list-item-title><strong>Ensayos de cátedras</strong></v-list-item-title>
        </v-list-item>
     </v-navigation-drawer>
 </template>

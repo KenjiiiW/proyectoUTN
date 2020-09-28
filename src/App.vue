@@ -19,13 +19,11 @@ import MenuNav from './components/MenuNav.vue'
 import Footer from './components/Footer.vue'
 export default {
   name: 'App',
-
   components: {
     Navbar,
     MenuNav,
     Footer
   },
-
   data() {
     return {
     }
@@ -40,9 +38,10 @@ export default {
 
 <style scoped>
   #app {
-    background-image: url('./assets/facultad.jpg');
+    background-image: url('./assets/fondo1.jpg');
     background-size: 1920px 1000px;
     background-attachment: fixed;
     position: relative;
+    font-family: 'Quicksand', sans-serif;
   }
 </style>
