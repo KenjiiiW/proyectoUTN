@@ -1,7 +1,7 @@
 <template>
     <v-container>
         <v-card elevation="12">
-            <v-card-title class="justify-center blue lighten-4">
+            <v-card-title class="justify-center blue lighten-5">
                 REGISTRO DE PROYECTO FINAL
             </v-card-title>
             <v-card-text>

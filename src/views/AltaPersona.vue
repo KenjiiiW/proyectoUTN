@@ -1,7 +1,7 @@
 <template>
     <v-container>
         <v-card elevation="12">
-            <v-card-title class="blue lighten-4 justify-center">REGISTRO DE PERSONA</v-card-title>
+            <v-card-title class="blue lighten-5 justify-center">REGISTRO DE PERSONA</v-card-title>
             <v-card-text>
                 <v-form v-model="validoFormulario" ref="formularioRegistro">
 
@@ -222,7 +222,6 @@
                 <v-spacer></v-spacer>
                 <v-btn :disabled="!validoFormulario" text color="success" @click="agregarPersona(nuevaPersona)">Confirmar registro</v-btn>
                 <v-btn @click="limpiar()" text color="deep-orange darken-4">Limpiar campos</v-btn>
-                <v-btn @click="mostrarPersona">MOSTRAR PERSONA AGREGADA</v-btn>
             </v-card-actions>
         </v-card>
         <v-dialog max-width="50%" v-model="dialogMateria">
@@ -338,13 +337,13 @@ data () {
             pasaporte:{
                 tiene:'',
                 numero:'',
-                fechaVencimiento:new Date().toISOString().substr(0, 10)
+                fechaVencimiento:''
             },
             situacionAcademica:null,
             materias:[],
             tipoInvestigador:null,
             categoriaInvestigador:'',
-            fechaObtencionCategoria:new Date().toISOString().substr(0, 10),
+            fechaObtencionCategoria:'',
             numeroResolucion:'',
             horaSemanal:''
             },

@@ -1,30 +1,61 @@
 <template>
     <v-container>
         <v-card>
-            <v-card-title style="background-color:#EEEEEE" class="justify-center titulo ">
-                PERSONAS
+            <v-card-title style="background-color:#EEEEEE" class="justify-center titulo">
+                <strong>PERSONAS</strong>
                 <v-spacer></v-spacer>
                 <v-text-field
                     v-model="search"
                     append-icon="mdi-magnify"
-                    label="Search"
+                    label="Búsqueda"
                     single-line
                     hide-details
                 ></v-text-field>
+                <v-spacer></v-spacer>
+                <v-btn dark color="light-blue accent-3" elevation="12" fab to="AltaPersona"><v-icon>add</v-icon></v-btn>
             </v-card-title>
             <v-data-table
             :headers="headers"
-            :items="item">
+            :items="item"
+            :search="search">
                 <template v-slot:item.actions="{ item }">
-                    <v-icon
-                    @click="consultarPersona(item)">visibility</v-icon>
-                    <v-icon
-                    @click="modificarPersona(item)">create</v-icon>
-                    <v-icon
-                    @click="eliminarPersona(item)">delete_outline</v-icon>
+                    <v-btn text fab elevation="0" @click="consultarPersona(item)">
+                        <v-icon >visibility</v-icon>
+                    </v-btn>
+
+                    <v-btn text fab elevation="0" @click="modificarPersona(item)">
+                        <v-icon>create</v-icon>
+                    </v-btn>
+
+                    <v-btn text fab elevation="0" @click="eliminarPersona(item)">
+                        <v-icon>delete_outline</v-icon>
+                    </v-btn>
                 </template>
             </v-data-table>
         </v-card>
+        <v-dialog max-width="25%" v-model="dialogEliminar">
+            <v-card>
+                <v-card-title class="justify-center">
+                    ¿Seguro desea eliminar esta persona?
+                </v-card-title>
+                <v-card-actions>
+                    <v-spacer>
+
+                    </v-spacer>
+                    <v-btn text color="success">Confirmar</v-btn>
+                    <v-btn text color="deep-orange darken-4" @click="cerrarDialogEliminar()">Cancelar</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+        <v-dialog max-width="25%" v-model="dialogConsultar">
+            <v-card>
+                <v-card-title class="justify-center">
+                    DATOS DE PERSONA
+                </v-card-title>
+                <v-card-actions>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </v-container>
 </template>
 
@@ -33,12 +64,6 @@ export default {
 data(){
     return {
         headers:[
-            { 
-                text: '#',
-                align: 'start',
-                class: 'black--text'
-                
-            },
             {
                 text: 'Nombre',
                 value: 'nombre',
@@ -97,7 +122,25 @@ data(){
                 dni: '43545656453',
                 situacionAcademica: 'Alumno'
             }
-        ]
+        ],
+        search:'',
+        dialogModificar:false,
+        dialogEliminar:false,
+        dialogConsultar:false
+    }
+},
+methods: {
+    consultarPersona(){
+        this.dialogConsultar = true
+    },
+    eliminarPersona(){
+        this.dialogEliminar = true
+    },
+    modifcarPersona(){
+        this.dialogConsultar = true
+    },
+    cerrarDialogEliminar(){
+        this.dialogEliminar = false
     }
 }
 }
