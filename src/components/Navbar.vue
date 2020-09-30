@@ -1,6 +1,7 @@
 <template>
 <v-app-bar clipped-left app dark dense color="#04080F">
     <v-app-bar-nav-icon @click="enviarClick"></v-app-bar-nav-icon> <!-- cuando se clickea sobre este icono, se emite un evento para comunicarse con el componente padre y luego el componente hermano -->
+    <v-btn to="/" icon><v-icon>home</v-icon></v-btn>
     <v-spacer></v-spacer>
     <v-toolbar-title>GESTIÓN INTEGRAL DE UNIDADES CIENTÍFICAS TECNOLÓGICAS</v-toolbar-title>
     <v-spacer></v-spacer>

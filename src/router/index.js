@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import OtraPagina from '@/views/OtraPagina.vue'
+import Home from '@/views/Home.vue'
 
 import Persona from '@/views/Persona.vue'
 import AltaPersona from '@/views/AltaPersona.vue'
@@ -28,8 +28,8 @@ Vue.use(VueRouter)
 
 const routes = [{
         path: '/',
-        name: 'OtraPagina',
-        component: OtraPagina
+        name: '',
+        component: Home
     },
 
     {

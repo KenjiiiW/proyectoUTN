@@ -7,7 +7,7 @@
             <v-card-text>
                 <v-form v-model="validoFormulario" ref="formularioRegistro">
                     <v-row>
-                        <v-col>
+                        <v-col >
                             <v-btn block>SELECCIONAR PERSONA A CARGO DEL PROYECTO FINAL</v-btn>
                         </v-col>
                     </v-row>
