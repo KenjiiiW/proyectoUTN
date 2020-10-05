@@ -1,7 +1,7 @@
 <template>
     <v-container>
             <v-row>
-                <v-col>
+                <v-col md="4" lg="4" xl="4" sm="12" sx="12">
                     <v-hover>
                         <template v-slot:default="{ hover }">
                             <v-card
@@ -27,7 +27,7 @@
                         </template>
                     </v-hover>
                 </v-col>
-                <v-col>
+                <v-col md="4" lg="4" xl="4" sm="12" sx="12">
                     <v-hover>
                         <template v-slot:default="{ hover }">
                             <v-card
@@ -53,7 +53,7 @@
                         </template>
                     </v-hover>
                 </v-col>
-                <v-col>
+                <v-col md="4" lg="4" xl="4" sm="12" sx="12">
                     <v-hover>
                         <template v-slot:default="{ hover }">
                             <v-card
@@ -81,7 +81,7 @@
                 </v-col>
             </v-row>
             <v-row>
-                <v-col>
+                <v-col md="4" lg="4" xl="4" sm="12" sx="12">
                     <v-hover>
                         <template v-slot:default="{ hover }">
                             <v-card
@@ -107,7 +107,7 @@
                         </template>
                     </v-hover>
                 </v-col>
-                <v-col>
+                <v-col md="4" lg="4" xl="4" sm="12" sx="12">
                     <v-hover>
                         <template v-slot:default="{ hover }">
                             <v-card
@@ -133,7 +133,7 @@
                         </template>
                     </v-hover>
                 </v-col>
-                <v-col>
+                <v-col md="4" lg="4" xl="4" sm="12" sx="12">
                     <v-hover>
                         <template v-slot:default="{ hover }">
                             <v-card
@@ -161,7 +161,7 @@
                 </v-col>
             </v-row>
             <v-row>
-                <v-col>
+                <v-col md="4" lg="4" xl="4" sm="12" sx="12">
                     <v-hover>
                         <template v-slot:default="{ hover }">
                             <v-card
@@ -187,7 +187,7 @@
                         </template>
                     </v-hover>
                 </v-col>
-                <v-col>
+                <v-col md="4" lg="4" xl="4" sm="12" sx="12">
                     <v-hover>
                         <template v-slot:default="{ hover }">
                             <v-card
@@ -213,7 +213,7 @@
                         </template>
                     </v-hover>
                 </v-col>
-                <v-col>
+                <v-col md="4" lg="4" xl="4" sm="12" sx="12">
                 </v-col>
             </v-row>
     </v-container>
