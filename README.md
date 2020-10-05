@@ -1,4 +1,4 @@
-# proyectovuetify
+# GIUCT
 
 [Link to github page](https://kenjiiiw.github.io/proyectoUTN/)
 
