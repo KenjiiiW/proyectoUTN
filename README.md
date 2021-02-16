@@ -7,20 +7,12 @@
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Compiles and hot-reloads for development and starts the web service
 ```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
+PORT=3000 npm run serve
 ```
 
-### Lints and fixes files
+### Deploys the current code to github page
 ```
-npm run lint
+./deploy.sh
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
