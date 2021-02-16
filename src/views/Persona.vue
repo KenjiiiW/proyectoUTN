@@ -60,6 +60,7 @@
 </template>
 
 <script>
+var axios = require('axios');
 export default {
 data(){
     return {
@@ -83,14 +84,19 @@ data(){
                 
             },
             {
-                text: 'Email personal',
-                value: 'emailPersonal',
+                text: 'Codigo Postal',
+                value: 'direccionPostal',
                 class: 'black--text'
                 
             },
             {
-                text: 'Situación académica',
-                value: 'situacionAcademica',
+                text: 'Tipo de investigador',
+                value: 'investigador.tipoDeInvestigador',
+                class: 'black--text'
+            },
+            {
+                text: 'Categoria de investigador',
+                value: 'investigador.categoriaDeInvestigador',
                 class: 'black--text'
             },
             {
@@ -100,34 +106,17 @@ data(){
                 class: 'black--text'
             }
         ],
-        item: [
-            {
-                nombre: 'Kenji',
-                apellido: 'Wake',
-                emailPersonal: 'kenjiiiw@gmail.com',
-                dni: '534534545',
-                situacionAcademica: 'Alumno'
-            },
-            {
-                nombre: 'Pablo',
-                apellido: 'Strelchenia',
-                emailPersonal: 'pablostrel@gmail.com',
-                dni: '123436534',
-                situacionAcademica: 'Alumno'
-            },
-            {
-                nombre: 'Samuel',
-                apellido: 'Vera',
-                emailPersonal: 'samuelvera98@gmail.com',
-                dni: '43545656453',
-                situacionAcademica: 'Alumno'
-            }
-        ],
+        item : [],
         search:'',
         dialogModificar:false,
         dialogEliminar:false,
         dialogConsultar:false
     }
+},
+mounted: function() {
+    axios.get("http://localhost:8080/gestiondepersonas/")
+         .then(response => {this.item = response.data}).finally(response => console.log(response));
+         
 },
 methods: {
     consultarPersona(){
