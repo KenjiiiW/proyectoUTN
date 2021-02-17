@@ -58,36 +58,49 @@
 </template>
 
 <script>
+var axios = require('axios');
 export default {
 data(){
     return {
         headers:[
             {
-                text:'Título de la práctica',
-                value: 'tituloPractica',
+                text:'Título de la tesis',
+                value: 'titulo',
                 class: 'black--text'
             },
             {
                 text: 'Nombre',
-                value: 'nombre',
+                value: 'persona.nombre',
                 class: 'black--text'
                 
             },
             {
                 text: 'Apellido',
-                value: 'apellido',
+                value: 'persona.apellido',
                 class: 'black--text'
                 
             },
             {
                 text: 'DNI',
-                value: 'dni',
+                value: 'persona.dni',
                 class: 'black--text'
                 
             },
             {
-                text: 'Escuela',
-                value: 'escuela',
+                text: 'Fecha de inicio',
+                value: 'fechaInicio',
+                class: 'black--text'
+                
+            },
+            {
+                text: 'Fecha final',
+                value: 'fechaFinal',
+                class: 'black--text'
+                
+            },
+            {
+                text: 'Fuente de financiamiento',
+                value: 'fuenteDeFinanciamiento.fuente',
                 class: 'black--text'
             },
             {
@@ -97,34 +110,17 @@ data(){
                 class: 'black--text'
             }
         ],
-        item: [
-            {
-                tituloPractica: 'La importancia de la transformación digital en las empresas',
-                nombre: 'Kenji',
-                apellido: 'Wake',
-                escuela: '',
-                dni: '534534545',
-            },
-            {
-                tituloPractica: 'La importancia de la transformación digital en las empresas',
-                nombre: 'Pablo',
-                apellido: 'Strelchenia',
-                escuela: '',
-                dni: '123436534',
-            },
-            {
-                tituloPractica: 'La importancia de la transformación digital en las empresas',
-                nombre: 'Samuel',
-                apellido: 'Vera',
-                escuela: '',
-                dni: '43545656453',
-            }
-        ],
+        item: [],
         search:'',
         dialogModificar:false,
         dialogEliminar:false,
         dialogConsultar:false
     }
+},
+mounted: function() {
+    axios.get('http://localhost:8080/gestiondeformacionacademica/practicaprofesionalizante')
+    .then(response => {this.item = response.data})
+    .finally(response => console.log(response));   
 },
 methods: {
     consultar(){

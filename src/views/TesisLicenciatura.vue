@@ -60,36 +60,49 @@
 </template>
 
 <script>
+var axios = require('axios');
 export default {
 data(){
     return {
         headers:[
             {
                 text:'Título de la tesis',
-                value: 'tituloTesis',
+                value: 'titulo',
                 class: 'black--text'
             },
             {
                 text: 'Nombre',
-                value: 'nombre',
+                value: 'persona.nombre',
                 class: 'black--text'
                 
             },
             {
                 text: 'Apellido',
-                value: 'apellido',
+                value: 'persona.apellido',
                 class: 'black--text'
                 
             },
             {
                 text: 'DNI',
-                value: 'dni',
+                value: 'persona.dni',
+                class: 'black--text'
+                
+            },
+            {
+                text: 'Fecha de inicio',
+                value: 'fechaInicio',
+                class: 'black--text'
+                
+            },
+            {
+                text: 'Fecha final',
+                value: 'fechaFinal',
                 class: 'black--text'
                 
             },
             {
                 text: 'Fuente de financiamiento',
-                value: 'fuenteFinanciamiento',
+                value: 'fuenteDeFinanciamiento.fuente',
                 class: 'black--text'
             },
             {
@@ -99,37 +112,17 @@ data(){
                 class: 'black--text'
             }
         ],
-        item: [
-            {
-                tituloTesis: 'La importancia de la transformación digital en las empresas',
-                nombre: 'Kenji',
-                apellido: 'Wake',
-                fuenteFinanciamiento: 'CONICET',
-                dni: '534534545',
-                situacionAcademica: 'Alumno'
-            },
-            {
-                tituloTesis: 'La importancia de la transformación digital en las empresas',
-                nombre: 'Pablo',
-                apellido: 'Strelchenia',
-                fuenteFinanciamiento: 'Agencia',
-                dni: '123436534',
-                situacionAcademica: 'Alumno'
-            },
-            {
-                tituloTesis: 'La importancia de la transformación digital en las empresas',
-                nombre: 'Samuel',
-                apellido: 'Vera',
-                fuenteFinanciamiento: 'CIC',
-                dni: '43545656453',
-                situacionAcademica: 'Alumno'
-            }
-        ],
+        item: [],
         search:'',
         dialogModificar:false,
         dialogEliminar:false,
         dialogConsultar:false
     }
+},
+mounted: function() {
+    axios.get("http://localhost:8080/gestiondeformacionacademica/tesislicenciatura")
+         .then(response => {this.item = response.data})
+         .finally(response => console.log(response));        
 },
 methods: {
     consultarPersona(){
