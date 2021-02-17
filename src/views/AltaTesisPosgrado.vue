@@ -8,7 +8,16 @@
                 <v-form v-model="validoFormulario" ref="formularioRegistro">
                     <v-row>
                         <v-col>
-                            <v-btn block>SELECCIONAR PERSONA A CARGO DE LA TESIS</v-btn>
+                            <v-text-field
+                            label="Nombre de la persona*"
+                            v-model="nuevaTesisPosgrado.nombre"
+                            :rules="reglaCampoVacio"></v-text-field>
+                        </v-col>
+                        <v-col>
+                                                        <v-text-field
+                            label="Apellido de la persona*"
+                            v-model="nuevaTesisPosgrado.apellido"
+                            :rules="reglaCampoVacio"></v-text-field>
                         </v-col>
                     </v-row>
                     
@@ -127,6 +136,7 @@
 </template>
 
 <script>
+var axios = require('axios');
 export default {
 data () {
     return {
@@ -138,8 +148,11 @@ data () {
             titulo:'',
             director:'',
             vinculacion:'',
-            fuenteFinanciamiento:''
+            fuenteFinanciamiento:'',
+            nombre: '',
+            apellido:''
         },
+        personaExistente: {},
         menu:false,
         menu2:false,
         validoFormulario:false,
@@ -152,12 +165,12 @@ data () {
             }
         ],
         fuentesFinanciamiento: [
-            'Sin financiamiento',
-            'CONICET',
-            'CIC',
-            'Agencia',
-            'UTN',
-            'FONCYT',
+            'sin financiamiento',
+            'conicet',
+            'cic',
+            'agencia',
+            'utn',
+            'foncyt',
             'Otro'
         ]
     }
@@ -167,11 +180,34 @@ methods: {
         this.$refs.formularioRegistro.reset()
         this.validoFormulario = false
     },
-    validar(){
+    async validar(){
         this.$refs.formularioRegistro.validate()
-        this.$refs.formularioRegistro.reset()
+        await axios.get('http://localhost:8080/gestiondepersonas/nombre/'+ this.nuevaTesisPosgrado.nombre)
+        .then(response => {this.personaExistente = response.data})
+        .finally(response => console.log(response));  
+        console.log('acao de hacer el GET') 
+        var requestBody = {
+            fechaInicio : this.nuevaTesisPosgrado.fechaInicio,
+            fechaFinal : this.nuevaTesisPosgrado.fechaFinalizacion,
+            carrera : this.nuevaTesisPosgrado.carrera,
+            universidad : this.nuevaTesisPosgrado.universidad,
+            titulo : this.nuevaTesisPosgrado.titulo,
+            director : this.nuevaTesisPosgrado.director,
+            tipoDePractica: {
+                tipoDePractica: "tesis_postgrado"
+            },
+            vinculacionConProyecto: {
+                name: "giuct"
+            },
+            fuenteDeFinanciamiento: {
+                fuente : this.nuevaTesisPosgrado.fuenteFinanciamiento == 'Otro' ? "utn" : this.nuevaTesisPosgrado.fuenteFinanciamiento
+            },
+            persona: this.personaExistente
+        };
+        axios.post("http://localhost:8080/gestiondeformacionacademica/", requestBody)
+            .then(response => console.log(response));        
+            this.$refs.formularioRegistro.reset()
     }
 }
-    
 }
 </script>

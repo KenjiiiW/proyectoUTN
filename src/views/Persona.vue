@@ -115,8 +115,8 @@ data(){
 },
 mounted: function() {
     axios.get("http://localhost:8080/gestiondepersonas/")
-         .then(response => {this.item = response.data}).finally(response => console.log(response));
-         
+         .then(response => {this.item = response.data})
+         .finally(response => console.log(response));        
 },
 methods: {
     consultarPersona(){

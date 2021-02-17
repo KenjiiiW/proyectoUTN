@@ -17,6 +17,7 @@
 import Navbar from './components/Navbar.vue'
 import MenuNav from './components/MenuNav.vue'
 import Footer from './components/Footer.vue'
+
 export default {
   name: 'App',
   components: {
