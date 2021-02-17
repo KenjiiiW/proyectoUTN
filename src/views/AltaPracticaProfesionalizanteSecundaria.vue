@@ -123,6 +123,7 @@
 </template>
 
 <script>
+var axios = require('axios');
 export default {
 data () {
     return {
@@ -133,8 +134,11 @@ data () {
             escuela:'',
             titulo:'',
             tutor:'',
-            docente:''
+            docente:'',
+            nombre: '',
+            apellido:''
         },
+        personaExistente: {},
         validoFormulario:false,
         menu:false,
         menu2:false,
@@ -153,9 +157,29 @@ methods: {
         this.$refs.formularioRegistro.reset()
         this.validoFormulario = false
     },
-    validar(){
+    async validar(){
         this.$refs.formularioRegistro.validate()
-        this.$refs.formularioRegistro.reset()
+        await axios.get('http://localhost:8080/gestiondepersonas/nombre/'+ this.nuevaTesisPosgrado.nombre)
+        .then(response => {this.personaExistente = response.data})
+        .finally(response => console.log(response));  
+        var requestBody = {
+            fechaInicio : this.nuevaTesisPosgrado.fechaInicio,
+            fechaFinal : this.nuevaTesisPosgrado.fechaFinalizacion,
+            carrera : this.nuevaTesisPosgrado.carrera,
+            escuela : this.nuevaTesisPosgrado.escuela,
+            titulo : this.nuevaTesisPosgrado.titulo,
+            docente : this.nuevaTesisPosgrado.docente,
+            tipoDePractica: {
+                tipoDePractica: "practica_profesionalizante"
+            },
+            vinculacionConProyecto: {
+                name: "giuct"
+            },
+            persona: this.personaExistente
+        };
+        axios.post("http://localhost:8080/gestiondeformacionacademica/", requestBody)
+            .then(response => console.log(response));        
+            this.$refs.formularioRegistro.reset()
     }
 }
     

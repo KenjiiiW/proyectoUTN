@@ -185,7 +185,6 @@ methods: {
         await axios.get('http://localhost:8080/gestiondepersonas/nombre/'+ this.nuevaTesisPosgrado.nombre)
         .then(response => {this.personaExistente = response.data})
         .finally(response => console.log(response));  
-        console.log('acao de hacer el GET') 
         var requestBody = {
             fechaInicio : this.nuevaTesisPosgrado.fechaInicio,
             fechaFinal : this.nuevaTesisPosgrado.fechaFinalizacion,

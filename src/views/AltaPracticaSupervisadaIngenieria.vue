@@ -138,6 +138,7 @@
 </template>
 
 <script>
+var axios = require('axios');
 export default {
 data () {
     return {
@@ -150,8 +151,11 @@ data () {
             director:'',
             tutorUct:'',
             vinculacion:'',
-            fuenteFinanciamiento:''
+            fuenteFinanciamiento:'',
+            nombre: '',
+            apellido:''
         },
+        personaExistente: {},
         validoFormulario:false,
         menu:false,
         menu2:false,
@@ -164,12 +168,12 @@ data () {
             }
         ],
         fuentesFinanciamiento: [
-            'Sin financiamiento',
-            'CONICET',
-            'CIC',
-            'Agencia',
-            'UTN',
-            'FONCYT',
+            'sin financiamiento',
+            'conicet',
+            'cic',
+            'agencia',
+            'utn',
+            'foncyt',
             'Otro'
         ]
     }
@@ -179,9 +183,32 @@ methods: {
         this.$refs.formularioRegistro.reset()
         this.validoFormulario = false
     },
-    validar(){
+    async validar(){
         this.$refs.formularioRegistro.validate()
-        this.$refs.formularioRegistro.reset()
+        await axios.get('http://localhost:8080/gestiondepersonas/nombre/'+ this.nuevaTesisPosgrado.nombre)
+        .then(response => {this.personaExistente = response.data})
+        .finally(response => console.log(response));  
+        var requestBody = {
+            fechaInicio : this.nuevaTesisPosgrado.fechaInicio,
+            fechaFinal : this.nuevaTesisPosgrado.fechaFinalizacion,
+            carrera : this.nuevaTesisPosgrado.carrera,
+            universidad : this.nuevaTesisPosgrado.universidad,
+            titulo : this.nuevaTesisPosgrado.titulo,
+            director : this.nuevaTesisPosgrado.director,
+            tipoDePractica: {
+                tipoDePractica: "practica_supervisada"
+            },
+            vinculacionConProyecto: {
+                name: "giuct"
+            },
+            fuenteDeFinanciamiento: {
+                fuente : this.nuevaTesisPosgrado.fuenteFinanciamiento == 'Otro' ? "utn" : this.nuevaTesisPosgrado.fuenteFinanciamiento
+            },
+            persona: this.personaExistente
+        };
+        axios.post("http://localhost:8080/gestiondeformacionacademica/", requestBody)
+            .then(response => console.log(response));        
+            this.$refs.formularioRegistro.reset()
     }
 }
     
