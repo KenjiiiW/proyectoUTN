@@ -8,6 +8,11 @@
                 <v-form v-model="validoFormulario" ref="formularioRegistro">
                     <v-row>
                         <v-col>
+                            <v-btn block>SELECCIONAR PERSONA A CARGO DE LA TESIS</v-btn>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col>
                             <v-menu
                             ref="menu"
                             v-model="menu"
