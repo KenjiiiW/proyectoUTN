@@ -42,7 +42,7 @@
                     <v-spacer>
 
                     </v-spacer>
-                    <v-btn text color="success">Confirmar</v-btn>
+                    <v-btn text color="success" fab to="TesisLicenciatura" @click="confirmarDialogEliminar()">Confirmar</v-btn>
                     <v-btn text color="deep-orange darken-4" @click="cerrarDialogEliminar()">Cancelar</v-btn>
                 </v-card-actions>
             </v-card>
@@ -69,24 +69,6 @@ data(){
                 text:'Título de la tesis',
                 value: 'titulo',
                 class: 'black--text'
-            },
-            {
-                text: 'Nombre',
-                value: 'persona.nombre',
-                class: 'black--text'
-                
-            },
-            {
-                text: 'Apellido',
-                value: 'persona.apellido',
-                class: 'black--text'
-                
-            },
-            {
-                text: 'DNI',
-                value: 'persona.dni',
-                class: 'black--text'
-                
             },
             {
                 text: 'Fecha de inicio',
@@ -116,7 +98,8 @@ data(){
         search:'',
         dialogModificar:false,
         dialogEliminar:false,
-        dialogConsultar:false
+        dialogConsultar:false,
+        elementoActual : {}
     }
 },
 mounted: function() {
@@ -128,14 +111,20 @@ methods: {
     consultarPersona(){
         this.dialogConsultar = true
     },
-    eliminarPersona(){
-        this.dialogEliminar = true
+    eliminar(item){
+        this.dialogEliminar = true  
+        this.elementoActual = item;
     },
     modifcarPersona(){
         this.dialogConsultar = true
     },
     cerrarDialogEliminar(){
         this.dialogEliminar = false
+    },
+    async confirmarDialogEliminar(){
+        this.dialogEliminar = false
+                await axios.delete("http://localhost:8080/gestiondeformacionacademica/id/"+this.elementoActual.id)
+         .then(response => console.log(response));  
     }
 }
 }

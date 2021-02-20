@@ -2,23 +2,38 @@
     <v-container>
         <v-card elevation="12">
             <v-card-title class="justify-center blue lighten-5">
-                REGISTRO DE TESIS DE LICENCIATURA
+                MODIFICACION DE TESIS DE POSGRADO
             </v-card-title>
             <v-card-text>
                 <v-form v-model="validoFormulario" ref="formularioRegistro">
+                    <v-row>
+                        <v-col>
+                            <v-text-field
+                            label="Nombre de la persona*"
+                            v-model="nuevaTesisPosgrado.nombre"
+                            :rules="reglaCampoVacio"></v-text-field>
+                        </v-col>
+                        <v-col>
+                                                        <v-text-field
+                            label="Apellido de la persona*"
+                            v-model="nuevaTesisPosgrado.apellido"
+                            :rules="reglaCampoVacio"></v-text-field>
+                        </v-col>
+                    </v-row>
+                    
                     <v-row>
                         <v-col>
                             <v-menu
                             ref="menu"
                             v-model="menu"
                             :close-on-content-click="false"
-                            :return-value.sync="nuevaTesisLicenciatura.fechaInicio"
+                            :return-value.sync="nuevaTesisPosgrado.fechaInicio"
                             transition="scale-transition"
                             offset-y
                             min-width="290px">
                                 <template v-slot:activator="{ on, attrs }">
                                     <v-text-field
-                                    v-model="nuevaTesisLicenciatura.fechaInicio"
+                                    v-model="nuevaTesisPosgrado.fechaInicio"
                                     label="Fecha de inicio*"
                                     readonly
                                     v-bind="attrs"
@@ -26,10 +41,10 @@
                                     :rules="reglaCampoVacio"
                                     ></v-text-field>
                                 </template>
-                                <v-date-picker v-model="nuevaTesisLicenciatura.fechaInicio" no-title scrollable>
+                                <v-date-picker v-model="nuevaTesisPosgrado.fechaInicio" no-title scrollable>
                                 <v-spacer></v-spacer>
                                 <v-btn text color="deep-orange darken-4" @click="menu = false">Cancelar</v-btn>
-                                <v-btn text color="success" @click="$refs.menu.save(nuevaTesisLicenciatura.fechaInicio)">OK</v-btn>
+                                <v-btn text color="success" @click="$refs.menu.save(nuevaTesisPosgrado.fechaInicio)">OK</v-btn>
                                 </v-date-picker>
                             </v-menu>
                         </v-col>
@@ -38,23 +53,23 @@
                             ref="menu2"
                             v-model="menu2"
                             :close-on-content-click="false"
-                            :return-value.sync="nuevaTesisLicenciatura.fechaFinalizacion"
+                            :return-value.sync="nuevaTesisPosgrado.fechaFinalizacion"
                             transition="scale-transition"
                             offset-y
                             min-width="290px">
                                 <template v-slot:activator="{ on, attrs }">
                                     <v-text-field
-                                    v-model="nuevaTesisLicenciatura.fechaFinalizacion"
+                                    v-model="nuevaTesisPosgrado.fechaFinalizacion"
                                     label="Fecha de finalización"
                                     readonly
                                     v-bind="attrs"
                                     v-on="on"
                                     ></v-text-field>
                                 </template>
-                                <v-date-picker v-model="nuevaTesisLicenciatura.fechaFinalizacion" no-title scrollable>
+                                <v-date-picker v-model="nuevaTesisPosgrado.fechaFinalizacion" no-title scrollable>
                                 <v-spacer></v-spacer>
                                 <v-btn text color="deep-orange darken-4" @click="menu2 = false">Cancelar</v-btn>
-                                <v-btn text color="success" @click="$refs.menu2.save(nuevaTesisLicenciatura.fechaFinalizacion)">OK</v-btn>
+                                <v-btn text color="success" @click="$refs.menu2.save(nuevaTesisPosgrado.fechaFinalizacion)">OK</v-btn>
                                 </v-date-picker>
                             </v-menu>
                         </v-col>
@@ -64,13 +79,13 @@
                         <v-col>
                             <v-text-field
                             label="Nombre de la carrera*"
-                            v-model="nuevaTesisLicenciatura.carrera"
+                            v-model="nuevaTesisPosgrado.carrera"
                             :rules="reglaCampoVacio"></v-text-field>
                         </v-col>
                         <v-col>
                             <v-text-field
                             label="Universidad*"
-                            v-model="nuevaTesisLicenciatura.universidad"
+                            v-model="nuevaTesisPosgrado.universidad"
                             :rules="reglaCampoVacio"></v-text-field>
                         </v-col>
                     </v-row>
@@ -79,14 +94,14 @@
                         <v-col>
                             <v-text-field
                             label="Título de la tesis*"
-                            v-model="nuevaTesisLicenciatura.titulo"
+                            v-model="nuevaTesisPosgrado.titulo"
                             :rules="reglaCampoVacio"></v-text-field>
                         </v-col>
                         <v-col>
                             <v-text-field
                             label="Director*"
                             hint="Escriba nombre y apellido del director"
-                            v-model="nuevaTesisLicenciatura.director"
+                            v-model="nuevaTesisPosgrado.director"
                             :rules="reglaCampoVacio"></v-text-field>
                         </v-col>
                     </v-row>
@@ -96,13 +111,13 @@
                             <v-text-field
                             label="Vinculación de la tesis*"
                             hint="Escriba la vinculación de la tesis con PID o la iniciativa de investigación en la UCT"
-                            v-model="nuevaTesisLicenciatura.vinculacion"
+                            v-model="nuevaTesisPosgrado.vinculacion"
                             :rules="reglaCampoVacio"></v-text-field>
                         </v-col>
                         <v-col>
                             <v-select
                             label="Fuente de financiamiento"
-                            v-model="nuevaTesisLicenciatura.fuenteFinanciamiento"
+                            v-model="nuevaTesisPosgrado.fuenteFinanciamiento"
                             :items="fuentesFinanciamiento"></v-select>
                         </v-col>
                     </v-row>
@@ -111,7 +126,7 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn :disabled="!validoFormulario" text color="success" @click="validar()">Confirmar registro</v-btn>
+                <v-btn :disabled="!validoFormulario" text color="success" @click="validar">Confirmar registro</v-btn>
                 <v-btn @click="limpiar()" text color="deep-orange darken-4">Limpiar campos</v-btn>
             </v-card-actions>
         </v-card>
@@ -125,7 +140,7 @@ var axios = require('axios');
 export default {
 data () {
     return {
-        nuevaTesisLicenciatura: {
+        nuevaTesisPosgrado: {
             fechaInicio:'',
             fechaFinalizacion:'',
             carrera:'',
@@ -134,11 +149,13 @@ data () {
             director:'',
             vinculacion:'',
             fuenteFinanciamiento:'',
+            nombre: '',
+            apellido:''
         },
         personaExistente: {},
-        validoFormulario:false,
         menu:false,
         menu2:false,
+        validoFormulario:false,
         reglaCampoVacio:[
             (texto)=>{
                 if(texto){
@@ -164,30 +181,32 @@ methods: {
         this.validoFormulario = false
     },
     async validar(){
-        alert("entre en el validar()");
         this.$refs.formularioRegistro.validate()
+        await axios.get('http://localhost:8080/gestiondepersonas/nombre/'+ this.nuevaTesisPosgrado.nombre)
+        .then(response => {this.personaExistente = response.data})
+        .finally(response => console.log(response));  
         var requestBody = {
-            fechaInicio : this.nuevaTesisLicenciatura.fechaInicio,
-            fechaFinal : this.nuevaTesisLicenciatura.fechaFinalizacion,
-            carrera : this.nuevaTesisLicenciatura.carrera,
-            universidad : this.nuevaTesisLicenciatura.universidad,
-            titulo : this.nuevaTesisLicenciatura.titulo,
-            director : this.nuevaTesisLicenciatura.director,
+            fechaInicio : this.nuevaTesisPosgrado.fechaInicio,
+            fechaFinal : this.nuevaTesisPosgrado.fechaFinalizacion,
+            carrera : this.nuevaTesisPosgrado.carrera,
+            universidad : this.nuevaTesisPosgrado.universidad,
+            titulo : this.nuevaTesisPosgrado.titulo,
+            director : this.nuevaTesisPosgrado.director,
             tipoDePractica: {
-                tipoDePractica: "tesis_licenciatura"
+                tipoDePractica: "tesis_postgrado"
             },
             vinculacionConProyecto: {
                 name: "giuct"
             },
             fuenteDeFinanciamiento: {
-                fuente : this.nuevaTesisLicenciatura.fuenteFinanciamiento == 'Otro' ? "utn" : this.nuevaTesisLicenciatura.fuenteFinanciamiento
-            }
+                fuente : this.nuevaTesisPosgrado.fuenteFinanciamiento == 'Otro' ? "utn" : this.nuevaTesisPosgrado.fuenteFinanciamiento
+            },
+            persona: this.personaExistente
         };
         axios.post("http://localhost:8080/gestiondeformacionacademica/", requestBody)
             .then(response => console.log(response));        
-        this.$refs.formularioRegistro.reset()
+            this.$refs.formularioRegistro.reset()
     }
 }
-    
 }
 </script>

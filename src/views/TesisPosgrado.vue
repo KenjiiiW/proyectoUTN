@@ -23,7 +23,7 @@
                         <v-icon >visibility</v-icon>
                     </v-btn>
 
-                    <v-btn text fab elevation="0" @click="modificar(item)">
+                    <v-btn text fab to="ModificacionTesisPosgrado" elevation="0" @click="modificar(item)">
                         <v-icon>create</v-icon>
                     </v-btn>
 
@@ -42,7 +42,7 @@
                     <v-spacer>
 
                     </v-spacer>
-                    <v-btn text color="success">Confirmar</v-btn>
+                    <v-btn text color="success" fab to="TesisPosgrado" @click="confirmarDialogEliminar()">Confirmar</v-btn>
                     <v-btn text color="deep-orange darken-4" @click="cerrarDialogEliminar()">Cancelar</v-btn>
                 </v-card-actions>
             </v-card>
@@ -116,7 +116,8 @@ data(){
         search:'',
         dialogModificar:false,
         dialogEliminar:false,
-        dialogConsultar:false
+        dialogConsultar:false,
+        elementoActual : {}
     }
 },
 mounted: function() {
@@ -128,14 +129,20 @@ methods: {
     consultar(){
         this.dialogConsultar = true
     },
-    eliminar(){
-        this.dialogEliminar = true
+    eliminar(item){
+        this.dialogEliminar = true  
+        this.elementoActual = item;
     },
     modifcar(){
         this.dialogConsultar = true
     },
     cerrarDialogEliminar(){
         this.dialogEliminar = false
+    },
+    async confirmarDialogEliminar(){
+        this.dialogEliminar = false
+                await axios.delete("http://localhost:8080/gestiondeformacionacademica/id/"+this.elementoActual.id)
+         .then(response => console.log(response));  
     }
 }
 }

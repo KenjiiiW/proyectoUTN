@@ -8,6 +8,7 @@ import BajaPersona from '@/views/BajaPersona.vue'
 
 import TesisPosgrado from '@/views/TesisPosgrado.vue'
 import AltaTesisPosgrado from '@/views/AltaTesisPosgrado.vue'
+import ModificacionTesisPosgrado from '@/views/ModificacionTesisPosgrado'
 
 import TesisLicenciatura from '@/views/TesisLicenciatura.vue'
 import AltaTesisLicenciatura from '@/views/AltaTesisLicenciatura.vue'
@@ -23,6 +24,7 @@ import AltaPracticaProfesionalizanteSecundaria from '@/views/AltaPracticaProfesi
 
 import EnsayoCatedra from '@/views/EnsayoCatedra.vue'
 import AltaEnsayoCatedra from '@/views/AltaEnsayoCatedra.vue'
+
 
 Vue.use(VueRouter)
 
@@ -53,7 +55,10 @@ const routes = [{
         path: '/AltaTesisPosgrado',
         component: AltaTesisPosgrado
     },
-
+    {
+        path: '/ModificacionTesisPosgrado',
+        component: ModificacionTesisPosgrado
+    },
     {
         path: '/TesisLicenciatura',
         component: TesisLicenciatura
