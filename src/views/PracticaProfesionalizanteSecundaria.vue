@@ -123,7 +123,7 @@ mounted: function() {
     .finally(response => console.log(response));   
 },
 updated: function() {
-        axios.get("http://localhost:8080/gestiondeformacionacademica/tesislicenciatura")
+        axios.get("http://localhost:8080/gestiondeformacionacademica/practicaprofesionalizante")
          .then(response => {this.item = response.data})
          .finally(response => console.log(response));    
 },

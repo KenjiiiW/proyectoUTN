@@ -42,7 +42,7 @@
                     <v-spacer>
 
                     </v-spacer>
-                    <v-btn text color="success" to="TesisLicenciatura" @click="confirmarDialogEliminar()">Confirmar</v-btn>
+                    <v-btn text color="success" fab to="TesisLicenciatura" @click="confirmarDialogEliminar()">Confirmar</v-btn>
                     <v-btn text color="deep-orange darken-4" @click="cerrarDialogEliminar()">Cancelar</v-btn>
                 </v-card-actions>
             </v-card>
@@ -127,7 +127,7 @@ methods: {
         this.dialogEliminar = false
     },
     async confirmarDialogEliminar(){
-        this.dialogEliminar = false
+        this.dialogEliminar = false;
                 await axios.delete("http://localhost:8080/gestiondeformacionacademica/id/"+this.elementoActual.id)
          .then(response => console.log(response));  
     }
