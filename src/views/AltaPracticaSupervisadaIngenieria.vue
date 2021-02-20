@@ -6,11 +6,11 @@
             </v-card-title>
             <v-card-text>
                 <v-form v-model="validoFormulario" ref="formularioRegistro">
-                    <v-row>
+                    <!-- <v-row>
                         <v-col>
                             <v-btn block>SELECCIONAR PERSONA A CARGO DE LA PRÁCTICA</v-btn>
                         </v-col>
-                    </v-row>
+                    </v-row> -->
                     
                     <v-row>
                         <v-col>
@@ -128,7 +128,7 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn :disabled="!validoFormulario" text color="success" @click="validar">Confirmar registro</v-btn>
+                <v-btn :disabled="!validoFormulario" text color="success" @click="validar()">Confirmar registro</v-btn>
                 <v-btn @click="limpiar()" text color="deep-orange darken-4">Limpiar campos</v-btn>
             </v-card-actions>
         </v-card>
@@ -185,16 +185,16 @@ methods: {
     },
     async validar(){
         this.$refs.formularioRegistro.validate()
-        await axios.get('http://localhost:8080/gestiondepersonas/nombre/'+ this.nuevaTesisPosgrado.nombre)
-        .then(response => {this.personaExistente = response.data})
-        .finally(response => console.log(response));  
+        // await axios.get('http://localhost:8080/gestiondepersonas/nombre/'+ this.nuevaTesisPosgrado.nombre)
+        // .then(response => {this.personaExistente = response.data})
+        // .finally(response => console.log(response));  
         var requestBody = {
-            fechaInicio : this.nuevaTesisPosgrado.fechaInicio,
-            fechaFinal : this.nuevaTesisPosgrado.fechaFinalizacion,
-            carrera : this.nuevaTesisPosgrado.carrera,
-            universidad : this.nuevaTesisPosgrado.universidad,
-            titulo : this.nuevaTesisPosgrado.titulo,
-            director : this.nuevaTesisPosgrado.director,
+            fechaInicio : this.nuevaPracticaSupervisada.fechaInicio,
+            fechaFinal : this.nuevaPracticaSupervisada.fechaFinalizacion,
+            carrera : this.nuevaPracticaSupervisada.carrera,
+            universidad : this.nuevaPracticaSupervisada.universidad,
+            titulo : this.nuevaPracticaSupervisada.titulo,
+            director : this.nuevaPracticaSupervisada.director,
             tipoDePractica: {
                 tipoDePractica: "practica_supervisada"
             },
@@ -202,9 +202,10 @@ methods: {
                 name: "giuct"
             },
             fuenteDeFinanciamiento: {
-                fuente : this.nuevaTesisPosgrado.fuenteFinanciamiento == 'Otro' ? "utn" : this.nuevaTesisPosgrado.fuenteFinanciamiento
-            },
-            persona: this.personaExistente
+                fuente : this.nuevaPracticaSupervisada.fuenteFinanciamiento == 'Otro' ? "utn" : this.nuevaPracticaSupervisada.fuenteFinanciamiento
+            }
+            // },
+            // persona: this.personaExistente
         };
         axios.post("http://localhost:8080/gestiondeformacionacademica/", requestBody)
             .then(response => console.log(response));        

@@ -42,7 +42,7 @@
                     <v-spacer>
 
                     </v-spacer>
-                    <v-btn text color="success">Confirmar</v-btn>
+                    <v-btn text color="success" @click="confirmarDialogEliminar()">Confirmar</v-btn>
                     <v-btn text color="deep-orange darken-4" @click="cerrarDialogEliminar()">Cancelar</v-btn>
                 </v-card-actions>
             </v-card>
@@ -113,6 +113,7 @@ data(){
             }
         ],
         item: [],
+        elementoActual: {},
         search:'',
         dialogModificar:false,
         dialogEliminar:false,
@@ -133,14 +134,20 @@ methods: {
     consultar(){
         this.dialogConsultar = true
     },
-    eliminar(){
+    eliminar(item){
         this.dialogEliminar = true
+        this.elementoActual = item;
     },
     modifcar(){
         this.dialogConsultar = true
     },
     cerrarDialogEliminar(){
         this.dialogEliminar = false
+    },
+    async confirmarDialogEliminar(){
+        this.dialogEliminar = false
+        await axios.delete("http://localhost:8080/gestiondeformacionacademica/id/"+this.elementoActual.id)
+        .then(response => console.log(response));  
     }
 }
 }
