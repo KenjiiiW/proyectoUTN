@@ -27,7 +27,7 @@
                         <v-icon>create</v-icon>
                     </v-btn>
 
-                    <v-btn text fab elevation="0" @click="eliminarPersona(item)">
+                    <v-btn text fab elevation="0" @click="eliminar(item)">
                         <v-icon>delete_outline</v-icon>
                     </v-btn>
                 </template>
@@ -42,7 +42,7 @@
                     <v-spacer>
 
                     </v-spacer>
-                    <v-btn text color="success" fab to="TesisLicenciatura" @click="confirmarDialogEliminar()">Confirmar</v-btn>
+                    <v-btn text color="success" to="TesisLicenciatura" @click="confirmarDialogEliminar()">Confirmar</v-btn>
                     <v-btn text color="deep-orange darken-4" @click="cerrarDialogEliminar()">Cancelar</v-btn>
                 </v-card-actions>
             </v-card>
@@ -106,6 +106,11 @@ mounted: function() {
     axios.get("http://localhost:8080/gestiondeformacionacademica/tesislicenciatura")
          .then(response => {this.item = response.data})
          .finally(response => console.log(response));        
+},
+updated: function() {
+        axios.get("http://localhost:8080/gestiondeformacionacademica/tesislicenciatura")
+         .then(response => {this.item = response.data})
+         .finally(response => console.log(response));    
 },
 methods: {
     consultarPersona(){
