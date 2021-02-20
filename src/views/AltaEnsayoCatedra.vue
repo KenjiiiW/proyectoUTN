@@ -130,7 +130,7 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn :disabled="!validoFormulario" text color="success" @click="validar">Confirmar registro</v-btn>
+                <v-btn :disabled="!validoFormulario" text color="success" @click="validar()">Confirmar registro</v-btn>
                 <v-btn @click="limpiar()" text color="deep-orange darken-4">Limpiar campos</v-btn>
             </v-card-actions>
         </v-card>
@@ -187,16 +187,16 @@ methods: {
     },
     async validar(){
         this.$refs.formularioRegistro.validate()
-        await axios.get('http://localhost:8080/gestiondepersonas/nombre/'+ this.nuevaTesisPosgrado.nombre)
-        .then(response => {this.personaExistente = response.data})
-        .finally(response => console.log(response));  
+        // await axios.get('http://localhost:8080/gestiondepersonas/nombre/'+ this.nuevaTesisPosgrado.nombre)
+        // .then(response => {this.personaExistente = response.data})
+        // .finally(response => console.log(response));  
         var requestBody = {
-            fechaInicio : this.nuevaTesisPosgrado.fechaInicio,
-            fechaFinal : this.nuevaTesisPosgrado.fechaFinalizacion,
-            carrera : this.nuevaTesisPosgrado.carrera,
-            universidad : this.nuevaTesisPosgrado.universidad,
-            titulo : this.nuevaTesisPosgrado.titulo,
-            director : this.nuevaTesisPosgrado.director,
+            fechaInicio : this.nuevoEnsayoCatedra.fechaInicio,
+            fechaFinal : this.nuevoEnsayoCatedra.fechaFinalizacion,
+            carrera : this.nuevoEnsayoCatedra.carrera,
+            universidad : this.nuevoEnsayoCatedra.universidad,
+            titulo : this.nuevoEnsayoCatedra.titulo,
+            director : this.nuevoEnsayoCatedra.director,
             tipoDePractica: {
                 tipoDePractica: "ensayo_catedra"
             },
@@ -204,9 +204,10 @@ methods: {
                 name: "giuct"
             },
             fuenteDeFinanciamiento: {
-                fuente : this.nuevaTesisPosgrado.fuenteFinanciamiento == 'Otro' ? "utn" : this.nuevaTesisPosgrado.fuenteFinanciamiento
-            },
-            persona: this.personaExistente
+                fuente : this.nuevoEnsayoCatedra.fuenteFinanciamiento == 'Otro' ? "utn" : this.nuevoEnsayoCatedra.fuenteFinanciamiento
+            }
+            // },
+            // persona: this.personaExistente
         };
         axios.post("http://localhost:8080/gestiondeformacionacademica/", requestBody)
             .then(response => console.log(response));        
