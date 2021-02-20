@@ -122,6 +122,11 @@ mounted: function() {
     .then(response => {this.item = response.data})
     .finally(response => console.log(response));   
 },
+updated: function() {
+        axios.get("http://localhost:8080/gestiondeformacionacademica/tesislicenciatura")
+         .then(response => {this.item = response.data})
+         .finally(response => console.log(response));    
+},
 methods: {
     consultar(){
         this.dialogConsultar = true
