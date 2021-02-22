@@ -1,9 +1,11 @@
 <template>
     <v-container>
         <v-card elevation="12">
-            <v-card-title class="blue lighten-5 justify-center">REGISTRO DE PERSONA</v-card-title>
+            <v-card-title class="blue lighten-5 justify-center"><strong>REGISTRO DE PERSONA</strong></v-card-title>
             <v-card-text>
                 <v-form v-model="validoFormulario" ref="formularioRegistro">
+
+                    <v-row><v-card-title><strong>DATOS PERSONALES</strong></v-card-title></v-row>
 
                     <v-row>
                         <v-col>
@@ -20,9 +22,6 @@
                             v-model="nuevaPersona.apellido"
                             :rules="reglaCampoVacio"></v-text-field>
                         </v-col>
-                    </v-row>
-
-                    <v-row>
                         <v-col>
                             <v-text-field
                             label="DNI*"
@@ -31,6 +30,10 @@
                             :rules="reglaCampoVacio && reglaCantidadNegativa"
                             type="number"></v-text-field>
                         </v-col>
+                    </v-row>
+
+                    <v-row>
+                        
                         <v-col>
                             <v-text-field
                             label="CUIL*"
@@ -39,9 +42,6 @@
                             :rules="reglaCampoVacio"
                             type="number"></v-text-field>
                         </v-col>
-                    </v-row>
-
-                    <v-row>
                         <v-col >
                             <v-text-field
                             label="Dirección postal*"
@@ -50,29 +50,15 @@
                             :rules="reglaCampoVacio"></v-text-field>
                         </v-col>
                         <v-col>
-                            <v-text-field
-                            label="Email institucional"
-                            hint="Escriba el mail institucional (no obligatorio)"
-                            v-model="nuevaPersona.emailInstitucional"></v-text-field>
+
                         </v-col>
                     </v-row>
 
                     <v-row>
-                        <v-col>
-                            <v-text-field
-                            label="Teléfono"
-                            hint="Escriba un telefono particular (no obligatorio)"
-                            v-model="nuevaPersona.telefono"
-                            type="number"></v-text-field>
-                        </v-col>
-                        <v-col>
-                            <v-text-field
-                            label="Email personal*"
-                            hint="Escriba el mail personal"
-                            v-model="nuevaPersona.emailPersonal"
-                            :rules="reglaEmail"></v-text-field>
-                        </v-col>
+                        
+                        
                     </v-row>
+                    <v-row><v-card-title><strong>DATOS DE CONTACTO</strong></v-card-title></v-row>
 
                     <v-row>
                         <v-col>
@@ -84,39 +70,57 @@
                             type="number"></v-text-field>
                         </v-col>
                         <v-col>
+                            <v-text-field
+                            label="Email personal*"
+                            hint="Escriba el mail personal"
+                            v-model="nuevaPersona.emailPersonal"
+                            :rules="reglaEmail"></v-text-field>
+                        </v-col>
+                        <v-col>
+                            <v-text-field
+                            label="Email institucional"
+                            hint="Escriba el mail institucional (no obligatorio)"
+                            v-model="nuevaPersona.emailInstitucional"></v-text-field>
+                        </v-col>
+                    </v-row>
+                    <v-row><v-card-title><strong>DATOS ACADEMICOS</strong></v-card-title></v-row>
+                    <v-row>
+                        <v-col>
                             <v-select
                             label="Tipo de investigador*"
                             :items="tiposInvestigador"
                             :rules="reglaCampoVacio"
                             v-model="nuevaPersona.tipoInvestigador"></v-select>
                         </v-col>
-                    </v-row>
-
-                    <v-row>
                         <v-col>
-                            <v-select v-if="nuevaPersona.tipoInvestigador == 'UTN'"
+                            <v-select v-show="nuevaPersona.tipoInvestigador != null" v-if="nuevaPersona.tipoInvestigador == 'UTN'"
                             label="Categoría de investigador"
                             :items="categoriasUTN"
                             v-model="nuevaPersona.categoriaInvestigador">
                             </v-select>
-                            <v-select v-if="nuevaPersona.tipoInvestigador == 'Nacional'"
+                            <v-select v-show="nuevaPersona.tipoInvestigador != null" v-if="nuevaPersona.tipoInvestigador == 'Nacional'"
                             label="Categoría de investigador"
                             :items="categoriasNacional"
                             v-model="nuevaPersona.categoriaInvestigador">
                             </v-select>
-                            <v-select v-if="nuevaPersona.tipoInvestigador == 'CONICET'"
+                            <v-select v-show="nuevaPersona.tipoInvestigador != null" v-if="nuevaPersona.tipoInvestigador == 'CONICET'"
                             label="Categoría de investigador"
                             :items="categoriasCONICET"
                             v-model="nuevaPersona.categoriaInvestigador">
                             </v-select>
-                            <v-select v-if="nuevaPersona.tipoInvestigador == 'CIC'"
+                            <v-select v-show="nuevaPersona.tipoInvestigador != null" v-if="nuevaPersona.tipoInvestigador == 'CIC'"
                             label="Categoría de investigador"
                             :items="categoriasCIC"
                             v-model="nuevaPersona.categoriaInvestigador">
                             </v-select>
-                            <v-select v-if="nuevaPersona.tipoInvestigador == null"
-                            label="Categoría de investigador">
-                            </v-select>
+                        </v-col>
+                        <v-col>
+                            <v-text-field
+                            v-show="nuevaPersona.tipoInvestigador != null"
+                            label="Número de resolución de la categoría"
+                            hint="Ingrese el número de resolución"
+                            v-model="nuevaPersona.numeroResolucion"
+                            type="number"></v-text-field>
                         </v-col>
                         <v-col>
                             <v-menu
@@ -126,9 +130,11 @@
                             :return-value.sync="nuevaPersona.fechaObtencionCategoria"
                             transition="scale-transition"
                             offset-y
-                            min-width="290px">
+                            min-width="290px"
+                            >
                                 <template v-slot:activator="{ on, attrs }">
                                     <v-text-field
+                                    v-show="nuevaPersona.tipoInvestigador != null"
                                     v-model="nuevaPersona.fechaObtencionCategoria"
                                     label="Fecha de obtención de la categoría"
                                     readonly
@@ -154,57 +160,55 @@
                             :rules="reglaCampoVacio"></v-select>
                         </v-col>
                         <v-col>
-                            <v-text-field
-                            label="Número de resolución de la categoría"
-                            hint="Ingrese el número de resolución"
-                            v-model="nuevaPersona.numeroResolucion"
-                            type="number"></v-text-field>
-                        </v-col>
-                    </v-row>
-                    <v-row>
-                        <v-col>
                             <v-select v-if="nuevaPersona.situacionAcademica == 'Alumno'"
                             label="Ingrese cantidad de horas semanales dedicadas a investigación*"
                             :items="horasAlumno"
                             v-model="nuevaPersona.horaSemanal"
-                            :rules="reglaCampoVacio">
+                            :rules="reglaCampoVacio"
+                            v-show="nuevaPersona.situacionAcademica != null">
                             </v-select>
                             <v-select v-if="nuevaPersona.situacionAcademica == 'Graduado'"
                             label="Ingrese cantidad de horas semanales dedicadas a investigación*"
                             :items="horasGraduado"
                             v-model="nuevaPersona.horaSemanal"
-                            :rules="reglaCampoVacio">
+                            :rules="reglaCampoVacio"
+                            v-show="nuevaPersona.situacionAcademica != null">
                             </v-select>
                             <v-select v-if="nuevaPersona.situacionAcademica == 'Docente'"
                             label="Ingrese cantidad de horas semanales dedicadas a investigación*"
                             :items="horasDocente"
                             v-model="nuevaPersona.horaSemanal"
-                            :rules="reglaCampoVacio"></v-select>
-                            <v-select v-if="nuevaPersona.situacionAcademica == null"
-                            label="Ingrese cantidad de horas semanales dedicadas a investigación*"
-                            :rules="reglaCampoVacio">
-                            </v-select>
+                            :rules="reglaCampoVacio"
+                            v-show="nuevaPersona.situacionAcademica != null"></v-select>
                         </v-col>
                         <v-col>
-                            <v-select
-                            label="Pasaporte*"
-                            hint="Indique si posee pasaporte"
-                            :items="opcionPasaporte"
-                            v-model="nuevaPersona.pasaporte.tiene"
-                            :rules="reglaCampoVacio"></v-select>
+                            <v-btn v-show="nuevaPersona.situacionAcademica == 'Docente'" block @click="mostrarDialogMateria">Cargar materia en la que participa</v-btn>
                         </v-col>
+                        <v-col>
+                            <v-btn v-show="nuevaPersona.situacionAcademica == 'Docente'" block @click="mostrarListaMaterias">Mostrar materias agregadas</v-btn>
+                        </v-col>
+                        
                     </v-row>
+                    <v-row><v-card-title><strong>PASAPORTE</strong></v-card-title></v-row>
                     <v-row>
                         <v-col>
-                            <v-row v-if="nuevaPersona.situacionAcademica == 'Docente'">
-                               <v-col>
-                                    <v-btn block @click="mostrarDialogMateria">Cargar materia en la que participa</v-btn>
+                            <v-row>
+                                <v-col>
+                                    <v-btn color="primary" rounded>Posee pasaporte</v-btn>
                                 </v-col>
                                 <v-col>
-                                    <v-btn block @click="mostrarListaMaterias">Mostrar materias agregadas</v-btn>
+                                    <v-btn color="primary" v-model="nuevaPersona.pasaporte.tiene" rounded>No posee pasaporte</v-btn>
+                                    
                                 </v-col>
                             </v-row>
                         </v-col>
+                        <v-col>
+
+                        </v-col>
+                        
+                    </v-row>
+                    <v-row>
+                        
                         <v-col>
                             <v-row>
                                 <v-col v-if="nuevaPersona.pasaporte.tiene == 'Si'">
@@ -332,7 +336,6 @@ data () {
             direccionPostal:'',
             emailInstitucional:'',
             emailPersonal:'',
-            telefono:'',
             celular: '',
             pasaporte:{
                 tiene:'',
