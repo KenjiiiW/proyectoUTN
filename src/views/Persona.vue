@@ -42,7 +42,7 @@
                     <v-spacer>
 
                     </v-spacer>
-                    <v-btn text color="success">Confirmar</v-btn>
+                    <v-btn text color="success" @click="confirmarDialogEliminar()">Confirmar</v-btn>
                     <v-btn text color="deep-orange darken-4" @click="cerrarDialogEliminar()">Cancelar</v-btn>
                 </v-card-actions>
             </v-card>
@@ -107,6 +107,7 @@ data(){
             }
         ],
         item : [],
+        elementoActual: {},
         search:'',
         dialogModificar:false,
         dialogEliminar:false,
@@ -119,7 +120,7 @@ mounted: function() {
          .finally(response => console.log(response));        
 },
 updated: function() {
-        axios.get("http://localhost:8080/gestiondepersonas")
+        axios.get("http://localhost:8080/gestiondepersonas/")
          .then(response => {this.item = response.data})
          .finally(response => console.log(response));    
 },
@@ -127,14 +128,20 @@ methods: {
     consultarPersona(){
         this.dialogConsultar = true
     },
-    eliminarPersona(){
+    eliminarPersona(item){
         this.dialogEliminar = true
+        this.elementoActual = item;
     },
     modifcarPersona(){
         this.dialogConsultar = true
     },
     cerrarDialogEliminar(){
         this.dialogEliminar = false
+    },
+    async confirmarDialogEliminar(){
+        this.dialogEliminar = false
+        await axios.delete("http://localhost:8080/gestiondepersonas/id/"+this.elementoActual.id)
+        .then(response => console.log(response));  
     }
 }
 }

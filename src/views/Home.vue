@@ -10,7 +10,7 @@
                                 <v-img src="@/assets/personas.jpg"></v-img>
                                 <v-card-text>
                                     <h2 class="title primary--text">
-                                        PERSONAS
+                                        PERSONAS    
                                     </h2>
                                     Gestión de personas
                                 </v-card-text>
@@ -222,7 +222,7 @@
 export default {
     data () {
         return {
-            overlay: false
+            overlay: false,
         }
     }
 }
