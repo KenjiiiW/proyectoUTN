@@ -317,7 +317,7 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn :disabled="!validoPasaporte" text color="success" @click="cargarPasaporte">Confirmar datos</v-btn>
+                    <v-btn :disabled="!validoPasaporte" text color="success" @click="cargarPasaporte()">Confirmar datos</v-btn>
                     <v-btn @click="cerrarDialogPasaporte" text color="deep-orange darken-4">Cancelar</v-btn>
                 </v-card-actions>
             </v-card>
@@ -325,6 +325,7 @@
     </v-container>
 </template>
 <script>
+var axios = require('axios');
 export default {
 data () {
     return {
@@ -426,6 +427,7 @@ data () {
             '40',
             'Otro'
         ],
+        personaExistente: {},
         validoFormulario:false,
         validoMateria:false,
         validoPasaporte:false,
@@ -479,9 +481,34 @@ methods: {
         this.$refs.formularioRegistro.reset()
         this.validoFormulario = false
     },
-    validar(){
-        this.$refs.formularioRegistro.validate()
-        this.$refs.formularioRegistro.reset()
+    async agregarPersona(){
+        this.$refs.formularioRegistro.validate() 
+        var requestBody = {
+            nombre: this.nuevaPersona.nombre,
+            apellido: this.nuevaPersona.apellido,
+            dni:this.nuevaPersona.dni,
+            cuil:this.nuevaPersona.cuil,
+            direccionPostal:this.nuevaPersona.direccionPostal,
+            emailInstitucional:this.nuevaPersona.emailInstitucional,
+            emailPersonal:this.nuevaPersona.emailPersonal,
+            telefono:this.nuevaPersona.celular,
+            situacionAcademica:this.nuevaPersona.situacionAcademica,
+            pasaporte: !this.nuevaPersona.pasaporte.tiene? null : {
+                numero: this.nuevaPersona.pasaporte.numero,
+                fechaDeVencimiento: this.nuevaPersona.pasaporte.numero,
+            },
+            investigador: {
+                categoriaDeInvestigador: this.nuevaPersona.categoriaInvestigador,
+                tipoDeInvestigador: this.nuevaPersona.tipoInvestigador,
+                cantidadDeHoras:this.nuevaPersona.horaSemanal,
+                fechaDeObtencionDeCategoria: this.nuevaPersona.fechaObtencionCategoria,
+                numeroDeResolucion:this.nuevaPersona.numeroResolucion
+            },
+            materias: this.nuevaPersona.materias
+        };
+        axios.post("http://localhost:8080/gestiondepersonas", requestBody)
+            .then(response => console.log(response));        
+            this.$refs.formularioRegistro.reset()
     },
     mostrarDialogMateria(){
         this.dialogMateria = true
@@ -497,7 +524,7 @@ methods: {
     cargarMateria(){
         const nuevaMateria = {}
         nuevaMateria.nombre = this.nuevaMateriaAux.nombre
-        nuevaMateria.cargo = this.nuevaMateriaAux.cargo
+        nuevaMateria.cargo = {cargo: this.nuevaMateriaAux.cargo}
         nuevaMateria.dedicacion = this.nuevaMateriaAux.dedicacion
         this.nuevaPersona.materias.push(nuevaMateria)
         this.dialogMateria = false

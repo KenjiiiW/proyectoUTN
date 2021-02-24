@@ -117,7 +117,7 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn :disabled="!validoFormulario" text color="success" @click="validar">Confirmar registro</v-btn>
+                <v-btn :disabled="!validoFormulario" text color="success" @click="validar()">Confirmar registro</v-btn>
                 <v-btn @click="limpiar()" text color="deep-orange darken-4">Limpiar campos</v-btn>
             </v-card-actions>
         </v-card>
