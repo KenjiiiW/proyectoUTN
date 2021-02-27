@@ -4,58 +4,45 @@
             <v-card-title style="background-color:#EEEEEE" class="justify-center titulo">
                 <strong>PERSONAS</strong>
                 <v-spacer></v-spacer>
-                <v-text-field
-                    v-model="search"
-                    append-icon="mdi-magnify"
-                    label="Búsqueda"
-                    single-line
-                    hide-details
-                ></v-text-field>
+                
                 <v-spacer></v-spacer>
                 <v-btn dark color="light-blue accent-3" elevation="12" fab to="AltaPersona"><v-icon>add</v-icon></v-btn>
             </v-card-title>
-            <v-data-table
-            :headers="headers"
-            :items="item"
-            :search="search">
-                <template v-slot:item.actions="{ item }">
-                    <v-btn text fab elevation="0" @click="consultarPersona(item)">
-                        <v-icon >visibility</v-icon>
-                    </v-btn>
+            
+            <v-card-text>
+                <v-row>
+                    <v-col>
+                        <v-select
+                        :items='filtro'
+                        label="Seleccione un filtro para la busqueda"
+                        v-model="filtroSeleccionado"></v-select>
+                    </v-col>
+                    <v-col>
+                        <v-text-field
+                        v-show="filtroSeleccionado != null"
+                        v-model="search"
+                        append-icon="mdi-magnify"
+                        label="Búsqueda"
+                        single-line
+                        hide-details
+                        outlined
+                        ></v-text-field>
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col>
 
-                    <v-btn text fab elevation="0" @click="modificarPersona(item)">
-                        <v-icon>create</v-icon>
-                    </v-btn>
-
-                    <v-btn text fab elevation="0" @click="eliminarPersona(item)">
-                        <v-icon>delete_outline</v-icon>
-                    </v-btn>
-                </template>
-            </v-data-table>
+                    </v-col>
+                    <v-col>
+                        <v-btn
+                        v-show="filtroSeleccionado != null" 
+                        color="primary" x-large fab><v-icon>search</v-icon></v-btn>
+                    </v-col>
+                </v-row>
+            </v-card-text>
         </v-card>
-        <v-dialog max-width="25%" v-model="dialogEliminar">
-            <v-card>
-                <v-card-title class="justify-center">
-                    ¿Seguro desea eliminar esta persona?
-                </v-card-title>
-                <v-card-actions>
-                    <v-spacer>
-
-                    </v-spacer>
-                    <v-btn text color="success" @click="confirmarDialogEliminar()">Confirmar</v-btn>
-                    <v-btn text color="deep-orange darken-4" @click="cerrarDialogEliminar()">Cancelar</v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
-        <v-dialog max-width="25%" v-model="dialogConsultar">
-            <v-card>
-                <v-card-title class="justify-center">
-                    DATOS DE PERSONA
-                </v-card-title>
-                <v-card-actions>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
+        <v-spacer></v-spacer>
+        
     </v-container>
 </template>
 
@@ -111,7 +98,14 @@ data(){
         search:'',
         dialogModificar:false,
         dialogEliminar:false,
-        dialogConsultar:false
+        dialogConsultar:false,
+        filtro: [
+            'Nombre o apellido',
+            'DNI',
+            'Email',
+            'Tipo de investigador'
+        ],
+        filtroSeleccionado: null,
     }
 },
 mounted: function() {
