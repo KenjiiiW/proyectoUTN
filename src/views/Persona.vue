@@ -59,6 +59,73 @@
               </template>
             </v-autocomplete>
           </v-col>
+
+
+          <v-col>
+      <v-card
+      color="blue dark-4"
+      dark
+    >
+      <v-card-title>
+        CONSULTA UNA PERSONA
+                            <v-btn v-if="model" text fab elevation="0" @click="modificar(item)">
+                        <v-icon>create</v-icon>
+                    </v-btn>
+
+                    <v-btn v-if="model" text fab elevation="0" @click="eliminar(item)">
+                        <v-icon>delete_outline</v-icon>
+                    </v-btn>
+      </v-card-title>
+      <v-card-text>
+        <v-autocomplete
+          v-model="model"
+          :items="item"
+          :loading="isLoading"
+          :search-input.sync="search"
+          color="white"
+          hide-no-data
+          hide-selected
+          item-text="nombre"
+          item-value="apellido"
+          placeholder="Ingrese su busqueda"
+          prepend-icon="mdi-account-search"
+          return-object
+        ></v-autocomplete>
+      </v-card-text>
+      <v-divider></v-divider>
+      <v-expand-transition>
+        <v-list
+          v-if="model"
+          class="blue dark-1"
+        >
+          <v-list-item
+            v-for="(field, i) in fields"
+            :key="i"
+          >
+            <v-list-item-content>
+              <v-list-item-title v-text="field.value"></v-list-item-title>
+              <v-list-item-subtitle v-text="field.key"></v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-expand-transition>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn
+          :disabled="!model"
+          color="grey darken-3"
+          @click="model = null"
+        >
+          Clear
+          <v-icon right>
+            mdi-close-circle
+          </v-icon>
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+
+          </v-col>
+
         </v-row>
       </v-card-text>
     </v-card>
@@ -68,9 +135,11 @@
 
 <script>
 var axios = require("axios");
+var vuetify = require("vuetify");
 export default {
   data() {
     return {
+      vuetify: vuetify,
       headers: [
         {
           text: "Nombre",
@@ -109,34 +178,77 @@ export default {
           class: "black--text",
         },
       ],
-      item: [],
+      item: [
+           {
+        "nombre": "Phyllis",
+        "apellido": "Shepard",
+        "dni": "63477734",
+        "direccionPostal": 8291,
+        "telefono": "+54 (958) 461-2219",
+        "emailPersonal": "Phyllis.Shepard@gmail.com",
+        "emailInstitucional": "Phyllis.Shepard@utn.frlp.edu.ar",
+        "situacionAcademica": "Graduado",
+        "pasaporte": {
+            "numero": "4154510",
+            "fechaDeVencimiento": "25/04/2023"
+        },
+        "cuil": "20-4154510-2",
+        "investigador": {
+            "categoriaDeInvestigador": "Asistente",
+            "tipoDeInvestigador": "Nacional",
+            "cantidadDeHoras": "20",
+            "fechaDeObtencionDeCategoria": "20/07/2014",
+            "numeroDeResolucion": "85643109"
+        },
+        "materias": [
+            {
+                "nombre": "economia",
+                "dedicacion": "exclusiva",
+                "cargo": {
+                    "cargo": "profesor asociado"
+                }
+            },
+            {
+                "nombre": "gestion de datos",
+                "dedicacion": "simple",
+                "cargo": {
+                    "cargo": "Ayudante 1 - Diplomado"
+                }
+            }
+        ]
+    }
+      ],
       elementoActual: {},
       search: "",
       dialogModificar: false,
       dialogEliminar: false,
       dialogConsultar: false,
       filtros: ["Nombre o apellido", "DNI", "Email", "Tipo de investigador"],
-      filtroSeleccionado: "Nombre o apellido"
+      filtroSeleccionado: "Nombre o apellido",
+      descriptionLimit: 60,
+      entries: [],
+      isLoading: false,
+      model: null,
     };
   },
   
 
-    mounted: function () {
-      axios
-        .get("http://localhost:8080/gestiondepersonas/")
-        .then((response) => {
-          this.item = response.data;
-        })
-        .finally((response) => console.log(response));
-    },
-    updated: function () {
-      axios
-        .get("http://localhost:8080/gestiondepersonas/")
-        .then((response) => {
-          this.item = response.data;
-        })
-        .finally((response) => console.log(response));
-    },
+    // mounted: function () {
+    //   axios
+    //     .get("http://localhost:8080/gestiondepersonas/")
+    //     .then((response) => {
+    //       this.item = response.data;
+    //     })
+    //     .finally((response) => console.log(response));
+    // },
+    // updated: function () {
+    //   axios
+    //     .get("http://localhost:8080/gestiondepersonas/")
+    //     .then((response) => {
+    //       this.item = response.data;
+    //     })
+    //     .finally((response) => console.log(response));
+    // },
   methods: {
     consultarPersona() {
       this.dialogConsultar = true;
@@ -158,6 +270,52 @@ export default {
           "http://localhost:8080/gestiondepersonas/id/" + this.elementoActual.id
         )
         .then((response) => console.log(response));
+    },
+  },
+   computed: {
+    fields () {
+      if (!this.model) return []
+
+      return Object.keys(this.model).map(key => {
+        return {
+          key,
+          value: this.model[key] || 'n/a',
+        }
+      })
+    },
+    items () {
+      return this.entries.map(entry => {
+        const Description = entry.Description.length > this.descriptionLimit
+          ? entry.Description.slice(0, this.descriptionLimit) + '...'
+          : entry.Description
+
+        return Object.assign({}, entry, { Description })
+      })
+    },
+  },
+
+  watch: {
+    search () {
+      // Items have already been loaded
+      if (this.items.length > 0) return
+
+      // Items have already been requested
+      if (this.isLoading) return
+
+      this.isLoading = true
+
+      // Lazily load input items
+      fetch('https://api.publicapis.org/entries')
+        .then(res => res.json())
+        .then(res => {
+          const { count, entries } = res
+          this.count = count
+          this.entries = entries
+        })
+        .catch(err => {
+          console.log(err)
+        })
+        .finally(() => (this.isLoading = false))
     },
   },
 };
