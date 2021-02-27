@@ -25,6 +25,8 @@ import AltaPracticaProfesionalizanteSecundaria from '@/views/AltaPracticaProfesi
 import EnsayoCatedra from '@/views/EnsayoCatedra.vue'
 import AltaEnsayoCatedra from '@/views/AltaEnsayoCatedra.vue'
 
+import Informe from '@/views/Informe.vue'
+
 
 Vue.use(VueRouter)
 
@@ -102,7 +104,11 @@ const routes = [{
     {
         path: '/AltaEnsayoCatedra',
         component: AltaEnsayoCatedra
-    }
+    },
+    {
+        path: '/Informe',
+        component: Informe
+    },
 
 ]
 

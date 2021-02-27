@@ -49,7 +49,7 @@
        <v-list-item to="EnsayoCatedra">
            <v-list-item-title><strong>Ensayos de cátedras</strong></v-list-item-title>
        </v-list-item>
-       <v-list-item>
+       <v-list-item to="Informe">
            <v-list-item-title><strong>Informes</strong></v-list-item-title>
        </v-list-item>
     </v-navigation-drawer>
