@@ -183,11 +183,14 @@
                         </v-col>
                         <v-col>
                             <v-btn v-show="nuevaPersona.situacionAcademica == 'Docente'" block @click="mostrarDialogMateria">Cargar materia en la que participa</v-btn>
-                        </v-col>
-                        <v-col>
-                            <v-btn v-show="nuevaPersona.situacionAcademica == 'Docente'" block @click="mostrarListaMaterias">Mostrar materias agregadas</v-btn>
-                        </v-col>
-                        
+                        </v-col>                        
+                    </v-row>
+                    <v-row>
+                        <div class="materia_list_container" v-if="nuevaPersona.materias.length > 0">
+                        <div class="materia_list_element" :key="index" v-for="(materia,index) in nuevaPersona.materias">
+                            Materia: {{materia.nombre}} , Cargo: {{materia.cargo}} , Dedicacion: {{materia.dedicacion}}
+                        </div>
+                        </div>
                     </v-row>
                     <v-row><v-card-title><strong>PASAPORTE</strong></v-card-title></v-row>
                     <v-row>
@@ -524,13 +527,14 @@ methods: {
     cargarMateria(){
         const nuevaMateria = {}
         nuevaMateria.nombre = this.nuevaMateriaAux.nombre
-        nuevaMateria.cargo = {cargo: this.nuevaMateriaAux.cargo}
+        nuevaMateria.cargo = this.nuevaMateriaAux.cargo
         nuevaMateria.dedicacion = this.nuevaMateriaAux.dedicacion
         this.nuevaPersona.materias.push(nuevaMateria)
         this.dialogMateria = false
         this.nuevaMateriaAux.nombre = ''
         this.nuevaMateriaAux.cargo = ''
         this.nuevaMateriaAux.dedicacion = ''
+        console.log(this.nuevaPersona.materias)
     },
     mostrarDialogPasaporte(){
         this.dialogPasaporte = true
@@ -546,3 +550,18 @@ methods: {
 }
 }
 </script>
+<style scoped>
+    .materia_list_container {
+    display:flex;
+    flex-direction: column;
+    
+    }
+    .materia_list_element {
+        font-size: 20px;
+        text-align: center;
+        color:white;
+        background-color: #2f94e7;
+        border-color: black;
+        margin: 5px 0 0 10px;
+    }
+</style>

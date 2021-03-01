@@ -68,7 +68,7 @@
     >
       <v-card-title>
         CONSULTA UNA PERSONA
-                            <v-btn v-if="model" text fab elevation="0" @click="modificar(item)">
+                    <v-btn :to="{name:modificar, params:model}" v-if="model" text fab elevation="0" @click="modificar(item)">
                         <v-icon>create</v-icon>
                     </v-btn>
 
@@ -140,44 +140,7 @@ export default {
   data() {
     return {
       vuetify: vuetify,
-      headers: [
-        {
-          text: "Nombre",
-          value: "nombre",
-          class: "black--text",
-        },
-        {
-          text: "Apellido",
-          value: "apellido",
-          class: "black--text",
-        },
-        {
-          text: "DNI",
-          value: "dni",
-          class: "black--text",
-        },
-        {
-          text: "Codigo Postal",
-          value: "direccionPostal",
-          class: "black--text",
-        },
-        {
-          text: "Tipo de investigador",
-          value: "investigador.tipoDeInvestigador",
-          class: "black--text",
-        },
-        {
-          text: "Categoria de investigador",
-          value: "investigador.categoriaDeInvestigador",
-          class: "black--text",
-        },
-        {
-          text: "Acciones",
-          value: "actions",
-          align: "center",
-          class: "black--text",
-        },
-      ],
+      modificar: "ModificacionPersona",
       item: [
            {
         "nombre": "Phyllis",
@@ -192,14 +155,14 @@ export default {
             "numero": "4154510",
             "fechaDeVencimiento": "25/04/2023"
         },
-        "cuil": "20-4154510-2",
-        "investigador": {
-            "categoriaDeInvestigador": "Asistente",
-            "tipoDeInvestigador": "Nacional",
-            "cantidadDeHoras": "20",
-            "fechaDeObtencionDeCategoria": "20/07/2014",
-            "numeroDeResolucion": "85643109"
-        },
+        "cuil": "2041545102",
+        "celular": "1554654562",
+        "categoriaInvestigador": "I",
+        "tipoInvestigador": "Nacional",
+        "horaSemanal": "20",
+        "fechaObtencionCategoria": "20/07/2014",
+        "numeroResolucion": "85643109",
+        
         "materias": [
             {
                 "nombre": "economia",
