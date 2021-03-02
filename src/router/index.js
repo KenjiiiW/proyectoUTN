@@ -5,7 +5,7 @@ import Home from '@/views/Home.vue'
 import Persona from '@/views/Persona.vue'
 import AltaPersona from '@/views/AltaPersona.vue'
 import BajaPersona from '@/views/BajaPersona.vue'
-import ModificacionPersona from '@/views/ModificacionPersona.vue'
+// import ModificacionPersona from '@/views/ModificacionPersona.vue'
 
 import TesisPosgrado from '@/views/TesisPosgrado.vue'
 import AltaTesisPosgrado from '@/views/AltaTesisPosgrado.vue'
@@ -27,6 +27,7 @@ import EnsayoCatedra from '@/views/EnsayoCatedra.vue'
 import AltaEnsayoCatedra from '@/views/AltaEnsayoCatedra.vue'
 
 import Informe from '@/views/Informe.vue'
+import Detalles from '@/views/Detalles.vue'
 
 
 Vue.use(VueRouter)
@@ -49,11 +50,11 @@ const routes = [{
         path: '/BajaPersona',
         component: BajaPersona
     },
-    {
-        path: '/ModificacionPersona',
-        component: ModificacionPersona,
-        name: "ModificacionPersona"
-    },
+    // {
+    //     path: '/ModificacionPersona',
+    //     component: ModificacionPersona,
+    //     name: "ModificacionPersona"
+    // },
 
     {
         path: '/TesisPosgrado',
@@ -114,6 +115,10 @@ const routes = [{
     {
         path: '/Informe',
         component: Informe
+    },
+    {
+        path: '/Detalles',
+        component: Detalles
     },
 
 ]

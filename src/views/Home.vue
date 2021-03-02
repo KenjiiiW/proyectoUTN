@@ -180,7 +180,7 @@
                                     absolute
                                     color="blue lighten-3"
                                     >
-                                        <v-btn>Visualizar informes</v-btn>
+                                        <v-btn to="Informe">Visualizar informes</v-btn>
                                     </v-overlay>
                                 </v-fade-transition>
                             </v-card>

@@ -37,7 +37,7 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn dark color="primary">Detalles</v-btn>
+            <v-btn dark color="primary" to="Detalles">Detalles</v-btn>
             <v-btn
               dark
               color="primary"

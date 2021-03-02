@@ -187,9 +187,10 @@ methods: {
     },
     async validar(){
         this.$refs.formularioRegistro.validate()
-        await axios.get('http://localhost:8080/gestiondepersonas/nombre/'+ this.nuevaTesisPosgrado.nombre)
-        .then(response => {this.personaExistente = response.data})
+        await axios.get('http://localhost:8080/gestiondepersonas/?Nombreoapellido='+ this.nuevaTesisPosgrado.nombre + " " + this.nuevaTesisPosgrado.apellido)
+        .then(response => {this.personaExistente = response.data[0]})
         .finally(response => console.log(response));  
+        alert(this.personaExistente)
         var requestBody = {
             fechaInicio : this.nuevaTesisPosgrado.fechaInicio,
             fechaFinal : this.nuevaTesisPosgrado.fechaFinalizacion,
@@ -208,9 +209,10 @@ methods: {
             },
             persona: this.personaExistente
         };
-        axios.post("http://localhost:8080/gestiondeformacionacademica/", requestBody)
+        await axios.post("http://localhost:8080/gestiondeformacionacademica/", requestBody)
             .then(response => console.log(response));        
             this.$refs.formularioRegistro.reset()
+        window.location.href= "TesisPosgrado"
     }
 }
 }

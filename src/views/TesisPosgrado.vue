@@ -1,35 +1,39 @@
 <template>
-    <v-container>
-        <v-card>
-            <v-card-title
-            style="background-color: #eeeeee"
-            class="justify-center titulo"
+  <v-container>
+
+
+    <v-card>
+      <v-card-title
+        style="background-color: #eeeeee"
+        class="justify-center titulo"
+      >
+        <strong>TESIS DE POSTGRADO</strong>
+        <v-spacer></v-spacer>
+
+        <v-spacer></v-spacer>
+        <v-btn
+          dark
+          color="light-blue accent-3"
+          elevation="12"
+          fab
+          to="AltaTesisPosgrado"
+          ><v-icon>add</v-icon></v-btn
+        >
+      </v-card-title>
+
+      <v-card-text>
+        <v-row>
+          <v-col class="col-3">
+            <v-autocomplete
+              v-model="filtroSeleccionado"
+              :items="filtros"
+              chips
+              clearable
+              hide-details
+              hide-selected
+              label="Seleccione un filtro"
+              solo
             >
-                <strong>TESIS DE POSGRADO</strong>
-                <v-spacer></v-spacer>
-                <v-spacer></v-spacer>
-                <v-btn
-                dark
-                color="light-blue accent-3"
-                elevation="12"
-                fab
-                to="AltaPersona"
-                ><v-icon>add</v-icon></v-btn>
-            </v-card-title>
-            <v-card-text>
-            <v-row>
-                <v-col class="col-3">
-                    <v-autocomplete
-                        v-model="filtroSeleccionado"
-                        :items="filtros"
-                        :search-input.sync="search"
-                        chips
-                        clearable
-                        hide-details
-                        hide-selected
-                        label="Seleccione un filtro"
-                        solo
-                    >
               <template v-slot:no-data>
                 <v-list-item>
                   <v-list-item-title> Seleccione un filtro </v-list-item-title>
@@ -57,116 +61,246 @@
             </v-autocomplete>
           </v-col>
 
-
           <v-col>
-      <v-card
-      color="blue dark-4"
-      dark
-    >
-    <v-card-title>
-    CONSULTA UNA TESIS
-        <v-btn v-if="model" text fab elevation="0" @click="modificar(item)">
-        <v-icon>create</v-icon>
-        </v-btn>
-        <v-btn v-if="model" text fab elevation="0" @click="eliminar(item)">
-        <v-icon>delete_outline</v-icon>
-        </v-btn>
-    </v-card-title>
-    <v-card-text>
-        <v-autocomplete
-          v-model="model"
-          :items="item"
-          :loading="isLoading"
-          :search-input.sync="search"
-          color="white"
-          hide-no-data
-          hide-selected
-          item-text="nombre"
-          item-value="apellido"
-          placeholder="Ingrese su busqueda"
-          prepend-icon="mdi-account-search"
-          return-object
-        ></v-autocomplete>
-      </v-card-text>
-      <v-divider></v-divider>
-      <v-expand-transition>
-        <v-list
-          v-if="model"
-          class="blue dark-1"
-        >
-          <v-list-item
-            v-for="(field, i) in fields"
-            :key="i"
-          >
-            <v-list-item-content>
-              <v-list-item-title v-text="field.value"></v-list-item-title>
-              <v-list-item-subtitle v-text="field.key"></v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
-      </v-expand-transition>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn
-          :disabled="!model"
-          color="grey darken-3"
-          @click="model = null"
-        >
-          Clear
-          <v-icon right>
-            mdi-close-circle
-          </v-icon>
-        </v-btn>
-      </v-card-actions>
-    </v-card>
+            <v-card color="blue dark-4" dark>
+              <v-card-title>
+                CONSULTA UNA TESIS
+                <v-btn
+                  v-if="model"
+                  text
+                  fab
+                  elevation="0"
+                  @click="modifcar(item)"
+                >
+                  <v-icon>create</v-icon>
+                </v-btn>
 
+                <v-btn
+                  v-if="model"
+                  text
+                  fab
+                  elevation="0"
+                  @click="eliminar(model)"
+                >
+                  <v-icon>delete_outline</v-icon>
+                </v-btn>
+              </v-card-title>
+              <v-card-text>
+                <v-autocomplete
+                  v-model="model"
+                  :items="item"
+                  :loading="isLoading"
+                  :search-input.sync="search"
+                  color="white"
+                  hide-no-data
+                  hide-selected
+                  item-text="titulo"
+                  item-value="id"
+                  placeholder="Ingrese su busqueda"
+                  prepend-icon="mdi-account-search"
+                  return-object
+                ></v-autocomplete>
+              </v-card-text>
+              <v-divider></v-divider>
+              <v-expand-transition>
+                <v-list v-if="model" class="blue dark-1">
+
+                  <v-card class="mx-auto" max-width="434" tile>
+                    <v-img
+                      height="100%"
+                      src="https://www.rassegna.com.ar/wp-content/uploads/2017/01/rassegna-asientos-universidades-utn-la-plata-3.jpg"
+                    >
+                      <v-row align="end" class="fill-height">
+                        <v-col align-self="start" class="pa-0" cols="12">
+                        </v-col>
+                        <v-col class="py-0">
+                          <v-list-item color="rgba(0, 0, 0, .4)" dark>
+                            <v-list-item-content>
+                              <v-list-item-title class="title">
+                                {{ fields[8].value}}
+                              </v-list-item-title>
+                              <v-list-item-subtitle>{{
+                                fields[7].value
+                              }}</v-list-item-subtitle>
+                            </v-list-item-content>
+                          </v-list-item>
+                        </v-col>
+                      </v-row>
+                    </v-img>
+                  </v-card>
+                          <v-dialog max-width="25%" v-model="dialogEliminar">
+            <v-card>
+                <v-card-title class="justify-center">
+                    ¿Seguro desea eliminar esta tesis?
+                </v-card-title>
+                <v-card-actions>
+                    <v-spacer>
+
+                    </v-spacer>
+                    <v-btn text color="success" @click="confirmarDialogEliminar()">Confirmar</v-btn>
+                    <v-btn text color="deep-orange darken-4" @click="cerrarDialogEliminar()">Cancelar</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+
+                  <v-list-item v-for="(field, i) in fields" :key="i">
+                    <v-col>
+                    <v-list-item-content
+                      v-if="
+                        typeof field.value != 'object' &&
+                        field.key != 'tipoDePractica' &&
+                        field.key != 'id'
+                      "
+                    >
+                    
+                      <v-list-item-title
+                        v-text="field.value"
+                      ></v-list-item-title>
+                      <v-list-item-subtitle
+                        v-text="field.key"
+                      ></v-list-item-subtitle>
+                    </v-list-item-content>
+</v-col>
+
+<v-col>
+                    <v-list-item-content>
+                      
+                      <v-list-item-title
+                        v-if="field.key === 'vinculacionConProyecto'"
+                        v-text="field.value.name"
+                      ></v-list-item-title>
+                      <v-list-item-subtitle
+                        v-if="field.key === 'vinculacionConProyecto'"
+                        
+                      >{{'Proyecto vinculado'}}</v-list-item-subtitle>
+
+                                            <v-list-item-title
+                        v-if="field.key === 'fuenteDeFinanciamiento'"
+                        v-text="field.value.fuente"
+                      ></v-list-item-title>
+                      <v-list-item-subtitle
+                        v-if="field.key === 'fuenteDeFinanciamiento'"
+                        
+                      >{{'Fuente de financiamiento'}}</v-list-item-subtitle>
+
+                                                                  <v-list-item-title
+                        v-if="field.key === 'persona'"
+                      >{{field.value.nombre + " " + field.value.apellido}}</v-list-item-title>
+                      <v-list-item-subtitle
+                        v-if="field.key === 'persona'"
+                        v-text="field.key"
+                      ></v-list-item-subtitle>
+                     
+                    </v-list-item-content>
+
+                    </v-col>
+                  </v-list-item>
+                </v-list>
+              </v-expand-transition>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                  :disabled="!model"
+                  color="grey darken-3"
+                  @click="model = null"
+                >
+                  Clear
+                  <v-icon right> mdi-close-circle </v-icon>
+                </v-btn>
+              </v-card-actions>
+            </v-card>
           </v-col>
-
         </v-row>
       </v-card-text>
     </v-card>
     <v-spacer></v-spacer>
-    </v-container>
+  </v-container>
 </template>
 
 <script>
-var axios = require('axios');
+var axios = require("axios");
+var vuetify = require("vuetify");
 export default {
-data(){
+  data() {
     return {
+      vuetify: vuetify,
+      item: [],
+      elementoActual: {},
+      search: "",
+      dialogModificar: false,
+      dialogEliminar: false,
+      filtros: [
+        "titulo",
+        "universidad",
+        "proyecto",
+        "fuente De Financiamiento",
+      ],
+      filtroSeleccionado: "Titulo",
+      descriptionLimit: 100,
+      entries: [],
+      isLoading: false,
+      model: null,
+    };
+  },
+  methods: {
+    eliminar(item) {
+      this.dialogEliminar = true;
+      this.elementoActual = item;
+    },
+    modifcar() {
+      this.dialogConsultar = true;
+    },
+    cerrarDialogEliminar() {
+      this.dialogEliminar = false;
+    },
+    
+     async confirmarDialogEliminar() {
+      this.dialogEliminar = false;
+      this.model = null;
+      await axios
+        .delete(
+          "http://localhost:8080/gestiondeformacionacademica/id/" +
+            this.elementoActual.id
+        )
+        .then((response) => console.log(response));
     }
-},
-mounted: function() {
-    axios.get('http://localhost:8080/gestiondeformacionacademica/tesispostgrado')
-    .then(response => {this.item = response.data})
-    .finally(response => console.log(response));   
-},
-updated: function() {
-        axios.get("http://localhost:8080/gestiondeformacionacademica/tesispostgrado")
-         .then(response => {this.item = response.data})
-         .finally(response => console.log(response));    
-},
-methods: {
-    consultar(){
-        this.dialogConsultar = true
+  },
+  computed: {
+    fields () {
+      if (!this.model) return []
+
+      return Object.keys(this.model).map(key => {
+        return {
+          key,
+          value: this.model[key] || 'n/a',
+        }
+      })
+    }},
+    watch: {
+      search: function(){
+        if (this.isLoading) return;
+
+        this.isLoading = true;
+
+        axios
+          .get(
+            "http://localhost:8080/gestiondeformacionacademica/filter/tesispostgrado?" +
+              this.filtroSeleccionado.replace(/\s/g, "") +
+              "=" +
+              this.search
+          )
+          .then((response) => {
+            this.item = response.data;
+            this.count = response.data;
+            this.entries = response.data;
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+          .finally(() => (this.isLoading = false));
+      },
     },
-    eliminar(item){
-        this.dialogEliminar = true  
-        this.elementoActual = item;
-    },
-    modifcar(){
-        this.dialogConsultar = true
-    },
-    cerrarDialogEliminar(){
-        this.dialogEliminar = false
-    },
-    async confirmarDialogEliminar(){
-        this.dialogEliminar = false
-                await axios.delete("http://localhost:8080/gestiondeformacionacademica/id/"+this.elementoActual.id)
-         .then(response => console.log(response));  
-    }
-}
-}
+  }
 </script>
 <style scoped>
 </style>
