@@ -143,6 +143,7 @@ export default {
     return {
       vuetify: vuetify,
       item: [],
+      modificar: "ModificacionPersona",
       elementoActual: {},
       search: "",
       dialogModificar: false,

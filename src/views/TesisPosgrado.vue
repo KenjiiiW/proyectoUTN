@@ -1,61 +1,131 @@
 <template>
     <v-container>
         <v-card>
-            <v-card-title style="background-color:#EEEEEE" class="justify-center titulo">
+            <v-card-title
+            style="background-color: #eeeeee"
+            class="justify-center titulo"
+            >
                 <strong>TESIS DE POSGRADO</strong>
                 <v-spacer></v-spacer>
-                <v-text-field
-                    v-model="search"
-                    append-icon="mdi-magnify"
-                    label="Búsqueda"
-                    single-line
-                    hide-details
-                ></v-text-field>
                 <v-spacer></v-spacer>
-                <v-btn dark color="light-blue accent-3" elevation="12" fab to="AltaTesisPosgrado"><v-icon>add</v-icon></v-btn>
+                <v-btn
+                dark
+                color="light-blue accent-3"
+                elevation="12"
+                fab
+                to="AltaPersona"
+                ><v-icon>add</v-icon></v-btn>
             </v-card-title>
-            <v-data-table
-            :headers="headers"
-            :items="item"
-            :search="search">
-                <template v-slot:item.actions="{ item }">
-                    <v-btn text fab elevation="0" @click="consultar(item)">
-                        <v-icon >visibility</v-icon>
-                    </v-btn>
+            <v-card-text>
+            <v-row>
+                <v-col class="col-3">
+                    <v-autocomplete
+                        v-model="filtroSeleccionado"
+                        :items="filtros"
+                        :search-input.sync="search"
+                        chips
+                        clearable
+                        hide-details
+                        hide-selected
+                        label="Seleccione un filtro"
+                        solo
+                    >
+              <template v-slot:no-data>
+                <v-list-item>
+                  <v-list-item-title> Seleccione un filtro </v-list-item-title>
+                </v-list-item>
+              </template>
+              <template v-slot:selection="{ attr, on, item, selected }">
+                <v-chip
+                  v-bind="attr"
+                  :input-value="selected"
+                  color="blue-grey"
+                  class="white--text"
+                  v-on="on"
+                >
+                  <span v-text="item"></span>
+                </v-chip>
+              </template>
+              <template v-slot:item="{ item }">
+                <v-list-item-content>
+                  <v-list-item-title v-text="item"></v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-action>
+                  <v-icon>mdi-filter</v-icon>
+                </v-list-item-action>
+              </template>
+            </v-autocomplete>
+          </v-col>
 
-                    <v-btn text fab to="ModificacionTesisPosgrado" elevation="0" @click="modificar(item)">
-                        <v-icon>create</v-icon>
-                    </v-btn>
 
-                    <v-btn text fab elevation="0" @click="eliminar(item)">
-                        <v-icon>delete_outline</v-icon>
-                    </v-btn>
-                </template>
-            </v-data-table>
-        </v-card>
-        <v-dialog max-width="25%" v-model="dialogEliminar">
-            <v-card>
-                <v-card-title class="justify-center">
-                    ¿Seguro desea eliminar esta tesis?
-                </v-card-title>
-                <v-card-actions>
-                    <v-spacer>
+          <v-col>
+      <v-card
+      color="blue dark-4"
+      dark
+    >
+    <v-card-title>
+    CONSULTA UNA TESIS
+        <v-btn v-if="model" text fab elevation="0" @click="modificar(item)">
+        <v-icon>create</v-icon>
+        </v-btn>
+        <v-btn v-if="model" text fab elevation="0" @click="eliminar(item)">
+        <v-icon>delete_outline</v-icon>
+        </v-btn>
+    </v-card-title>
+    <v-card-text>
+        <v-autocomplete
+          v-model="model"
+          :items="item"
+          :loading="isLoading"
+          :search-input.sync="search"
+          color="white"
+          hide-no-data
+          hide-selected
+          item-text="nombre"
+          item-value="apellido"
+          placeholder="Ingrese su busqueda"
+          prepend-icon="mdi-account-search"
+          return-object
+        ></v-autocomplete>
+      </v-card-text>
+      <v-divider></v-divider>
+      <v-expand-transition>
+        <v-list
+          v-if="model"
+          class="blue dark-1"
+        >
+          <v-list-item
+            v-for="(field, i) in fields"
+            :key="i"
+          >
+            <v-list-item-content>
+              <v-list-item-title v-text="field.value"></v-list-item-title>
+              <v-list-item-subtitle v-text="field.key"></v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-expand-transition>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn
+          :disabled="!model"
+          color="grey darken-3"
+          @click="model = null"
+        >
+          Clear
+          <v-icon right>
+            mdi-close-circle
+          </v-icon>
+        </v-btn>
+      </v-card-actions>
+    </v-card>
 
-                    </v-spacer>
-                    <v-btn text color="success" fab to="TesisPosgrado" @click="confirmarDialogEliminar()">Confirmar</v-btn>
-                    <v-btn text color="deep-orange darken-4" @click="cerrarDialogEliminar()">Cancelar</v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
-        <v-dialog max-width="25%" v-model="dialogConsultar">
-            <v-card>
-                <v-card-title class="justify-center">
-                    DATOS DE TESIS
-                </v-card-title>
-                <v-card-actions>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
+          </v-col>
+
+        </v-row>
+      </v-card-text>
+    </v-card>
+    <v-spacer></v-spacer>
     </v-container>
 </template>
 
@@ -64,60 +134,6 @@ var axios = require('axios');
 export default {
 data(){
     return {
-        headers:[
-            {
-                text:'Título de la tesis',
-                value: 'titulo',
-                class: 'black--text'
-            },
-            {
-                text: 'Nombre',
-                value: 'persona.nombre',
-                class: 'black--text'
-                
-            },
-            {
-                text: 'Apellido',
-                value: 'persona.apellido',
-                class: 'black--text'
-                
-            },
-            {
-                text: 'DNI',
-                value: 'persona.dni',
-                class: 'black--text'
-                
-            },
-            {
-                text: 'Fecha de inicio',
-                value: 'fechaInicio',
-                class: 'black--text'
-                
-            },
-            {
-                text: 'Fecha final',
-                value: 'fechaFinal',
-                class: 'black--text'
-                
-            },
-            {
-                text: 'Fuente de financiamiento',
-                value: 'fuenteDeFinanciamiento.fuente',
-                class: 'black--text'
-            },
-            {
-                text: 'Acciones',
-                value: 'actions',
-                align: 'center',
-                class: 'black--text'
-            }
-        ],
-        item: [],
-        search:'',
-        dialogModificar:false,
-        dialogEliminar:false,
-        dialogConsultar:false,
-        elementoActual : {}
     }
 },
 mounted: function() {
@@ -153,8 +169,4 @@ methods: {
 }
 </script>
 <style scoped>
-.titulo{
-    color:#242424;
-    margin-bottom: 0%;
-}
 </style>
