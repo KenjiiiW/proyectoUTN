@@ -27,6 +27,7 @@ import EnsayoCatedra from '@/views/EnsayoCatedra.vue'
 import AltaEnsayoCatedra from '@/views/AltaEnsayoCatedra.vue'
 
 import Informe from '@/views/Informe.vue'
+import Detalles from '@/views/Detalles.vue'
 
 
 Vue.use(VueRouter)
@@ -114,6 +115,10 @@ const routes = [{
     {
         path: '/Informe',
         component: Informe
+    },
+    {
+        path: '/Detalles',
+        component: Detalles
     },
 
 ]
