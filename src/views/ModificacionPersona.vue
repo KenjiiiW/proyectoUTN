@@ -258,22 +258,7 @@
                 v-show="personaAModificar.situacionAcademica != null"
               ></v-select>
             </v-col>
-            <v-col>
-              <v-btn
-                v-show="personaAModificar.situacionAcademica == 'Docente'"
-                block
-                @click="mostrarDialogMateria"
-                >Cargar materia en la que participa</v-btn
-              >
-            </v-col>
-            <v-col>
-              <v-btn
-                v-show="personaAModificar.situacionAcademica == 'Docente'"
-                block
-                @click="mostrarListaMaterias"
-                >Mostrar materias agregadas</v-btn
-              >
-            </v-col>
+            <v-col> </v-col>
           </v-row>
           <v-row
             ><v-card-title>
@@ -341,7 +326,7 @@
                 </v-col>
               </v-row>
             </v-col>
-            <v-col> </v-col>
+            <v-col> </v-col><v-col> </v-col>
           </v-row>
         </v-form>
       </v-card-text>
@@ -351,7 +336,7 @@
           :disabled="!validoFormulario"
           text
           color="success"
-          @click="agregarPersona(nuevaPersona)"
+          @click="modificarPersona(personaAModificar)"
           >Confirmar registro</v-btn
         >
         <v-btn @click="limpiar()" text color="deep-orange darken-4"
@@ -359,90 +344,6 @@
         >
       </v-card-actions>
     </v-card>
-    <v-dialog max-width="50%" v-model="dialogMateria">
-      <v-card>
-        <v-card-title class="justify-center blue lighten-4"
-          >AGREGAR MATERIA</v-card-title
-        >
-        <v-card-text>
-          <v-form v-model="validoMateria" ref="formularioMateria">
-            <v-row>
-              <v-col>
-                <v-text-field
-                  label="Materia"
-                  hint="Ingrese nombre de la materia"
-                  :rules="reglaCampoVacio"
-                  v-model="nuevaMateriaAux.nombre"
-                ></v-text-field>
-              </v-col>
-              <v-col>
-                <v-select
-                  label="Cargo docente"
-                  hint="Seleccione el cargo que ocupa"
-                  :items="cargosDocentes"
-                  :rules="reglaCampoVacio"
-                  v-model="nuevaMateriaAux.cargo"
-                ></v-select>
-              </v-col>
-              <v-col>
-                <v-select
-                  label="Dedicación"
-                  hint="Seleccione la dedicación"
-                  :items="categoriasDedicaciones"
-                  :rules="reglaCampoVacio"
-                  v-model="nuevaMateriaAux.dedicacion"
-                ></v-select>
-              </v-col>
-            </v-row>
-          </v-form>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            :disabled="!validoMateria"
-            text
-            color="success"
-            @click="cargarMateria"
-            >Confirmar materia</v-btn
-          >
-          <v-btn @click="cerrarDialogMateria" text color="deep-orange darken-4"
-            >Cancelar</v-btn
-          >
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-    <v-dialog v-model="dialogListaMaterias">
-      <v-card>
-        <v-card-title>MATERIAS AGREGADAS</v-card-title>
-        <v-card-text> </v-card-text>
-      </v-card>
-    </v-dialog>
-    <v-dialog max-width="50%" v-model="dialogPasaporte">
-      <v-card>
-        <v-card-title class="justify-center blue lighten-4"
-          >CARGAR DATOS DE PASAPORTE</v-card-title
-        >
-        <v-card-text>
-          <v-form v-model="validoPasaporte" ref="formularioPasaporte"> </v-form>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            :disabled="!validoPasaporte"
-            text
-            color="success"
-            @click="cargarPasaporte()"
-            >Confirmar datos</v-btn
-          >
-          <v-btn
-            @click="cerrarDialogPasaporte"
-            text
-            color="deep-orange darken-4"
-            >Cancelar</v-btn
-          >
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
   </v-container>
 </template>
 <script>
@@ -513,16 +414,6 @@ export default {
         },
       ],
       dialogPasaporte: false,
-      nuevaMateriaAux: {
-        nombre: "",
-        cargo: "",
-        dedicacion: "",
-      },
-      headersMaterias: [
-        "Nombre",
-        "Cargo del docente en la materia",
-        "Dedicación del docente en la materia",
-      ],
     };
   },
   methods: {
@@ -533,72 +424,37 @@ export default {
       this.$refs.formularioRegistro.reset();
       this.validoFormulario = false;
     },
-    async agregarPersona() {
+    async modificarPersona() {
       this.$refs.formularioRegistro.validate();
       var requestBody = {
-        nombre: this.nuevaPersona.nombre,
-        apellido: this.nuevaPersona.apellido,
-        dni: this.nuevaPersona.dni,
-        cuil: this.nuevaPersona.cuil,
-        direccionPostal: this.nuevaPersona.direccionPostal,
-        emailInstitucional: this.nuevaPersona.emailInstitucional,
-        emailPersonal: this.nuevaPersona.emailPersonal,
-        telefono: this.nuevaPersona.celular,
-        situacionAcademica: this.nuevaPersona.situacionAcademica,
-        pasaporte: !this.nuevaPersona.pasaporte.tiene
+        nombre: this.personaAModificar.nombre,
+        apellido: this.personaAModificar.apellido,
+        dni: this.personaAModificar.dni,
+        cuil: this.personaAModificar.cuil,
+        direccionPostal: this.personaAModificar.direccionPostal,
+        emailInstitucional: this.personaAModificar.emailInstitucional,
+        emailPersonal: this.personaAModificar.emailPersonal,
+        telefono: this.personaAModificar.celular,
+        situacionAcademica: this.personaAModificar.situacionAcademica,
+        pasaporte: !this.tienePasaporte
           ? null
           : {
-              numero: this.nuevaPersona.pasaporte.numero,
-              fechaDeVencimiento: this.nuevaPersona.pasaporte.numero,
+              numero: this.personaAModificar.pasaporte.numero,
+              fechaDeVencimiento: this.personaAModificar.pasaporte.fechaDeVencimiento,
             },
         investigador: {
-          categoriaDeInvestigador: this.nuevaPersona.categoriaInvestigador,
-          tipoDeInvestigador: this.nuevaPersona.tipoInvestigador,
-          cantidadDeHoras: this.nuevaPersona.horaSemanal,
-          fechaDeObtencionDeCategoria: this.nuevaPersona
-            .fechaObtencionCategoria,
-          numeroDeResolucion: this.nuevaPersona.numeroResolucion,
-        },
-        materias: this.nuevaPersona.materias,
+          categoriaDeInvestigador: this.personaAModificar.investigador.categoriaDeInvestigador,
+          tipoDeInvestigador: this.personaAModificar.investigador.tipoInvestigtipoDeInvestigadorador,
+          cantidadDeHoras: this.personaAModificar.investigador.cantidadDeHoras,
+          fechaDeObtencionDeCategoria: this.personaAModificar.investigador.fechaDeObtencionDeCategoria,
+          numeroDeResolucion: this.personaAModificar.investigador.numeroDeResolucion,
+        }
       };
       axios
-        .post("http://localhost:8080/gestiondepersonas", requestBody)
+        .post("http://localhost:8080/gestiondepersonas/id/"+this.personaAModificar.id, requestBody)
         .then((response) => console.log(response));
       this.$refs.formularioRegistro.reset();
-    },
-    mostrarDialogMateria() {
-      this.dialogMateria = true;
-    },
-    cerrarDialogMateria() {
-      this.$refs.formularioMateria.reset();
-      this.dialogMateria = false;
-    },
-    mostrarListaMaterias() {
-      this.dialogListaMaterias = true;
-      console.log(this.nuevaPersona);
-    },
-    cargarMateria() {
-      const nuevaMateria = {};
-      nuevaMateria.nombre = this.nuevaMateriaAux.nombre;
-      nuevaMateria.cargo = { cargo: this.nuevaMateriaAux.cargo };
-      nuevaMateria.dedicacion = this.nuevaMateriaAux.dedicacion;
-      this.nuevaPersona.materias.push(nuevaMateria);
-      this.dialogMateria = false;
-      this.nuevaMateriaAux.nombre = "";
-      this.nuevaMateriaAux.cargo = "";
-      this.nuevaMateriaAux.dedicacion = "";
-    },
-    mostrarDialogPasaporte() {
-      this.dialogPasaporte = true;
-    },
-    cerrarDialogPasaporte() {
-      this.$refs.formularioPasaporte.reset();
-      this.dialogPasaporte = false;
-    },
-    cargarPasaporte() {
-      this.$refs.formularioPasaporte.validate();
-      this.dialogPasaporte = false;
-    },
+    }
   },
   created() {
     this.personaAModificar = this.$route.params;

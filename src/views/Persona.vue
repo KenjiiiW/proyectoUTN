@@ -195,7 +195,7 @@
                   color="grey darken-3"
                   @click="model = null"
                 >
-                  Clear
+                  Limpiar
                   <v-icon right> mdi-close-circle </v-icon>
                 </v-btn>
               </v-card-actions>
