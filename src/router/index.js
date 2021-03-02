@@ -5,7 +5,7 @@ import Home from '@/views/Home.vue'
 import Persona from '@/views/Persona.vue'
 import AltaPersona from '@/views/AltaPersona.vue'
 import BajaPersona from '@/views/BajaPersona.vue'
-// import ModificacionPersona from '@/views/ModificacionPersona.vue'
+import ModificacionPersona from '@/views/ModificacionPersona.vue'
 
 import TesisPosgrado from '@/views/TesisPosgrado.vue'
 import AltaTesisPosgrado from '@/views/AltaTesisPosgrado.vue'
@@ -50,11 +50,11 @@ const routes = [{
         path: '/BajaPersona',
         component: BajaPersona
     },
-    // {
-    //     path: '/ModificacionPersona',
-    //     component: ModificacionPersona,
-    //     name: "ModificacionPersona"
-    // },
+    {
+        path: '/ModificacionPersona',
+        component: ModificacionPersona,
+        name: "ModificacionPersona"
+    },
 
     {
         path: '/TesisPosgrado',

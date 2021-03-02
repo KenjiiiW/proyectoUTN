@@ -69,7 +69,7 @@
                   text
                   fab
                   elevation="0"
-                  @click="modificarPersona(item)"
+                  :to="{name:modificar, params:model}"
                 >
                   <v-icon>create</v-icon>
                 </v-btn>
@@ -169,7 +169,7 @@
                     </v-list-item-content>
                     
                     <v-list-item-content>
-                      <v-list-item-title v-if="field.key === 'investigador'">{{
+                      <v-list-item-title v-show="field.key === 'investigador'">{{
                         "La persona es un investigador " +
                         field.value.tipoDeInvestigador +
                         " con la categoria de " +
@@ -179,7 +179,7 @@
                         " horas de dedicación a la semana"
                       }}</v-list-item-title>
                       <v-list-item-subtitle
-                        v-if="field.key === 'investigador'"
+                        v-show="field.key === 'investigador'"
                         >{{
                           "Descripcion del perfil investigador"
                         }}</v-list-item-subtitle
@@ -233,9 +233,6 @@ export default {
     eliminarPersona(item) {
       this.dialogEliminar = true;
       this.elementoActual = item;
-    },
-    modifcarPersona() {
-      this.dialogConsultar = true;
     },
     cerrarDialogEliminar() {
       this.dialogEliminar = false;
