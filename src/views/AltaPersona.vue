@@ -486,6 +486,7 @@ methods: {
     },
     async agregarPersona(){
         this.$refs.formularioRegistro.validate() 
+        window.location.href= "Persona"
         var requestBody = {
             nombre: this.nuevaPersona.nombre,
             apellido: this.nuevaPersona.apellido,

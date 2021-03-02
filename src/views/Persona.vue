@@ -79,7 +79,7 @@
                   text
                   fab
                   elevation="0"
-                  @click="eliminarPersona(item)"
+                  @click="eliminarPersona(model)"
                 >
                   <v-icon>delete_outline</v-icon>
                 </v-btn>
@@ -103,12 +103,6 @@
               <v-divider></v-divider>
               <v-expand-transition>
                 <v-list v-if="model" class="blue dark-1">
-                  <!-- <v-avatar
-                    color="indigo"
-size="62" class=profile
-                  >
-                    <v-icon dark> mdi-account-circle </v-icon>
-                  </v-avatar> -->
 
                   <v-card class="mx-auto" max-width="434" tile>
                     <v-img
@@ -143,6 +137,20 @@ size="62" class=profile
                       </v-row>
                     </v-img>
                   </v-card>
+                          <v-dialog max-width="25%" v-model="dialogEliminar">
+            <v-card>
+                <v-card-title class="justify-center">
+                    ¿Seguro desea eliminar esta persona?
+                </v-card-title>
+                <v-card-actions>
+                    <v-spacer>
+
+                    </v-spacer>
+                    <v-btn text color="success" @click="confirmarDialogEliminar()">Confirmar</v-btn>
+                    <v-btn text color="deep-orange darken-4" @click="cerrarDialogEliminar()">Cancelar</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
 
                   <v-list-item v-for="(field, i) in fields" :key="i">
                     <v-list-item-content
@@ -241,6 +249,7 @@ export default {
     },
     async confirmarDialogEliminar() {
       this.dialogEliminar = false;
+      this.model = null;
       await axios
         .delete(
           "http://localhost:8080/gestiondepersonas/id/" + this.elementoActual.id
