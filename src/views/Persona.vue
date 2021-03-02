@@ -60,7 +60,7 @@
             </v-autocomplete>
           </v-col>
 
-           <v-col>
+          <v-col>
             <v-card color="blue dark-4" dark>
               <v-card-title>
                 CONSULTA UNA PERSONA
@@ -103,14 +103,86 @@
               <v-divider></v-divider>
               <v-expand-transition>
                 <v-list v-if="model" class="blue dark-1">
+                  <!-- <v-avatar
+                    color="indigo"
+size="62" class=profile
+                  >
+                    <v-icon dark> mdi-account-circle </v-icon>
+                  </v-avatar> -->
+
+                  <v-card class="mx-auto" max-width="434" tile>
+                    <v-img
+                      height="100%"
+                      src="https://cdn.vuetifyjs.com/images/cards/server-room.jpg"
+                    >
+                      <v-row align="end" class="fill-height">
+                        <v-col align-self="start" class="pa-0" cols="12">
+                          <v-avatar
+                            class="profile"
+                            color="grey"
+                            size="164"
+                            tile
+                          >
+                            <v-img
+                              src="https://feelinsonice-hrd.appspot.com/web/bitmoji_avatar?username=robert.idol"
+                            ></v-img>
+                          </v-avatar>
+                        </v-col>
+                        <v-col class="py-0">
+                          <v-list-item color="rgba(0, 0, 0, .4)" dark>
+                            <v-list-item-content>
+                              <v-list-item-title class="title">
+                                {{ fields[1].value + " " + fields[2].value }}
+                              </v-list-item-title>
+                              <v-list-item-subtitle>{{
+                                fields[9].value
+                              }}</v-list-item-subtitle>
+                            </v-list-item-content>
+                          </v-list-item>
+                        </v-col>
+                      </v-row>
+                    </v-img>
+                  </v-card>
+
                   <v-list-item v-for="(field, i) in fields" :key="i">
-                    <v-list-item-content>
+                    <v-list-item-content
+                      v-if="
+                        !field.value.id &&
+                        field.key != 'materias' &&
+                        field.key != 'id'
+                      "
+                    >
                       <v-list-item-title
                         v-text="field.value"
                       ></v-list-item-title>
                       <v-list-item-subtitle
                         v-text="field.key"
                       ></v-list-item-subtitle>
+                    </v-list-item-content>
+                    <v-list-item-content>
+                      <v-list-item-title
+                        v-if="field.key === 'pasaporte'"
+                        v-text="field.value.numero"
+                      ></v-list-item-title>
+                      <v-list-item-subtitle
+                        v-if="field.key === 'pasaporte'"
+                        v-text="field.key"
+                      ></v-list-item-subtitle>
+                      <v-list-item-title v-if="field.key === 'investigador'">{{
+                        "La persona es un investigador " +
+                        field.value.tipoDeInvestigador +
+                        " con la categoria de " +
+                        field.value.categoriaDeInvestigador +
+                        " con " +
+                        field.value.cantidadDeHoras +
+                        " horas de dedicación a la semana"
+                      }}</v-list-item-title>
+                      <v-list-item-subtitle
+                        v-if="field.key === 'investigador'"
+                        >{{
+                          "Descripcion del perfil investigador"
+                        }}</v-list-item-subtitle
+                      >
                     </v-list-item-content>
                   </v-list-item>
                 </v-list>
@@ -150,7 +222,7 @@ export default {
       dialogEliminar: false,
       filtros: ["Nombre o apellido", "DNI", "Email", "Tipo de investigador"],
       filtroSeleccionado: "Nombre o apellido",
-      descriptionLimit: 60,
+      descriptionLimit: 100,
       entries: [],
       isLoading: false,
       model: null,
@@ -187,17 +259,18 @@ export default {
         };
       });
     },
- 
-    items () {
-      return this.entries.map(entry => {
-        const Description = entry.Description.length > this.descriptionLimit
-          ? entry.Description.slice(0, this.descriptionLimit) + '...'
-          : entry.Description
 
-        return Object.assign({}, entry, { Description })
-      })
+    items() {
+      return this.entries.map((entry) => {
+        const Description =
+          entry.Description.length > this.descriptionLimit
+            ? entry.Description.slice(0, this.descriptionLimit) + "..."
+            : entry.Description;
+
+        return Object.assign({}, entry, { Description });
+      });
     },
-     },
+  },
   watch: {
     search() {
       if (this.isLoading) return;
@@ -207,7 +280,7 @@ export default {
       axios
         .get(
           "http://localhost:8080/gestiondepersonas/?" +
-            this.filtroSeleccionado.replace(/\s/g, '') +
+            this.filtroSeleccionado.replace(/\s/g, "") +
             "=" +
             this.search
         )
