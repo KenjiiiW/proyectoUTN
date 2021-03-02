@@ -1,5 +1,21 @@
 <template>
     <v-container>
+ <v-alert
+  value='requestSubmitted'
+  color="green"
+  dismissible
+  elevation="7"
+  type="success"
+  width="400"   
+>Texto</v-alert>
+ <v-alert
+  value='dfgdfg'
+  color="red"
+  dismissible
+  elevation="7"
+  type="error"
+  width="400"   
+>Texto</v-alert>
         <v-card>
             <v-card-title style="background-color:#EEEEEE" class="justify-center titulo">
                 <strong>DETALLES</strong>
@@ -63,7 +79,9 @@ data(){
         ],
         item: [],
         search:'',
-        elementoActual : {}
+        elementoActual : {},
+        requestSubmitted: false,
+        serverError : false
     }
 },
 mounted: function() {
@@ -90,6 +108,8 @@ methods: {
           this.count = response.data;
           this.entries = response.data;
         })
+        .then(this.requestSubmitted = true)
+        .catch(this.serverError = true)       
         .catch((err) => {
           console.log(err);
         })
