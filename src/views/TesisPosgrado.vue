@@ -108,29 +108,19 @@
                   <v-card class="mx-auto" max-width="434" tile>
                     <v-img
                       height="100%"
-                      src="https://cdn.vuetifyjs.com/images/cards/server-room.jpg"
+                      src="https://www.rassegna.com.ar/wp-content/uploads/2017/01/rassegna-asientos-universidades-utn-la-plata-3.jpg"
                     >
                       <v-row align="end" class="fill-height">
                         <v-col align-self="start" class="pa-0" cols="12">
-                          <v-avatar
-                            class="profile"
-                            color="grey"
-                            size="164"
-                            tile
-                          >
-                            <v-img
-                              src="https://feelinsonice-hrd.appspot.com/web/bitmoji_avatar?username=robert.idol"
-                            ></v-img>
-                          </v-avatar>
                         </v-col>
                         <v-col class="py-0">
                           <v-list-item color="rgba(0, 0, 0, .4)" dark>
                             <v-list-item-content>
                               <v-list-item-title class="title">
-                                {{ fields[1].value + " " + fields[2].value }}
+                                {{ fields[8].value}}
                               </v-list-item-title>
                               <v-list-item-subtitle>{{
-                                fields[9].value
+                                fields[7].value
                               }}</v-list-item-subtitle>
                             </v-list-item-content>
                           </v-list-item>
@@ -154,13 +144,15 @@
         </v-dialog>
 
                   <v-list-item v-for="(field, i) in fields" :key="i">
+                    <v-col>
                     <v-list-item-content
                       v-if="
-                        !field.value.id &&
-                        field.key != 'materias' &&
+                        typeof field.value != 'object' &&
+                        field.key != 'tipoDePractica' &&
                         field.key != 'id'
                       "
                     >
+                    
                       <v-list-item-title
                         v-text="field.value"
                       ></v-list-item-title>
@@ -168,31 +160,40 @@
                         v-text="field.key"
                       ></v-list-item-subtitle>
                     </v-list-item-content>
+</v-col>
+
+<v-col>
                     <v-list-item-content>
+                      
                       <v-list-item-title
-                        v-if="field.key === 'pasaporte'"
-                        v-text="field.value.numero"
+                        v-if="field.key === 'vinculacionConProyecto'"
+                        v-text="field.value.name"
                       ></v-list-item-title>
                       <v-list-item-subtitle
-                        v-if="field.key === 'pasaporte'"
+                        v-if="field.key === 'vinculacionConProyecto'"
+                        
+                      >{{'Proyecto vinculado'}}</v-list-item-subtitle>
+
+                                            <v-list-item-title
+                        v-if="field.key === 'fuenteDeFinanciamiento'"
+                        v-text="field.value.fuente"
+                      ></v-list-item-title>
+                      <v-list-item-subtitle
+                        v-if="field.key === 'fuenteDeFinanciamiento'"
+                        
+                      >{{'Fuente de financiamiento'}}</v-list-item-subtitle>
+
+                                                                  <v-list-item-title
+                        v-if="field.key === 'persona'"
+                      >{{field.value.nombre + " " + field.value.apellido}}</v-list-item-title>
+                      <v-list-item-subtitle
+                        v-if="field.key === 'persona'"
                         v-text="field.key"
                       ></v-list-item-subtitle>
-                      <v-list-item-title v-if="field.key === 'investigador'">{{
-                        "La persona es un investigador " +
-                        field.value.tipoDeInvestigador +
-                        " con la categoria de " +
-                        field.value.categoriaDeInvestigador +
-                        " con " +
-                        field.value.cantidadDeHoras +
-                        " horas de dedicación a la semana"
-                      }}</v-list-item-title>
-                      <v-list-item-subtitle
-                        v-if="field.key === 'investigador'"
-                        >{{
-                          "Descripcion del perfil investigador"
-                        }}</v-list-item-subtitle
-                      >
+                     
                     </v-list-item-content>
+
+                    </v-col>
                   </v-list-item>
                 </v-list>
               </v-expand-transition>
@@ -252,7 +253,8 @@ export default {
     cerrarDialogEliminar() {
       this.dialogEliminar = false;
     },
-    async confirmarDialogEliminar() {
+    
+     async confirmarDialogEliminar() {
       this.dialogEliminar = false;
       this.model = null;
       await axios
@@ -261,39 +263,28 @@ export default {
             this.elementoActual.id
         )
         .then((response) => console.log(response));
-    },
-    computed: {
-      fields() {
-        if (!this.model) return [];
+    }
+  },
+  computed: {
+    fields () {
+      if (!this.model) return []
 
-        return Object.keys(this.model).map((key) => {
-          return {
-            key,
-            value: this.model[key] || "n/a",
-          };
-        });
-      },
-
-      items() {
-        return this.entries.map((entry) => {
-          const Description =
-            entry.Description.length > this.descriptionLimit
-              ? entry.Description.slice(0, this.descriptionLimit) + "..."
-              : entry.Description;
-
-          return Object.assign({}, entry, { Description });
-        });
-      },
-    },
+      return Object.keys(this.model).map(key => {
+        return {
+          key,
+          value: this.model[key] || 'n/a',
+        }
+      })
+    }},
     watch: {
-      search() {
+      search: function(){
         if (this.isLoading) return;
 
         this.isLoading = true;
 
         axios
           .get(
-            "http://localhost:8080/gestiondeformacionacademica/filter?" +
+            "http://localhost:8080/gestiondeformacionacademica/filter/tesispostgrado?" +
               this.filtroSeleccionado.replace(/\s/g, "") +
               "=" +
               this.search
@@ -309,8 +300,7 @@ export default {
           .finally(() => (this.isLoading = false));
       },
     },
-  },
-};
+  }
 </script>
 <style scoped>
 </style>
