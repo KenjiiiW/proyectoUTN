@@ -187,6 +187,7 @@ methods: {
     },
     async validar(){
         this.$refs.formularioRegistro.validate()
+        window.location.href= "TesisPosgrado"
         await axios.get('http://localhost:8080/gestiondepersonas/nombre/'+ this.nuevaTesisPosgrado.nombre)
         .then(response => {this.personaExistente = response.data})
         .finally(response => console.log(response));  

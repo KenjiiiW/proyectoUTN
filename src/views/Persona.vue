@@ -154,7 +154,7 @@
 
                   <v-list-item v-for="(field, i) in fields" :key="i">
                     <v-list-item-content
-                      v-if="
+                      v-show="
                         !field.value.id &&
                         field.key != 'materias' &&
                         field.key != 'id'
@@ -167,15 +167,8 @@
                         v-text="field.key"
                       ></v-list-item-subtitle>
                     </v-list-item-content>
+                    
                     <v-list-item-content>
-                      <v-list-item-title
-                        v-if="field.key === 'pasaporte'"
-                        v-text="field.value.numero"
-                      ></v-list-item-title>
-                      <v-list-item-subtitle
-                        v-if="field.key === 'pasaporte'"
-                        v-text="field.key"
-                      ></v-list-item-subtitle>
                       <v-list-item-title v-if="field.key === 'investigador'">{{
                         "La persona es un investigador " +
                         field.value.tipoDeInvestigador +
@@ -268,17 +261,6 @@ export default {
         };
       });
     },
-
-    items() {
-      return this.entries.map((entry) => {
-        const Description =
-          entry.Description.length > this.descriptionLimit
-            ? entry.Description.slice(0, this.descriptionLimit) + "..."
-            : entry.Description;
-
-        return Object.assign({}, entry, { Description });
-      });
-    },
   },
   watch: {
     search() {
@@ -302,8 +284,8 @@ export default {
           console.log(err);
         })
         .finally(() => (this.isLoading = false));
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>
