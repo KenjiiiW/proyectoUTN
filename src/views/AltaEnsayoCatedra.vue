@@ -2,14 +2,26 @@
     <v-container>
         <v-card elevation="12">
             <v-card-title class="justify-center blue lighten-5">
-                REGISTRO DE ENSAYO DE CÁTEDRA
+                REGISTRO ENSAYO DE CATEDRA
             </v-card-title>
             <v-card-text>
                 <v-form v-model="validoFormulario" ref="formularioRegistro">
                     <v-row>
-                        <v-col>
-                            <v-btn block>SELECCIONAR PERSONA A CARGO DEL ENSAYO</v-btn>
-                        </v-col>
+<v-card-text>
+                <v-autocomplete
+                  v-model="model"
+                  :items="this.personas"
+                  :search-input.sync="search"
+                  color="white"
+                  hide-no-data
+                  hide-selected
+                  :item-text="item => item.nombre +' - '+ item.apellido + ' | DNI: '+item.dni"
+                  placeholder="Seleccione persona a cargo"
+                  prepend-icon="mdi-account-search"
+                  return-object
+                ></v-autocomplete>
+              </v-card-text>
+              <v-divider></v-divider>
                     </v-row>
                     
                     <v-row>
@@ -69,14 +81,14 @@
                     <v-row>
                         <v-col>
                             <v-text-field
-                            label="Nombre de la cátedra*"
-                            v-model="nuevoEnsayoCatedra.catedra"
+                            label="Nombre de la carrera*"
+                            v-model="nuevoEnsayoCatedra.carrera"
                             :rules="reglaCampoVacio"></v-text-field>
                         </v-col>
                         <v-col>
                             <v-text-field
-                            label="Nombre de la carrera*"
-                            v-model="nuevoEnsayoCatedra.carrera"
+                            label="Universidad*"
+                            v-model="nuevoEnsayoCatedra.universidad"
                             :rules="reglaCampoVacio"></v-text-field>
                         </v-col>
                     </v-row>
@@ -90,9 +102,9 @@
                         </v-col>
                         <v-col>
                             <v-text-field
-                            label="Tutor*"
-                            hint="Escriba nombre y apellido del tutor"
-                            v-model="nuevoEnsayoCatedra.tutorUct"
+                            label="Director*"
+                            hint="Escriba nombre y apellido del director"
+                            v-model="nuevoEnsayoCatedra.director"
                             :rules="reglaCampoVacio"></v-text-field>
                         </v-col>
                     </v-row>
@@ -100,29 +112,16 @@
                     <v-row>
                         <v-col>
                             <v-text-field
-                            label="Docente de la cátedra*"
-                            hint="Escriba nombre y apellido del docente de la cátedra"
-                            v-model="nuevoEnsayoCatedra.docente"
-                            :rules="reglaCampoVacio"></v-text-field>
-                        </v-col>
-                        <v-col>
-                            <v-text-field
                             label="Vinculación del ensayo*"
-                            hint="Escriba la vinculación del con PID o la iniciativa de investigación en la UCT"
+                            hint="Escriba la vinculación del ensayo con PID o la iniciativa de investigación en la UCT"
                             v-model="nuevoEnsayoCatedra.vinculacion"
                             :rules="reglaCampoVacio"></v-text-field>
-                            
                         </v-col>
-                    </v-row>
-                    <v-row>
                         <v-col>
                             <v-select
                             label="Fuente de financiamiento"
                             v-model="nuevoEnsayoCatedra.fuenteFinanciamiento"
                             :items="fuentesFinanciamiento"></v-select>
-                        </v-col>
-                        <v-col>
-
                         </v-col>
                     </v-row>
 
@@ -141,23 +140,26 @@
 
 <script>
 var axios = require('axios');
+var vuetify = require('vuetify');
 export default {
 data () {
     return {
+        vuetify: vuetify,
+        personas: null,
+        model:null,
         nuevoEnsayoCatedra: {
             fechaInicio:'',
             fechaFinalizacion:'',
-            catedra:'',
             carrera:'',
+            universidad:'',
             titulo:'',
-            tutorUct:'',
-            docente:'',
+            director:'',
             vinculacion:'',
-            fuenteFinanciamiento:'',
-            nombre: '',
-            apellido:''
+            fuenteFinanciamiento:''
         },
         personaExistente: {},
+        menu:false,
+        menu2:false,
         validoFormulario:false,
         reglaCampoVacio:[
             (texto)=>{
@@ -175,10 +177,13 @@ data () {
             'utn',
             'foncyt',
             'Otro'
-        ],
-        menu:false,
-        menu2:false
+        ]
     }
+},
+mounted: function() {
+    axios.get("http://localhost:8080/gestiondepersonas/")
+         .then(response => {this.personas = response.data})
+         .finally(response => console.log(response));        
 },
 methods: {
     limpiar(){
@@ -187,9 +192,6 @@ methods: {
     },
     async validar(){
         this.$refs.formularioRegistro.validate()
-        // await axios.get('http://localhost:8080/gestiondepersonas/nombre/'+ this.nuevaTesisPosgrado.nombre)
-        // .then(response => {this.personaExistente = response.data})
-        // .finally(response => console.log(response));  
         var requestBody = {
             fechaInicio : this.nuevoEnsayoCatedra.fechaInicio,
             fechaFinal : this.nuevoEnsayoCatedra.fechaFinalizacion,
@@ -198,22 +200,22 @@ methods: {
             titulo : this.nuevoEnsayoCatedra.titulo,
             director : this.nuevoEnsayoCatedra.director,
             tipoDePractica: {
-                tipoDePractica: "ensayo_catedra"
+                tipoDePractica: "tesis_postgrado"
             },
             vinculacionConProyecto: {
                 name: "giuct"
             },
             fuenteDeFinanciamiento: {
                 fuente : this.nuevoEnsayoCatedra.fuenteFinanciamiento == 'Otro' ? "utn" : this.nuevoEnsayoCatedra.fuenteFinanciamiento
-            }
-            // },
-            // persona: this.personaExistente
+            },
+            persona: this.model
         };
-        axios.post("http://localhost:8080/gestiondeformacionacademica/", requestBody)
-            .then(response => console.log(response));        
+        await axios.post("http://localhost:8080/gestiondeformacionacademica/", requestBody)
+            .then(response => console.log(response))
+            .then(alert("el ensayo fue agregado de manera exitosa"));        
             this.$refs.formularioRegistro.reset()
+        window.location.href= "TesisPosgrado"
     }
 }
-    
 }
 </script>

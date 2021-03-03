@@ -30,6 +30,7 @@ import ModificacionPracticaProfesionalizante from '@/views/ModificacionPracticaP
 
 import EnsayoCatedra from '@/views/EnsayoCatedra.vue'
 import AltaEnsayoCatedra from '@/views/AltaEnsayoCatedra.vue'
+import ModificacionEnsayoCatedra from '@/views/ModificacionEnsayoCatedra.vue'
 
 import Informe from '@/views/Informe.vue'
 import DetallesEnsayoDeCatedra from '@/views/DetallesEnsayoDeCatedra.vue'
@@ -180,6 +181,11 @@ const routes = [{
         path: '/ModificacionPracticaProfesionalizante',
         component: ModificacionPracticaProfesionalizante,
         name: "ModificacionPracticaProfesionalizante"
+    },
+    {
+        path: '/ModificacionEnsayoCatedra',
+        component: ModificacionEnsayoCatedra,
+        name: "ModificacionEnsayoCatedra"
     }
 ]
 
