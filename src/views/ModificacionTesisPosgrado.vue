@@ -226,16 +226,13 @@ export default {
           name: "giuct",
         },
         fuenteDeFinanciamiento: {
-          fuente:
-            this.tesisAModificar.fuenteFinanciamiento == "Otro"
-              ? "utn"
-              : this.tesisAModificar.fuenteFinanciamiento,
+          fuente: this.tesisAModificar.fuenteDeFinanciamiento.fuente,
         },
         persona: this.model,
       };
       axios
         .put(
-          "http://localhost:8080/gestiondepersonas/id/" +
+          "http://localhost:8080/gestiondeformacionacademica/id/" +
             this.tesisAModificar.id,
           requestBody
         )

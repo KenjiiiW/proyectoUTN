@@ -124,46 +124,36 @@
             >
             <v-row>
               <v-col>
-                <v-card
-                  style="margin-top: 40px"
-                  class="mx-auto"
-                  max-width="434"
-                  tile
-                >
-                  <v-img
-                    height="100%"
-                    src="https://cdn.vuetifyjs.com/images/cards/server-room.jpg"
-                  >
-                    <v-row align="end" class="fill-height">
-                      <v-col align-self="start" class="pa-0" cols="12">
-                        <v-avatar class="profile" color="grey" size="164" tile>
-                          <v-img
-                            src="https://feelinsonice-hrd.appspot.com/web/bitmoji_avatar?username=robert.idol"
-                          ></v-img>
-                        </v-avatar>
-                      </v-col>
-                      <v-col class="py-0">
-                        <v-list-item color="rgba(0, 0, 0, .4)" dark>
-                          <v-list-item-content>
-                            <v-list-item-title class="title">
-                              {{ fields[7].value }}
-                            </v-list-item-title>
-                            <v-list-item-subtitle>{{
-                              fields[6].value
-                            }}</v-list-item-subtitle>
-                          </v-list-item-content>
-                        </v-list-item>
-                      </v-col>
-                    </v-row>
-                  </v-img>
-                </v-card>
+<v-card class="mx-auto" max-width="434" tile>
+                    <v-img
+                      height="100%"
+                      src="https://www.rassegna.com.ar/wp-content/uploads/2017/01/rassegna-asientos-universidades-utn-la-plata-3.jpg"
+                    >
+                      <v-row align="end" class="fill-height">
+                        <v-col align-self="start" class="pa-0" cols="12">
+                        </v-col>
+                        <v-col class="py-0">
+                          <v-list-item color="rgba(0, 0, 0, .4)" dark>
+                            <v-list-item-content>
+                              <v-list-item-title class="title">
+                                {{ fields[8].value}}
+                              </v-list-item-title>
+                              <v-list-item-subtitle>{{
+                                fields[7].value
+                              }}</v-list-item-subtitle>
+                            </v-list-item-content>
+                          </v-list-item>
+                        </v-col>
+                      </v-row>
+                    </v-img>
+                  </v-card>
               </v-col>
               <v-col>
                 <v-row>
                   <v-col>
                     <v-card-title>
                       {{ model.fechaInicio }} {{ model.fechaFinal }}: Datos de la unidad educativa | {{ model.universidad }} | Director:{{ model.director }} Informacion de proyecto:
-                      {{model.fuenteDeFinanciamiento}}{{model.vinculacionConProyecto}}
+                      {{model.fuenteDeFinanciamiento.fuente}}{{model.vinculacionConProyecto.name}}
                       </v-card-title
                     >
                   </v-col>
@@ -225,49 +215,7 @@ export default {
   data() {
     return {
       vuetify: vuetify,
-      item: [
-        {
-          fechaInicio: "1613443603",
-          fechaFinal: "1613443603",
-          catedra: "sistemas de representacion",
-          universidad: "utn",
-          escuela: "null",
-          director: "skinner",
-          carrera: "Ingenieria en sistemas",
-          titulo:
-            "Diseño de una arquitectura que soluciona problemas de la facultad",
-          tutor: "Ruiz",
-          docente: "Luis Santos",
-          tipoDePractica: "tesis_postgrado",
-          vinculacionConProyecto: "giuct",
-          fuenteDeFinanciamiento: "utn",
-          persona: {
-            id: 58,
-            nombre: "Saunders",
-            apellido: "Howe",
-            dni: "35232961",
-            direccionPostal: "1205",
-            telefono: "+54 (889) 410-3637",
-            cuil: "20-11994035-2",
-            emailPersonal: "Saunders.Howe@gmail.com",
-            emailInstitucional: "Saunders.Howe@utn.frlp.edu.ar",
-            situacionAcademica: "Docente",
-            pasaporte: {
-              id: 60,
-              numero: "11994035",
-              fechaDeVencimiento: "21/10/2022",
-            },
-            investigador: {
-              id: 59,
-              categoriaDeInvestigador: "A",
-              tipoDeInvestigador: "UTN",
-              cantidadDeHoras: "12",
-              fechaDeObtencionDeCategoria: "11/02/2015",
-              numeroDeResolucion: "35386106",
-            },
-          },
-        },
-      ],
+      item: [],
       modificar: "ModificacionTesisPosgrado",
       search: "",
       dialogModificar: false,
@@ -313,30 +261,30 @@ export default {
       });
     },
   },
-  //   watch: {
-  //     search() {
-  //       if (this.isLoading) return;
+    watch: {
+      search: function(){
+        if (this.isLoading) return;
 
-  //       this.isLoading = true;
+        this.isLoading = true;
 
-  //       axios
-  //         .get(
-  //           "http://localhost:8080/gestiondepersonas/?" +
-  //             this.filtroSeleccionado.replace(/\s/g, "") +
-  //             "=" +
-  //             this.search
-  //         )
-  //         .then((response) => {
-  //           this.item = response.data;
-  //           this.count = response.data;
-  //           this.entries = response.data;
-  //         })
-  //         .catch((err) => {
-  //           console.log(err);
-  //         })
-  //         .finally(() => (this.isLoading = false));
-  //     },
-  //   },
+        axios
+          .get(
+            "http://localhost:8080/gestiondeformacionacademica/filter/tesispostgrado?" +
+              this.filtroSeleccionado.replace(/\s/g, "") +
+              "=" +
+              this.search
+          )
+          .then((response) => {
+            this.item = response.data;
+            this.count = response.data;
+            this.entries = response.data;
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+          .finally(() => (this.isLoading = false));
+      }
+    }
 };
 </script>
 <style scoped>
