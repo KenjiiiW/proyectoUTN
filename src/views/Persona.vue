@@ -3,7 +3,7 @@
     <v-card>
       <v-card-title
         style="background-color: #eeeeee"
-        class="justify-center titulo"
+        class="justify-center"
       >
         <strong>PERSONAS</strong>
         <v-spacer></v-spacer>
@@ -100,9 +100,31 @@
                 ></v-autocomplete>
               </v-card-text>
               <v-divider></v-divider>
-              <v-expand-transition>
-                <v-list v-if="model" class="blue dark-1">
-                  <v-card class="mx-auto" max-width="434" tile>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                  :disabled="!model"
+                  color="grey darken-3"
+                  @click="model = null"
+                >
+                  Limpiar
+                  <v-icon right> mdi-close-circle </v-icon>
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-card-text>
+    </v-card>
+    <v-row>
+      <v-col>
+        <v-expand-transition>
+                <v-card v-if="model" color="#ffffff">
+                  <v-card-title style="background-color: #37474F"
+                  class="justify-center titulo">DATOS DE LA PERSONA</v-card-title>
+                  <v-row>
+                    <v-col>
+                      <v-card style="margin-top: 40px" class="mx-auto" max-width="434" tile>
                     <v-img
                       height="100%"
                       src="https://cdn.vuetifyjs.com/images/cards/server-room.jpg"
@@ -135,7 +157,43 @@
                       </v-row>
                     </v-img>
                   </v-card>
-                  <v-dialog max-width="25%" v-model="dialogEliminar">
+
+                    </v-col>
+                    <v-col>
+                      <v-row>
+                    <v-col>
+                      <v-card-title>{{ model.nombre }} {{ model.apellido }}: Investigador de tipo {{ model.investigador.tipoDeInvestigador }} con categoría {{ model.investigador.categoriaDeInvestigador }} obtenida en la fecha {{ model.investigador.fechaDeObtencionDeCategoria }}</v-card-title>
+                    </v-col>
+                    <v-divider inset vertical></v-divider>
+
+                  </v-row>
+                  
+                  <v-row>
+                    <v-col>
+                      <v-card-title>DNI {{ model.dni }}</v-card-title>
+                    </v-col>
+                    <v-col>
+                      <v-card-title>CUIL: {{ model.cuil }} </v-card-title>
+                    </v-col>
+                    <v-col>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col>
+                      <v-card-title>CONTACTO: {{ model.telefono }} --- {{ model.emailPersonal }} --- {{ model.emailInstitucional }}</v-card-title>
+                    </v-col>
+                  </v-row>
+                    </v-col>
+                  </v-row>
+                  
+                  
+                </v-card>
+              </v-expand-transition>
+      </v-col>
+    </v-row>
+                    
+    <v-spacer></v-spacer>
+    <v-dialog max-width="25%" v-model="dialogEliminar">
                     <v-card>
                       <v-card-title class="justify-center">
                         ¿Seguro desea eliminar esta persona?
@@ -157,89 +215,6 @@
                       </v-card-actions>
                     </v-card>
                   </v-dialog>
-
-                  <!-- <v-list-item>
-                    <v-list-item-content>
-                      <v-list-item-title>{{ model.nombre }}</v-list-item-title>
-                      <v-list-item-subtitle>{{
-                        "NOMBRE"
-                      }}</v-list-item-subtitle>
-
-                      <v-divider></v-divider>
-                      <v-list-item-title>{{
-                        model.apellido
-                      }}</v-list-item-title>
-                      <v-list-item-subtitle>{{
-                        "Apellido"
-                      }}</v-list-item-subtitle>
-                    </v-list-item-content>
-                  </v-list-item> -->
-
-                  <v-list-item v-for="(field, i) in fields" :key="i">
-                    <v-list-item-content
-                      v-show="
-                        !field.value.id &&
-                        field.key != 'materias' &&
-                        field.key != 'id'
-                      "
-                    >
-                      <v-list-item-title
-                        v-text="field.value"
-                      ></v-list-item-title>
-                      <v-list-item-subtitle
-                        v-text="field.key"
-                      ></v-list-item-subtitle>
-                    </v-list-item-content>
-                    <v-list-item-title
-                      v-show="field.key === 'direccionPostal'"
-                      >{{ "Direccion Postal" }}</v-list-item-title
-                    >
-                    <v-list-item-subtitle
-                      v-show="field.key === 'direccionPostal'"
-                      >{{
-                        "Descripcion del perfil investigador"
-                      }}</v-list-item-subtitle
-                    >
-                    <v-list-item-content>
-                      <v-list-item-title
-                        v-show="field.key === 'investigador'"
-                        >{{
-                          "La persona es un investigador " +
-                          field.value.tipoDeInvestigador +
-                          " con la categoria de " +
-                          field.value.categoriaDeInvestigador +
-                          " con " +
-                          field.value.cantidadDeHoras +
-                          " horas de dedicación a la semana"
-                        }}</v-list-item-title
-                      >
-                      <v-list-item-subtitle
-                        v-show="field.key === 'investigador'"
-                        >{{
-                          "Descripcion del perfil investigador"
-                        }}</v-list-item-subtitle
-                      >
-                    </v-list-item-content>
-                  </v-list-item>
-                </v-list>
-              </v-expand-transition>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn
-                  :disabled="!model"
-                  color="grey darken-3"
-                  @click="model = null"
-                >
-                  Limpiar
-                  <v-icon right> mdi-close-circle </v-icon>
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-card-text>
-    </v-card>
-    <v-spacer></v-spacer>
   </v-container>
 </template>
 
@@ -250,7 +225,96 @@ export default {
   data() {
     return {
       vuetify: vuetify,
-      item: [],
+      item: [ {
+        "id": 1,
+        "nombre": "Phyllis",
+        "apellido": "Shepard",
+        "dni": "63477734",
+        "direccionPostal": "8291",
+        "telefono": "+54 (958) 461-2219",
+        "cuil": "20-4154510-2",
+        "emailPersonal": "Phyllis.Shepard@gmail.com",
+        "emailInstitucional": "Phyllis.Shepard@utn.frlp.edu.ar",
+        "situacionAcademica": "Graduado",
+        "pasaporte": {
+            "id": 3,
+            "numero": "4154510",
+            "fechaDeVencimiento": "25/04/2023"
+        },
+        "investigador": {
+            "id": 2,
+            "categoriaDeInvestigador": "III",
+            "tipoDeInvestigador": "Nacional",
+            "cantidadDeHoras": "20",
+            "fechaDeObtencionDeCategoria": "20/07/2014",
+            "numeroDeResolucion": "85643109"
+        },
+        "materias": [
+            {
+                "id": 4,
+                "nombre": "economia",
+                "dedicacion": "exclusiva",
+                "cargo": {
+                    "id": 5,
+                    "cargo": "profesor asociado"
+                }
+            },
+            {
+                "id": 6,
+                "nombre": "gestion de datos",
+                "dedicacion": "simple",
+                "cargo": {
+                    "id": 7,
+                    "cargo": "Ayudante 1 - Diplomado"
+                }
+            }
+        ]
+    },
+    {
+        "id": 8,
+        "nombre": "Franco",
+        "apellido": "Gallegos",
+        "dni": "80553654",
+        "direccionPostal": "7220",
+        "telefono": "+54 (833) 536-2699",
+        "cuil": "20-13932568-2",
+        "emailPersonal": "Franco.Gallegos@gmail.com",
+        "emailInstitucional": "Franco.Gallegos@utn.frlp.edu.ar",
+        "situacionAcademica": "Docente",
+        "pasaporte": {
+            "id": 836,
+            "numero": "13932568",
+            "fechaDeVencimiento": "19/04/2022"
+        },
+        "investigador": {
+            "id": 835,
+            "categoriaDeInvestigador": "Superior",
+            "tipoDeInvestigador": null,
+            "cantidadDeHoras": "15",
+            "fechaDeObtencionDeCategoria": "25/12/2015",
+            "numeroDeResolucion": "72964322"
+        },
+        "materias": [
+            {
+                "id": 11,
+                "nombre": "economia",
+                "dedicacion": "semi-exclusiva",
+                "cargo": {
+                    "id": 12,
+                    "cargo": "profesor titular"
+                }
+            },
+            {
+                "id": 13,
+                "nombre": "gestion de datos",
+                "dedicacion": "simple",
+                "cargo": {
+                    "id": 14,
+                    "cargo": "profesor titular"
+                }
+            }
+        ]
+    }],
       modificar: "ModificacionPersona",
       search: "",
       dialogModificar: false,
@@ -291,37 +355,37 @@ export default {
           value: this.model[key] || "n/a",
         };
       });
-    },
-  },
-  watch: {
-    search() {
-      if (this.isLoading) return;
+    },}
+  // },
+  // watch: {
+  //   search() {
+  //     if (this.isLoading) return;
 
-      this.isLoading = true;
+  //     this.isLoading = true;
 
-      axios
-        .get(
-          "http://localhost:8080/gestiondepersonas/?" +
-            this.filtroSeleccionado.replace(/\s/g, "") +
-            "=" +
-            this.search
-        )
-        .then((response) => {
-          this.item = response.data;
-          this.count = response.data;
-          this.entries = response.data;
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => (this.isLoading = false));
-    },
-  },
+  //     axios
+  //       .get(
+  //         "http://localhost:8080/gestiondepersonas/?" +
+  //           this.filtroSeleccionado.replace(/\s/g, "") +
+  //           "=" +
+  //           this.search
+  //       )
+  //       .then((response) => {
+  //         this.item = response.data;
+  //         this.count = response.data;
+  //         this.entries = response.data;
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       })
+  //       .finally(() => (this.isLoading = false));
+  //   },
+  // },
 };
 </script>
 <style scoped>
 .titulo {
-  color: #242424;
+  color: #ffffff;
   margin-bottom: 0%;
 }
 </style>
