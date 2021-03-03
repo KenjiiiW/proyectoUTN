@@ -37,7 +37,7 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn dark color="primary" to="Detalles">Detalles</v-btn>
+            <v-btn dark color="primary" to="DetallesTesisPostgrado">Detalles</v-btn>
             <v-btn
               dark
               color="primary"
@@ -63,7 +63,7 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn dark color="primary">Detalles</v-btn>
+            <v-btn dark color="primary" to="DetallesTesisDeLicenciatura" >Detalles</v-btn>
             <v-btn
               dark
               color="primary"
@@ -89,7 +89,7 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn dark color="primary">Detalles</v-btn>
+            <v-btn dark color="primary" to="DetallesProyectoFinal">Detalles</v-btn>
             <v-btn
               dark
               color="primary"
@@ -115,7 +115,7 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn dark color="primary">Detalles</v-btn>
+            <v-btn dark color="primary" to="DetallesTesis">Detalles</v-btn>
             <v-btn
               dark
               color="primary"
@@ -154,7 +154,7 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn dark color="primary">Detalles</v-btn>
+            <v-btn dark color="primary" to="DetallesPracticasProfesionalizantes">Detalles</v-btn>
             <v-btn
               dark
               color="primary"
@@ -180,7 +180,7 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn dark color="primary">Detalles</v-btn>
+            <v-btn dark color="primary" to="DetallesPracticasSupervisadas">Detalles</v-btn>
             <v-btn
               dark
               color="primary"
@@ -206,7 +206,7 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn dark color="primary">Detalles</v-btn>
+            <v-btn dark color="primary" to="DetallesEnsayoDeCatedra">Detalles</v-btn>
             <v-btn
               dark
               color="primary"
@@ -232,7 +232,7 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn dark color="primary">Detalles</v-btn>
+            <v-btn dark color="primary" to="DetallesPracticas">Detalles</v-btn>
             <v-btn
               dark
               color="primary"

@@ -27,8 +27,14 @@ import EnsayoCatedra from '@/views/EnsayoCatedra.vue'
 import AltaEnsayoCatedra from '@/views/AltaEnsayoCatedra.vue'
 
 import Informe from '@/views/Informe.vue'
-import Detalles from '@/views/Detalles.vue'
-
+import DetallesEnsayoDeCatedra from '@/views/DetallesEnsayoDeCatedra.vue'
+import DetallesPracticasProfesionalizantes from '@/views/DetallesPracticasProfesionalizantes.vue'
+import DetallesPracticasSupervisadas from '@/views/DetallesPracticasSupervisadas.vue'
+import DetallesProyectoFinal from '@/views/DetallesProyectoFinal.vue'
+import DetallesTesisDeLicenciatura from '@/views/DetallesTesisDeLicenciatura.vue'
+import DetallesTesisPostgrado from '@/views/DetallesTesisPostgrado.vue'
+import DetallesTesis from '@/views/DetallesTesis.vue'
+import DetallesPracticas from '@/views/DetallesPracticas.vue'
 
 Vue.use(VueRouter)
 
@@ -118,10 +124,37 @@ const routes = [{
         component: Informe
     },
     {
-        path: '/Detalles',
-        component: Detalles
+        path: '/DetallesEnsayoDeCatedra',
+        component: DetallesEnsayoDeCatedra
     },
-
+    {
+        path: '/DetallesPracticasProfesionalizantes',
+        component: DetallesPracticasProfesionalizantes
+    },
+    {
+        path: '/DetallesPracticasSupervisadas',
+        component: DetallesPracticasSupervisadas
+    },
+    {
+        path: '/DetallesProyectoFinal',
+        component: DetallesProyectoFinal
+    },
+    {
+        path: '/DetallesTesisDeLicenciatura',
+        component: DetallesTesisDeLicenciatura
+    },
+    {
+        path: '/DetallesTesisPostgrado',
+        component: DetallesTesisPostgrado
+    },
+    {
+        path: '/DetallesTesis',
+        component: DetallesTesis
+    },
+    {
+        path: '/DetallesPracticas',
+        component: DetallesPracticas
+    }
 ]
 
 const router = new VueRouter({
