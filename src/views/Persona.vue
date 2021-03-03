@@ -225,96 +225,7 @@ export default {
   data() {
     return {
       vuetify: vuetify,
-      item: [ {
-        "id": 1,
-        "nombre": "Phyllis",
-        "apellido": "Shepard",
-        "dni": "63477734",
-        "direccionPostal": "8291",
-        "telefono": "+54 (958) 461-2219",
-        "cuil": "20-4154510-2",
-        "emailPersonal": "Phyllis.Shepard@gmail.com",
-        "emailInstitucional": "Phyllis.Shepard@utn.frlp.edu.ar",
-        "situacionAcademica": "Graduado",
-        "pasaporte": {
-            "id": 3,
-            "numero": "4154510",
-            "fechaDeVencimiento": "25/04/2023"
-        },
-        "investigador": {
-            "id": 2,
-            "categoriaDeInvestigador": "III",
-            "tipoDeInvestigador": "Nacional",
-            "cantidadDeHoras": "20",
-            "fechaDeObtencionDeCategoria": "20/07/2014",
-            "numeroDeResolucion": "85643109"
-        },
-        "materias": [
-            {
-                "id": 4,
-                "nombre": "economia",
-                "dedicacion": "exclusiva",
-                "cargo": {
-                    "id": 5,
-                    "cargo": "profesor asociado"
-                }
-            },
-            {
-                "id": 6,
-                "nombre": "gestion de datos",
-                "dedicacion": "simple",
-                "cargo": {
-                    "id": 7,
-                    "cargo": "Ayudante 1 - Diplomado"
-                }
-            }
-        ]
-    },
-    {
-        "id": 8,
-        "nombre": "Franco",
-        "apellido": "Gallegos",
-        "dni": "80553654",
-        "direccionPostal": "7220",
-        "telefono": "+54 (833) 536-2699",
-        "cuil": "20-13932568-2",
-        "emailPersonal": "Franco.Gallegos@gmail.com",
-        "emailInstitucional": "Franco.Gallegos@utn.frlp.edu.ar",
-        "situacionAcademica": "Docente",
-        "pasaporte": {
-            "id": 836,
-            "numero": "13932568",
-            "fechaDeVencimiento": "19/04/2022"
-        },
-        "investigador": {
-            "id": 835,
-            "categoriaDeInvestigador": "Superior",
-            "tipoDeInvestigador": null,
-            "cantidadDeHoras": "15",
-            "fechaDeObtencionDeCategoria": "25/12/2015",
-            "numeroDeResolucion": "72964322"
-        },
-        "materias": [
-            {
-                "id": 11,
-                "nombre": "economia",
-                "dedicacion": "semi-exclusiva",
-                "cargo": {
-                    "id": 12,
-                    "cargo": "profesor titular"
-                }
-            },
-            {
-                "id": 13,
-                "nombre": "gestion de datos",
-                "dedicacion": "simple",
-                "cargo": {
-                    "id": 14,
-                    "cargo": "profesor titular"
-                }
-            }
-        ]
-    }],
+      item: [],
       modificar: "ModificacionPersona",
       search: "",
       dialogModificar: false,
@@ -355,32 +266,32 @@ export default {
           value: this.model[key] || "n/a",
         };
       });
-    },}
-  // },
-  // watch: {
-  //   search() {
-  //     if (this.isLoading) return;
+    },
+  },
+  watch: {
+    search() {
+      if (this.isLoading) return;
 
-  //     this.isLoading = true;
+      this.isLoading = true;
 
-  //     axios
-  //       .get(
-  //         "http://localhost:8080/gestiondepersonas/?" +
-  //           this.filtroSeleccionado.replace(/\s/g, "") +
-  //           "=" +
-  //           this.search
-  //       )
-  //       .then((response) => {
-  //         this.item = response.data;
-  //         this.count = response.data;
-  //         this.entries = response.data;
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       })
-  //       .finally(() => (this.isLoading = false));
-  //   },
-  // },
+      axios
+        .get(
+          "http://localhost:8080/gestiondepersonas/?" +
+            this.filtroSeleccionado.replace(/\s/g, "") +
+            "=" +
+            this.search
+        )
+        .then((response) => {
+          this.item = response.data;
+          this.count = response.data;
+          this.entries = response.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => (this.isLoading = false));
+    },
+  },
 };
 </script>
 <style scoped>

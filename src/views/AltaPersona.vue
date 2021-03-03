@@ -471,7 +471,7 @@ export default {
         }
       };
       await axios
-        .post("http://localhost:8080/gestiondepersonas/", requestBody)
+        .post("http://localhost:8080/gestiondepersonas", requestBody)
         .then((response) => console.log(response));
       this.$refs.formularioRegistro.reset();
       this.$router.push('/Persona')
