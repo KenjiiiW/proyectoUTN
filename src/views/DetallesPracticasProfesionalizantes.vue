@@ -14,7 +14,7 @@
             <v-btn
               dark
               color="primary"
-              href="http://localhost:8080/reportes/practicaprofesionalizante/csv"
+              href="http://localhost:8080/reportes/practicasProfesionalizantes/csv"
               >Export to CSV
             </v-btn>            </v-card-title>
             <v-data-table
