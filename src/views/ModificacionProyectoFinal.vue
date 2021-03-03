@@ -220,7 +220,7 @@ export default {
         titulo: this.proyectoAModificar.titulo,
         director: this.proyectoAModificar.director,
         tipoDePractica: {
-          tipoDePractica: "tesis_licenciatura",
+          tipoDePractica: "proyecto_final_ingenieria",
         },
         vinculacionConProyecto: {
           name: "giuct",
@@ -237,9 +237,9 @@ export default {
           requestBody
         )
         .then((response) => console.log(response))
-        .then(alert("Se ha modificado a la tesis exitosamente"));
+        .then(alert("Se ha modificado el proyecto exitosamente"));
       this.$refs.formularioRegistro.reset();
-      this.$router.push('/TesisLicenciatura');
+      this.$router.push('/ProyectoFinal');
     },
   },
   mounted: function () {

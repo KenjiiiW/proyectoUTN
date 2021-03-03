@@ -2,7 +2,7 @@
   <v-container>
     <v-card>
       <v-card-title style="background-color: #eeeeee" class="justify-center">
-        <strong>TESIS</strong>
+        <strong>TESIS DE POSTGRADO</strong>
         <v-spacer></v-spacer>
 
         <v-spacer></v-spacer>

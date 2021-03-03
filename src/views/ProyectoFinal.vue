@@ -298,7 +298,7 @@ export default {
 
         axios
           .get(
-            "http://localhost:8080/gestiondeformacionacademica/filter/tesispostgrado?" +
+            "http://localhost:8080/gestiondeformacionacademica/filter/proyectofinaldeingenieria?" +
               this.filtroSeleccionado.replace(/\s/g, "") +
               "=" +
               this.search

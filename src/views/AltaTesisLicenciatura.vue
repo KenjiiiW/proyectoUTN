@@ -200,7 +200,7 @@ methods: {
             titulo : this.nuevaTesisLicenciatura.titulo,
             director : this.nuevaTesisLicenciatura.director,
             tipoDePractica: {
-                tipoDePractica: "tesis_postgrado"
+                tipoDePractica: "tesis_licenciatura"
             },
             vinculacionConProyecto: {
                 name: "giuct"
@@ -214,7 +214,7 @@ methods: {
             .then(response => console.log(response))
             .then(alert("la tesis fue agregada de manera exitosa"));        
             this.$refs.formularioRegistro.reset()
-        window.location.href= "TesisPosgrado"
+        window.location.href= "TesisLicenciatura"
     }
 }
 }

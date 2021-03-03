@@ -246,55 +246,7 @@ export default {
   data() {
     return {
       vuetify: vuetify,
-      item: [
-          {
-id: 305,
-fechaInicio: "1613443603",
-fechaFinal: "1613443603",
-catedra: "matematica superior",
-universidad: "utn",
-escuela: "null",
-director: "Jiraiya",
-carrera: "Ingenieria en sistemas",
-titulo: "Matematicas en la vida diaria",
-tutor: "chong",
-docente: "Luis Sanz",
-tipoDePractica: {
-tipoDePractica: "tesis_licenciatura"
-},
-vinculacionConProyecto: {
-name: "giuct"
-},
-fuenteDeFinanciamiento: {
-fuente: "sin financiamiento"
-},
-persona: {
-id: 55,
-nombre: "Rhodes",
-apellido: "Joyce",
-dni: "15509251",
-direccionPostal: "9431",
-telefono: "+54 (807) 411-3271",
-cuil: "20-51814669-2",
-emailPersonal: "Rhodes.Joyce@gmail.com",
-emailInstitucional: "Rhodes.Joyce@utn.frlp.edu.ar",
-situacionAcademica: "Graduado",
-pasaporte: {
-id: 57,
-numero: "51814669",
-fechaDeVencimiento: "16/10/2024",
-},
-investigador: {
-id: 56,
-categoriaDeInvestigador: "Superior",
-tipoDeInvestigador: "CONICET",
-cantidadDeHoras: "20",
-fechaDeObtencionDeCategoria: "12/03/2020",
-numeroDeResolucion: "54006009",
-},
-},
-}
-      ],
+      item: [],
       modificar: "ModificacionTesisLicenciatura",
       search: "",
       dialogModificar: false,
@@ -341,30 +293,30 @@ numeroDeResolucion: "54006009",
       });
     },
   },
-//     watch: {
-//       search: function(){
-//         if (this.isLoading) return;
+    watch: {
+      search: function(){
+        if (this.isLoading) return;
 
-//         this.isLoading = true;
+        this.isLoading = true;
 
-//         axios
-//           .get(
-//             "http://localhost:8080/gestiondeformacionacademica/filter/tesispostgrado?" +
-//               this.filtroSeleccionado.replace(/\s/g, "") +
-//               "=" +
-//               this.search
-//           )
-//           .then((response) => {
-//             this.item = response.data;
-//             this.count = response.data;
-//             this.entries = response.data;
-//           })
-//           .catch((err) => {
-//             console.log(err);
-//           })
-//           .finally(() => (this.isLoading = false));
-//       },
-//     },
+        axios
+          .get(
+            "http://localhost:8080/gestiondeformacionacademica/filter/tesislicenciatura?" +
+              this.filtroSeleccionado.replace(/\s/g, "") +
+              "=" +
+              this.search
+          )
+          .then((response) => {
+            this.item = response.data;
+            this.count = response.data;
+            this.entries = response.data;
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+          .finally(() => (this.isLoading = false));
+      },
+    },
 };
 </script>
 <style scoped>
