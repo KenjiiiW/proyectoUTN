@@ -298,14 +298,14 @@ export default {
     },
   },
     watch: {
-      search() {
+      search: function(){
         if (this.isLoading) return;
 
         this.isLoading = true;
 
         axios
           .get(
-            "http://localhost:8080/gestiondepersonas/?" +
+            "http://localhost:8080/gestiondeformacionacademica/filter/tesispostgrado?" +
               this.filtroSeleccionado.replace(/\s/g, "") +
               "=" +
               this.search
