@@ -7,9 +7,73 @@
             <v-card-text>
                 <v-form v-model="validoFormulario" ref="formularioRegistro">
                     <v-row>
-                        <v-col>
-                            <v-btn block>SELECCIONAR PERSONA A CARGO DE LA TESIS</v-btn>
+<v-card-text>
+                <v-autocomplete
+                  v-model="model"
+                  :items="this.personas"
+                  :search-input.sync="search"
+                  color="white"
+                  hide-no-data
+                  hide-selected
+                  :item-text="item => item.nombre +' - '+ item.apellido + ' | DNI: '+item.dni"
+                  placeholder="Ingrese su busqueda"
+                  prepend-icon="mdi-account-search"
+                  return-object
+                ></v-autocomplete>
+              </v-card-text>
+              <v-divider></v-divider>
+              <v-expand-transition>
+                <v-list v-if="model" class="blue dark-1">
+
+                  <v-card class="mx-auto" max-width="434" tile>
+                    <v-img
+                      height="100%"
+                      src="https://cdn.vuetifyjs.com/images/cards/server-room.jpg"
+                    >
+                      <v-row align="end" class="fill-height">
+                        <v-col align-self="start" class="pa-0" cols="12">
+                          <v-avatar
+                            class="profile"
+                            color="grey"
+                            size="164"
+                            tile
+                          >
+                            <v-img
+                              src="https://feelinsonice-hrd.appspot.com/web/bitmoji_avatar?username=robert.idol"
+                            ></v-img>
+                          </v-avatar>
                         </v-col>
+                        <v-col class="py-0">
+                          <v-list-item color="rgba(0, 0, 0, .4)" dark>
+                            <v-list-item-content>
+                              <v-list-item-title class="title">
+                                {{ fields[1].value + " " + fields[2].value }}
+                              </v-list-item-title>
+                              <v-list-item-subtitle>{{
+                                fields[9].value
+                              }}</v-list-item-subtitle>
+                            </v-list-item-content>
+                          </v-list-item>
+                        </v-col>
+                      </v-row>
+                    </v-img>
+                  </v-card>
+                          <v-dialog max-width="25%" v-model="dialogEliminar">
+            <v-card>
+                <v-card-title class="justify-center">
+                    ¿Seguro desea eliminar esta persona?
+                </v-card-title>
+                <v-card-actions>
+                    <v-spacer>
+
+                    </v-spacer>
+                    <v-btn text color="success" @click="confirmarDialogEliminar()">Confirmar</v-btn>
+                    <v-btn text color="deep-orange darken-4" @click="cerrarDialogEliminar()">Cancelar</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+                </v-list>
+              </v-expand-transition>
                     </v-row>
                     <v-row>
                         <v-col>
@@ -142,9 +206,12 @@
 
 <script>
 var axios = require('axios');
+var vuetify = require('vuetify');
 export default {
 data () {
     return {
+        vuetify: vuetify,
+        personas: null,
         nuevaTesisPosgrado: {
             fechaInicio:'',
             fechaFinalizacion:'',
@@ -169,6 +236,7 @@ data () {
                 return 'Este campo es obligatorio'
             }
         ],
+        arrei : ['nombre', 'apellido'],
         fuentesFinanciamiento: [
             'sin financiamiento',
             'conicet',
@@ -180,11 +248,17 @@ data () {
         ]
     }
 },
+mounted: function() {
+    axios.get("http://localhost:8080/gestiondepersonas/")
+         .then(response => {this.personas = response.data})
+         .finally(response => console.log(response));        
+},
 methods: {
     limpiar(){
         this.$refs.formularioRegistro.reset()
         this.validoFormulario = false
     },
+    concatenateNombreYApellido: item => item.name + ' ' + item.apellido,
     async validar(){
         this.$refs.formularioRegistro.validate()
         await axios.get('http://localhost:8080/gestiondepersonas/?Nombreoapellido='+ this.nuevaTesisPosgrado.nombre + " " + this.nuevaTesisPosgrado.apellido)

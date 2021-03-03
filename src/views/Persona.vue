@@ -93,8 +93,7 @@
                   color="white"
                   hide-no-data
                   hide-selected
-                  item-text="nombre"
-                  item-value="id"
+                  :item-text="item => item.nombre +' - '+ item.apellido"
                   placeholder="Ingrese su busqueda"
                   prepend-icon="mdi-account-search"
                   return-object
