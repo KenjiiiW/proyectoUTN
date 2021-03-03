@@ -1,13 +1,8 @@
 <template>
   <v-container>
-
-
     <v-card>
-      <v-card-title
-        style="background-color: #eeeeee"
-        class="justify-center titulo"
-      >
-        <strong>TESIS DE POSTGRADO</strong>
+      <v-card-title style="background-color: #eeeeee" class="justify-center">
+        <strong>TESIS</strong>
         <v-spacer></v-spacer>
 
         <v-spacer></v-spacer>
@@ -27,6 +22,7 @@
             <v-autocomplete
               v-model="filtroSeleccionado"
               :items="filtros"
+              :search-input.sync="search"
               chips
               clearable
               hide-details
@@ -70,7 +66,7 @@
                   text
                   fab
                   elevation="0"
-                  :to="{name: modificar, params : model}"
+                  :to="{ name: modificar, params: model }"
                 >
                   <v-icon>create</v-icon>
                 </v-btn>
@@ -95,108 +91,12 @@
                   hide-no-data
                   hide-selected
                   item-text="titulo"
-                  item-value="id"
                   placeholder="Ingrese su busqueda"
                   prepend-icon="mdi-account-search"
                   return-object
                 ></v-autocomplete>
               </v-card-text>
               <v-divider></v-divider>
-              <v-expand-transition>
-                <v-list v-if="model" class="blue dark-1">
-
-                  <v-card class="mx-auto" max-width="434" tile>
-                    <v-img
-                      height="100%"
-                      src="https://www.rassegna.com.ar/wp-content/uploads/2017/01/rassegna-asientos-universidades-utn-la-plata-3.jpg"
-                    >
-                      <v-row align="end" class="fill-height">
-                        <v-col align-self="start" class="pa-0" cols="12">
-                        </v-col>
-                        <v-col class="py-0">
-                          <v-list-item color="rgba(0, 0, 0, .4)" dark>
-                            <v-list-item-content>
-                              <v-list-item-title class="title">
-                                {{ fields[8].value}}
-                              </v-list-item-title>
-                              <v-list-item-subtitle>{{
-                                fields[7].value
-                              }}</v-list-item-subtitle>
-                            </v-list-item-content>
-                          </v-list-item>
-                        </v-col>
-                      </v-row>
-                    </v-img>
-                  </v-card>
-                          <v-dialog max-width="25%" v-model="dialogEliminar">
-            <v-card>
-                <v-card-title class="justify-center">
-                    ¿Seguro desea eliminar esta tesis?
-                </v-card-title>
-                <v-card-actions>
-                    <v-spacer>
-
-                    </v-spacer>
-                    <v-btn text color="success" @click="confirmarDialogEliminar()">Confirmar</v-btn>
-                    <v-btn text color="deep-orange darken-4" @click="cerrarDialogEliminar()">Cancelar</v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
-
-                  <v-list-item v-for="(field, i) in fields" :key="i">
-                    <v-col>
-                    <v-list-item-content
-                      v-if="
-                        typeof field.value != 'object' &&
-                        field.key != 'tipoDePractica' &&
-                        field.key != 'id'
-                      "
-                    >
-                    
-                      <v-list-item-title
-                        v-text="field.value"
-                      ></v-list-item-title>
-                      <v-list-item-subtitle
-                        v-text="field.key"
-                      ></v-list-item-subtitle>
-                    </v-list-item-content>
-</v-col>
-
-<v-col>
-                    <v-list-item-content>
-                      
-                      <v-list-item-title
-                        v-if="field.key === 'vinculacionConProyecto'"
-                        v-text="field.value.name"
-                      ></v-list-item-title>
-                      <v-list-item-subtitle
-                        v-if="field.key === 'vinculacionConProyecto'"
-                        
-                      >{{'Proyecto vinculado'}}</v-list-item-subtitle>
-
-                                            <v-list-item-title
-                        v-if="field.key === 'fuenteDeFinanciamiento'"
-                        v-text="field.value.fuente"
-                      ></v-list-item-title>
-                      <v-list-item-subtitle
-                        v-if="field.key === 'fuenteDeFinanciamiento'"
-                        
-                      >{{'Fuente de financiamiento'}}</v-list-item-subtitle>
-
-                                                                  <v-list-item-title
-                        v-if="field.key === 'persona'"
-                      >{{field.value.nombre + " " + field.value.apellido}}</v-list-item-title>
-                      <v-list-item-subtitle
-                        v-if="field.key === 'persona'"
-                        v-text="field.key"
-                      ></v-list-item-subtitle>
-                     
-                    </v-list-item-content>
-
-                    </v-col>
-                  </v-list-item>
-                </v-list>
-              </v-expand-transition>
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn
@@ -213,7 +113,108 @@
         </v-row>
       </v-card-text>
     </v-card>
+    <v-row>
+      <v-col>
+        <v-expand-transition>
+          <v-card v-if="model" color="#ffffff">
+            <v-card-title
+              style="background-color: #37474f"
+              class="justify-center titulo"
+              >DATOS DE LA TESIS</v-card-title
+            >
+            <v-row>
+              <v-col>
+                <v-card
+                  style="margin-top: 40px"
+                  class="mx-auto"
+                  max-width="434"
+                  tile
+                >
+                  <v-img
+                    height="100%"
+                    src="https://cdn.vuetifyjs.com/images/cards/server-room.jpg"
+                  >
+                    <v-row align="end" class="fill-height">
+                      <v-col align-self="start" class="pa-0" cols="12">
+                        <v-avatar class="profile" color="grey" size="164" tile>
+                          <v-img
+                            src="https://feelinsonice-hrd.appspot.com/web/bitmoji_avatar?username=robert.idol"
+                          ></v-img>
+                        </v-avatar>
+                      </v-col>
+                      <v-col class="py-0">
+                        <v-list-item color="rgba(0, 0, 0, .4)" dark>
+                          <v-list-item-content>
+                            <v-list-item-title class="title">
+                              {{ fields[7].value }}
+                            </v-list-item-title>
+                            <v-list-item-subtitle>{{
+                              fields[6].value
+                            }}</v-list-item-subtitle>
+                          </v-list-item-content>
+                        </v-list-item>
+                      </v-col>
+                    </v-row>
+                  </v-img>
+                </v-card>
+              </v-col>
+              <v-col>
+                <v-row>
+                  <v-col>
+                    <v-card-title>
+                      {{ model.fechaInicio }} {{ model.fechaFinal }}: Datos de la unidad educativa | {{ model.universidad }} | Director:{{ model.director }} Informacion de proyecto:
+                      {{model.fuenteDeFinanciamiento}}{{model.vinculacionConProyecto}}
+                      </v-card-title
+                    >
+                  </v-col>
+                  <v-divider inset vertical></v-divider>
+                </v-row>
+
+                <v-row>
+                  <v-col>
+                    <v-card-title>DNI {{ model.persona.dni }}</v-card-title>
+                  </v-col>
+                  <v-col>
+                    <v-card-title>CUIL: {{ model.persona.cuil }} </v-card-title>
+                  </v-col>
+                  <v-col> </v-col>
+                </v-row>
+                <v-row>
+                  <v-col>
+                    <v-card-title
+                      >CONTACTO: {{ model.persona.telefono }} ---
+                      {{ model.persona.emailPersonal }} ---
+                      {{ model.persona.emailInstitucional }}</v-card-title
+                    >
+                  </v-col>
+                </v-row>
+              </v-col>
+            </v-row>
+          </v-card>
+        </v-expand-transition>
+      </v-col>
+    </v-row>
+
     <v-spacer></v-spacer>
+    <v-dialog max-width="25%" v-model="dialogEliminar">
+      <v-card>
+        <v-card-title class="justify-center">
+          ¿Seguro desea eliminar esta tesis?
+        </v-card-title>
+        <v-card-actions>
+          <v-spacer> </v-spacer>
+          <v-btn text color="success" @click="confirmarDialogEliminar()"
+            >Confirmar</v-btn
+          >
+          <v-btn
+            text
+            color="deep-orange darken-4"
+            @click="cerrarDialogEliminar()"
+            >Cancelar</v-btn
+          >
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -224,17 +225,58 @@ export default {
   data() {
     return {
       vuetify: vuetify,
-      item: [],
-      elementoActual: {},
+      item: [
+        {
+          fechaInicio: "1613443603",
+          fechaFinal: "1613443603",
+          catedra: "sistemas de representacion",
+          universidad: "utn",
+          escuela: "null",
+          director: "skinner",
+          carrera: "Ingenieria en sistemas",
+          titulo:
+            "Diseño de una arquitectura que soluciona problemas de la facultad",
+          tutor: "Ruiz",
+          docente: "Luis Santos",
+          tipoDePractica: "tesis_postgrado",
+          vinculacionConProyecto: "giuct",
+          fuenteDeFinanciamiento: "utn",
+          persona: {
+            id: 58,
+            nombre: "Saunders",
+            apellido: "Howe",
+            dni: "35232961",
+            direccionPostal: "1205",
+            telefono: "+54 (889) 410-3637",
+            cuil: "20-11994035-2",
+            emailPersonal: "Saunders.Howe@gmail.com",
+            emailInstitucional: "Saunders.Howe@utn.frlp.edu.ar",
+            situacionAcademica: "Docente",
+            pasaporte: {
+              id: 60,
+              numero: "11994035",
+              fechaDeVencimiento: "21/10/2022",
+            },
+            investigador: {
+              id: 59,
+              categoriaDeInvestigador: "A",
+              tipoDeInvestigador: "UTN",
+              cantidadDeHoras: "12",
+              fechaDeObtencionDeCategoria: "11/02/2015",
+              numeroDeResolucion: "35386106",
+            },
+          },
+        },
+      ],
+      modificar: "ModificacionTesisPosgrado",
       search: "",
       dialogModificar: false,
       dialogEliminar: false,
-      modificar: "ModificacionTesisPosgrado",
       filtros: [
         "titulo",
-        "universidad",
-        "proyecto",
-        "fuente De Financiamiento",
+        "Universidad",
+        "Proyecto",
+        "Fuente de financiamiento",
       ],
       filtroSeleccionado: "titulo",
       descriptionLimit: 100,
@@ -244,64 +286,62 @@ export default {
     };
   },
   methods: {
-    eliminar(item) {
+    eliminarPersona() {
       this.dialogEliminar = true;
-      this.elementoActual = item;
-    },
-    modifcar() {
-      this.dialogConsultar = true;
     },
     cerrarDialogEliminar() {
       this.dialogEliminar = false;
     },
-    
-     async confirmarDialogEliminar() {
+    async confirmarDialogEliminar() {
       this.dialogEliminar = false;
+      var id = this.model.id;
       this.model = null;
       await axios
-        .delete(
-          "http://localhost:8080/gestiondeformacionacademica/id/" +
-            this.elementoActual.id
-        )
+        .delete("http://localhost:8080/gestiondepersonas/id/" + id)
         .then((response) => console.log(response));
-    }
+    },
   },
   computed: {
-    fields () {
-      if (!this.model) return []
+    fields() {
+      if (!this.model) return [];
 
-      return Object.keys(this.model).map(key => {
+      return Object.keys(this.model).map((key) => {
         return {
           key,
-          value: this.model[key] || 'n/a',
-        }
-      })
-    }},
-    watch: {
-      search: function(){
-        if (this.isLoading) return;
-
-        this.isLoading = true;
-
-        axios
-          .get(
-            "http://localhost:8080/gestiondeformacionacademica/filter/tesispostgrado?" +
-              this.filtroSeleccionado.replace(/\s/g, "") +
-              "=" +
-              this.search
-          )
-          .then((response) => {
-            this.item = response.data;
-            this.count = response.data;
-            this.entries = response.data;
-          })
-          .catch((err) => {
-            console.log(err);
-          })
-          .finally(() => (this.isLoading = false));
-      },
+          value: this.model[key] || "n/a",
+        };
+      });
     },
-  }
+  },
+  //   watch: {
+  //     search() {
+  //       if (this.isLoading) return;
+
+  //       this.isLoading = true;
+
+  //       axios
+  //         .get(
+  //           "http://localhost:8080/gestiondepersonas/?" +
+  //             this.filtroSeleccionado.replace(/\s/g, "") +
+  //             "=" +
+  //             this.search
+  //         )
+  //         .then((response) => {
+  //           this.item = response.data;
+  //           this.count = response.data;
+  //           this.entries = response.data;
+  //         })
+  //         .catch((err) => {
+  //           console.log(err);
+  //         })
+  //         .finally(() => (this.isLoading = false));
+  //     },
+  //   },
+};
 </script>
 <style scoped>
+.titulo {
+  color: #ffffff;
+  margin-bottom: 0%;
+}
 </style>
