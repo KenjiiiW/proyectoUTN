@@ -161,11 +161,36 @@
               <v-col>
                 <v-row>
                   <v-col>
-                    <v-card-title>
-                      {{ model.fechaInicio }} {{ model.fechaFinal }}: Datos de la unidad educativa | {{ model.universidad }} | Director:{{ model.director }} Informacion de proyecto:
-                      {{model.fuenteDeFinanciamiento}}{{model.vinculacionConProyecto}}
-                      </v-card-title
-                    >
+                    <v-card-title style="background-color: #17c0c5">
+                      <!-- {{ model.fechaInicio }} {{ model.fechaFinal }}:  -->
+                      UNIDAD EDUCATIVA : {{ model.universidad }}
+                    </v-card-title>
+                    <v-card-title style="background-color: #17c0c5">
+                      DIRECTOR:{{ model.director }}
+                    </v-card-title>
+
+                    <v-card-title style="background-color: #17c0c5">
+                      FUENTE:
+                      {{ model.fuenteDeFinanciamiento }}
+                    </v-card-title>
+
+                    <v-card-title style="background-color: #17c0c5">
+                      VINCULACION:{{ model.vinculacionConProyecto }}
+                    </v-card-title>
+                  </v-col>
+                  <v-col>
+                    <v-card-title style="background-color: #178bc5">
+                      TUTOR:
+                      {{ model.tutor }}
+                    </v-card-title>
+                    <v-card-title style="background-color: #178bc5">
+                      DOCENTE:
+                      {{ model.docente }}
+                    </v-card-title>
+                    <v-card-title style="background-color: #178bc5">
+                      CARRERA:
+                      {{ model.carrera }}
+                    </v-card-title>
                   </v-col>
                   <v-divider inset vertical></v-divider>
                 </v-row>
