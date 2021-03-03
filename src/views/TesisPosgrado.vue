@@ -70,7 +70,7 @@
                   text
                   fab
                   elevation="0"
-                  @click="modifcar(item)"
+                  :to="{name: modificar, params : model}"
                 >
                   <v-icon>create</v-icon>
                 </v-btn>
@@ -204,7 +204,7 @@
                   color="grey darken-3"
                   @click="model = null"
                 >
-                  Clear
+                  Limpiar
                   <v-icon right> mdi-close-circle </v-icon>
                 </v-btn>
               </v-card-actions>
@@ -229,13 +229,14 @@ export default {
       search: "",
       dialogModificar: false,
       dialogEliminar: false,
+      modificar: "ModificacionTesisPosgrado",
       filtros: [
         "titulo",
         "universidad",
         "proyecto",
         "fuente De Financiamiento",
       ],
-      filtroSeleccionado: "Titulo",
+      filtroSeleccionado: "titulo",
       descriptionLimit: 100,
       entries: [],
       isLoading: false,

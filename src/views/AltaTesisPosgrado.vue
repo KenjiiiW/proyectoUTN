@@ -16,78 +16,12 @@
                   hide-no-data
                   hide-selected
                   :item-text="item => item.nombre +' - '+ item.apellido + ' | DNI: '+item.dni"
-                  placeholder="Ingrese su busqueda"
+                  placeholder="Seleccione persona a cargo"
                   prepend-icon="mdi-account-search"
                   return-object
                 ></v-autocomplete>
               </v-card-text>
               <v-divider></v-divider>
-              <v-expand-transition>
-                <v-list v-if="model" class="blue dark-1">
-
-                  <v-card class="mx-auto" max-width="434" tile>
-                    <v-img
-                      height="100%"
-                      src="https://cdn.vuetifyjs.com/images/cards/server-room.jpg"
-                    >
-                      <v-row align="end" class="fill-height">
-                        <v-col align-self="start" class="pa-0" cols="12">
-                          <v-avatar
-                            class="profile"
-                            color="grey"
-                            size="164"
-                            tile
-                          >
-                            <v-img
-                              src="https://feelinsonice-hrd.appspot.com/web/bitmoji_avatar?username=robert.idol"
-                            ></v-img>
-                          </v-avatar>
-                        </v-col>
-                        <v-col class="py-0">
-                          <v-list-item color="rgba(0, 0, 0, .4)" dark>
-                            <v-list-item-content>
-                              <v-list-item-title class="title">
-                                {{ fields[1].value + " " + fields[2].value }}
-                              </v-list-item-title>
-                              <v-list-item-subtitle>{{
-                                fields[9].value
-                              }}</v-list-item-subtitle>
-                            </v-list-item-content>
-                          </v-list-item>
-                        </v-col>
-                      </v-row>
-                    </v-img>
-                  </v-card>
-                          <v-dialog max-width="25%" v-model="dialogEliminar">
-            <v-card>
-                <v-card-title class="justify-center">
-                    ¿Seguro desea eliminar esta persona?
-                </v-card-title>
-                <v-card-actions>
-                    <v-spacer>
-
-                    </v-spacer>
-                    <v-btn text color="success" @click="confirmarDialogEliminar()">Confirmar</v-btn>
-                    <v-btn text color="deep-orange darken-4" @click="cerrarDialogEliminar()">Cancelar</v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
-                </v-list>
-              </v-expand-transition>
-                    </v-row>
-                    <v-row>
-                        <v-col>
-                            <v-text-field
-                            label="Nombre de la persona*"
-                            v-model="nuevaTesisPosgrado.nombre"
-                            :rules="reglaCampoVacio"></v-text-field>
-                        </v-col>
-                        <v-col>
-                                                        <v-text-field
-                            label="Apellido de la persona*"
-                            v-model="nuevaTesisPosgrado.apellido"
-                            :rules="reglaCampoVacio"></v-text-field>
-                        </v-col>
                     </v-row>
                     
                     <v-row>
@@ -195,7 +129,7 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn :disabled="!validoFormulario" text color="success" @click="validar">Confirmar registro</v-btn>
+                <v-btn :disabled="!validoFormulario" text color="success" @click="validar()">Confirmar registro</v-btn>
                 <v-btn @click="limpiar()" text color="deep-orange darken-4">Limpiar campos</v-btn>
             </v-card-actions>
         </v-card>
@@ -212,6 +146,7 @@ data () {
     return {
         vuetify: vuetify,
         personas: null,
+        model:null,
         nuevaTesisPosgrado: {
             fechaInicio:'',
             fechaFinalizacion:'',
@@ -220,9 +155,7 @@ data () {
             titulo:'',
             director:'',
             vinculacion:'',
-            fuenteFinanciamiento:'',
-            nombre: '',
-            apellido:''
+            fuenteFinanciamiento:''
         },
         personaExistente: {},
         menu:false,
@@ -236,7 +169,6 @@ data () {
                 return 'Este campo es obligatorio'
             }
         ],
-        arrei : ['nombre', 'apellido'],
         fuentesFinanciamiento: [
             'sin financiamiento',
             'conicet',
@@ -258,13 +190,8 @@ methods: {
         this.$refs.formularioRegistro.reset()
         this.validoFormulario = false
     },
-    concatenateNombreYApellido: item => item.name + ' ' + item.apellido,
     async validar(){
         this.$refs.formularioRegistro.validate()
-        await axios.get('http://localhost:8080/gestiondepersonas/?Nombreoapellido='+ this.nuevaTesisPosgrado.nombre + " " + this.nuevaTesisPosgrado.apellido)
-        .then(response => {this.personaExistente = response.data[0]})
-        .finally(response => console.log(response));  
-        alert(this.personaExistente)
         var requestBody = {
             fechaInicio : this.nuevaTesisPosgrado.fechaInicio,
             fechaFinal : this.nuevaTesisPosgrado.fechaFinalizacion,
@@ -281,7 +208,7 @@ methods: {
             fuenteDeFinanciamiento: {
                 fuente : this.nuevaTesisPosgrado.fuenteFinanciamiento == 'Otro' ? "utn" : this.nuevaTesisPosgrado.fuenteFinanciamiento
             },
-            persona: this.personaExistente
+            persona: this.model
         };
         await axios.post("http://localhost:8080/gestiondeformacionacademica/", requestBody)
             .then(response => console.log(response));        

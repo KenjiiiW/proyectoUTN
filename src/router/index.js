@@ -66,7 +66,8 @@ const routes = [{
     },
     {
         path: '/ModificacionTesisPosgrado',
-        component: ModificacionTesisPosgrado
+        component: ModificacionTesisPosgrado,
+        name: "ModificacionTesisPosgrado"
     },
     {
         path: '/TesisLicenciatura',

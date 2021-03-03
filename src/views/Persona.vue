@@ -69,7 +69,7 @@
                   text
                   fab
                   elevation="0"
-                  :to="{name:modificar, params:model}"
+                  :to="{ name: modificar, params: model }"
                 >
                   <v-icon>create</v-icon>
                 </v-btn>
@@ -93,7 +93,7 @@
                   color="white"
                   hide-no-data
                   hide-selected
-                  :item-text="item => item.nombre +' - '+ item.apellido"
+                  :item-text="(item) => item.nombre + ' - ' + item.apellido"
                   placeholder="Ingrese su busqueda"
                   prepend-icon="mdi-account-search"
                   return-object
@@ -102,7 +102,6 @@
               <v-divider></v-divider>
               <v-expand-transition>
                 <v-list v-if="model" class="blue dark-1">
-
                   <v-card class="mx-auto" max-width="434" tile>
                     <v-img
                       height="100%"
@@ -136,20 +135,45 @@
                       </v-row>
                     </v-img>
                   </v-card>
-                          <v-dialog max-width="25%" v-model="dialogEliminar">
-            <v-card>
-                <v-card-title class="justify-center">
-                    ¿Seguro desea eliminar esta persona?
-                </v-card-title>
-                <v-card-actions>
-                    <v-spacer>
+                  <v-dialog max-width="25%" v-model="dialogEliminar">
+                    <v-card>
+                      <v-card-title class="justify-center">
+                        ¿Seguro desea eliminar esta persona?
+                      </v-card-title>
+                      <v-card-actions>
+                        <v-spacer> </v-spacer>
+                        <v-btn
+                          text
+                          color="success"
+                          @click="confirmarDialogEliminar()"
+                          >Confirmar</v-btn
+                        >
+                        <v-btn
+                          text
+                          color="deep-orange darken-4"
+                          @click="cerrarDialogEliminar()"
+                          >Cancelar</v-btn
+                        >
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
 
-                    </v-spacer>
-                    <v-btn text color="success" @click="confirmarDialogEliminar()">Confirmar</v-btn>
-                    <v-btn text color="deep-orange darken-4" @click="cerrarDialogEliminar()">Cancelar</v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
+                  <!-- <v-list-item>
+                    <v-list-item-content>
+                      <v-list-item-title>{{ model.nombre }}</v-list-item-title>
+                      <v-list-item-subtitle>{{
+                        "NOMBRE"
+                      }}</v-list-item-subtitle>
+
+                      <v-divider></v-divider>
+                      <v-list-item-title>{{
+                        model.apellido
+                      }}</v-list-item-title>
+                      <v-list-item-subtitle>{{
+                        "Apellido"
+                      }}</v-list-item-subtitle>
+                    </v-list-item-content>
+                  </v-list-item> -->
 
                   <v-list-item v-for="(field, i) in fields" :key="i">
                     <v-list-item-content
@@ -166,17 +190,29 @@
                         v-text="field.key"
                       ></v-list-item-subtitle>
                     </v-list-item-content>
-                    
+                    <v-list-item-title
+                      v-show="field.key === 'direccionPostal'"
+                      >{{ "Direccion Postal" }}</v-list-item-title
+                    >
+                    <v-list-item-subtitle
+                      v-show="field.key === 'direccionPostal'"
+                      >{{
+                        "Descripcion del perfil investigador"
+                      }}</v-list-item-subtitle
+                    >
                     <v-list-item-content>
-                      <v-list-item-title v-show="field.key === 'investigador'">{{
-                        "La persona es un investigador " +
-                        field.value.tipoDeInvestigador +
-                        " con la categoria de " +
-                        field.value.categoriaDeInvestigador +
-                        " con " +
-                        field.value.cantidadDeHoras +
-                        " horas de dedicación a la semana"
-                      }}</v-list-item-title>
+                      <v-list-item-title
+                        v-show="field.key === 'investigador'"
+                        >{{
+                          "La persona es un investigador " +
+                          field.value.tipoDeInvestigador +
+                          " con la categoria de " +
+                          field.value.categoriaDeInvestigador +
+                          " con " +
+                          field.value.cantidadDeHoras +
+                          " horas de dedicación a la semana"
+                        }}</v-list-item-title
+                      >
                       <v-list-item-subtitle
                         v-show="field.key === 'investigador'"
                         >{{
@@ -216,7 +252,6 @@ export default {
       vuetify: vuetify,
       item: [],
       modificar: "ModificacionPersona",
-      elementoActual: {},
       search: "",
       dialogModificar: false,
       dialogEliminar: false,
@@ -229,19 +264,19 @@ export default {
     };
   },
   methods: {
-    eliminarPersona(item) {
+    eliminarPersona() {
       this.dialogEliminar = true;
-      this.elementoActual = item;
     },
     cerrarDialogEliminar() {
       this.dialogEliminar = false;
     },
     async confirmarDialogEliminar() {
       this.dialogEliminar = false;
-      this.model = null;
+      var id = this.model.id;
+      this.model=null;
       await axios
         .delete(
-          "http://localhost:8080/gestiondepersonas/id/" + this.elementoActual.id
+          "http://localhost:8080/gestiondepersonas/id/" + id
         )
         .then((response) => console.log(response));
     },
@@ -280,8 +315,8 @@ export default {
           console.log(err);
         })
         .finally(() => (this.isLoading = false));
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>

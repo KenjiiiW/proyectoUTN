@@ -337,7 +337,7 @@
           text
           color="success"
           @click="modificarPersona(personaAModificar)"
-          >Confirmar registro</v-btn
+          >Confirmar modificacion</v-btn
         >
         <v-btn @click="limpiar()" text color="deep-orange darken-4"
           >Limpiar campos</v-btn
