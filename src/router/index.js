@@ -13,9 +13,12 @@ import ModificacionTesisPosgrado from '@/views/ModificacionTesisPosgrado'
 
 import TesisLicenciatura from '@/views/TesisLicenciatura.vue'
 import AltaTesisLicenciatura from '@/views/AltaTesisLicenciatura.vue'
+import ModificacionTesisLicenciatura from '@/views/ModificacionTesisLicenciatura.vue'
 
 import ProyectoFinal from '@/views/ProyectoFinal.vue'
 import AltaProyectoFinal from '@/views/AltaProyectoFinal.vue'
+import ModificacionProyectoFinal from '@/views/ModificacionProyectoFinal.vue'
+
 
 import PracticaSupervisadaIngenieria from '@/views/PracticaSupervisadaIngenieria.vue'
 import AltaPracticaSupervisadaIngenieria from '@/views/AltaPracticaSupervisadaIngenieria.vue'
@@ -154,6 +157,17 @@ const routes = [{
     {
         path: '/DetallesPracticas',
         component: DetallesPracticas
+
+    },
+        {
+        path: '/ModificacionTesisLicenciatura',
+        component: ModificacionTesisLicenciatura,
+        name: "ModificacionTesisLicenciatura"
+    },
+    {
+        path: '/ModificacionProyectoFinal',
+        component: ModificacionProyectoFinal,
+        name: "ModificacionProyectoFinal"
     }
 ]
 

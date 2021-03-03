@@ -7,9 +7,21 @@
             <v-card-text>
                 <v-form v-model="validoFormulario" ref="formularioRegistro">
                     <v-row>
-                        <v-col >
-                            <v-btn block>SELECCIONAR PERSONA A CARGO DEL PROYECTO FINAL</v-btn>
-                        </v-col>
+<v-card-text>
+                <v-autocomplete
+                  v-model="model"
+                  :items="this.personas"
+                  :search-input.sync="search"
+                  color="white"
+                  hide-no-data
+                  hide-selected
+                  :item-text="item => item.nombre +' - '+ item.apellido + ' | DNI: '+item.dni"
+                  placeholder="Seleccione persona a cargo"
+                  prepend-icon="mdi-account-search"
+                  return-object
+                ></v-autocomplete>
+              </v-card-text>
+              <v-divider></v-divider>
                     </v-row>
                     
                     <v-row>
@@ -84,7 +96,7 @@
                     <v-row>
                         <v-col>
                             <v-text-field
-                            label="Título de la tesis*"
+                            label="Título del proyecto*"
                             v-model="nuevoProyectoFinal.titulo"
                             :rules="reglaCampoVacio"></v-text-field>
                         </v-col>
@@ -100,7 +112,7 @@
                     <v-row>
                         <v-col>
                             <v-text-field
-                            label="Vinculación del proyecto*"
+                            label="Vinculación delproyecto*"
                             hint="Escriba la vinculación del proyecto con PID o la iniciativa de investigación en la UCT"
                             v-model="nuevoProyectoFinal.vinculacion"
                             :rules="reglaCampoVacio"></v-text-field>
@@ -128,9 +140,13 @@
 
 <script>
 var axios = require('axios');
+var vuetify = require('vuetify');
 export default {
 data () {
     return {
+        vuetify: vuetify,
+        personas: null,
+        model:null,
         nuevoProyectoFinal: {
             fechaInicio:'',
             fechaFinalizacion:'',
@@ -139,14 +155,12 @@ data () {
             titulo:'',
             director:'',
             vinculacion:'',
-            fuenteFinanciamiento:'',
-            nombre: '',
-            apellido:''
+            fuenteFinanciamiento:''
         },
         personaExistente: {},
-        validoFormulario:false,
         menu:false,
         menu2:false,
+        validoFormulario:false,
         reglaCampoVacio:[
             (texto)=>{
                 if(texto){
@@ -166,6 +180,11 @@ data () {
         ]
     }
 },
+mounted: function() {
+    axios.get("http://localhost:8080/gestiondepersonas/")
+         .then(response => {this.personas = response.data})
+         .finally(response => console.log(response));        
+},
 methods: {
     limpiar(){
         this.$refs.formularioRegistro.reset()
@@ -173,32 +192,30 @@ methods: {
     },
     async validar(){
         this.$refs.formularioRegistro.validate()
-        await axios.get('http://localhost:8080/gestiondepersonas/nombre/'+ this.nuevaTesisPosgrado.nombre)
-        .then(response => {this.personaExistente = response.data})
-        .finally(response => console.log(response));  
         var requestBody = {
-            fechaInicio : this.nuevaTesisPosgrado.fechaInicio,
-            fechaFinal : this.nuevaTesisPosgrado.fechaFinalizacion,
-            carrera : this.nuevaTesisPosgrado.carrera,
-            universidad : this.nuevaTesisPosgrado.universidad,
-            titulo : this.nuevaTesisPosgrado.titulo,
-            director : this.nuevaTesisPosgrado.director,
+            fechaInicio : this.nuevoProyectoFinal.fechaInicio,
+            fechaFinal : this.nuevoProyectoFinal.fechaFinalizacion,
+            carrera : this.nuevoProyectoFinal.carrera,
+            universidad : this.nuevoProyectoFinal.universidad,
+            titulo : this.nuevoProyectoFinal.titulo,
+            director : this.nuevoProyectoFinal.director,
             tipoDePractica: {
-                tipoDePractica: "proyecto_final_ingenieria"
+                tipoDePractica: "tesis_postgrado"
             },
             vinculacionConProyecto: {
                 name: "giuct"
             },
             fuenteDeFinanciamiento: {
-                fuente : this.nuevaTesisPosgrado.fuenteFinanciamiento == 'Otro' ? "utn" : this.nuevaTesisPosgrado.fuenteFinanciamiento
+                fuente : this.nuevoProyectoFinal.fuenteFinanciamiento == 'Otro' ? "utn" : this.nuevoProyectoFinal.fuenteFinanciamiento
             },
-            persona: this.personaExistente
+            persona: this.model
         };
-        axios.post("http://localhost:8080/gestiondeformacionacademica/", requestBody)
-            .then(response => console.log(response));        
+        await axios.post("http://localhost:8080/gestiondeformacionacademica/", requestBody)
+            .then(response => console.log(response))
+            .then(alert("la tesis fue agregada de manera exitosa"));        
             this.$refs.formularioRegistro.reset()
+        window.location.href= "TesisPosgrado"
     }
 }
-    
 }
 </script>

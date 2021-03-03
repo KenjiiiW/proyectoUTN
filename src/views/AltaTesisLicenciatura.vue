@@ -7,10 +7,23 @@
             <v-card-text>
                 <v-form v-model="validoFormulario" ref="formularioRegistro">
                     <v-row>
-                        <v-col>
-                            <v-btn block>SELECCIONAR PERSONA A CARGO DE LA TESIS</v-btn>
-                        </v-col>
+<v-card-text>
+                <v-autocomplete
+                  v-model="model"
+                  :items="this.personas"
+                  :search-input.sync="search"
+                  color="white"
+                  hide-no-data
+                  hide-selected
+                  :item-text="item => item.nombre +' - '+ item.apellido + ' | DNI: '+item.dni"
+                  placeholder="Seleccione persona a cargo"
+                  prepend-icon="mdi-account-search"
+                  return-object
+                ></v-autocomplete>
+              </v-card-text>
+              <v-divider></v-divider>
                     </v-row>
+                    
                     <v-row>
                         <v-col>
                             <v-menu
@@ -127,9 +140,13 @@
 
 <script>
 var axios = require('axios');
+var vuetify = require('vuetify');
 export default {
 data () {
     return {
+        vuetify: vuetify,
+        personas: null,
+        model:null,
         nuevaTesisLicenciatura: {
             fechaInicio:'',
             fechaFinalizacion:'',
@@ -138,12 +155,12 @@ data () {
             titulo:'',
             director:'',
             vinculacion:'',
-            fuenteFinanciamiento:'',
+            fuenteFinanciamiento:''
         },
         personaExistente: {},
-        validoFormulario:false,
         menu:false,
         menu2:false,
+        validoFormulario:false,
         reglaCampoVacio:[
             (texto)=>{
                 if(texto){
@@ -163,13 +180,17 @@ data () {
         ]
     }
 },
+mounted: function() {
+    axios.get("http://localhost:8080/gestiondepersonas/")
+         .then(response => {this.personas = response.data})
+         .finally(response => console.log(response));        
+},
 methods: {
     limpiar(){
         this.$refs.formularioRegistro.reset()
         this.validoFormulario = false
     },
     async validar(){
-        alert("entre en el validar()");
         this.$refs.formularioRegistro.validate()
         var requestBody = {
             fechaInicio : this.nuevaTesisLicenciatura.fechaInicio,
@@ -179,20 +200,22 @@ methods: {
             titulo : this.nuevaTesisLicenciatura.titulo,
             director : this.nuevaTesisLicenciatura.director,
             tipoDePractica: {
-                tipoDePractica: "tesis_licenciatura"
+                tipoDePractica: "tesis_postgrado"
             },
             vinculacionConProyecto: {
                 name: "giuct"
             },
             fuenteDeFinanciamiento: {
                 fuente : this.nuevaTesisLicenciatura.fuenteFinanciamiento == 'Otro' ? "utn" : this.nuevaTesisLicenciatura.fuenteFinanciamiento
-            }
+            },
+            persona: this.model
         };
-        axios.post("http://localhost:8080/gestiondeformacionacademica/", requestBody)
-            .then(response => console.log(response));        
-        this.$refs.formularioRegistro.reset()
+        await axios.post("http://localhost:8080/gestiondeformacionacademica/", requestBody)
+            .then(response => console.log(response))
+            .then(alert("la tesis fue agregada de manera exitosa"));        
+            this.$refs.formularioRegistro.reset()
+        window.location.href= "TesisPosgrado"
     }
 }
-    
 }
 </script>
