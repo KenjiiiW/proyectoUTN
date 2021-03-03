@@ -93,7 +93,7 @@
                   color="white"
                   hide-no-data
                   hide-selected
-                  :item-text="(item) => item.nombre + ' - ' + item.apellido"
+                  :item-text="text"
                   placeholder="Ingrese su busqueda"
                   prepend-icon="mdi-account-search"
                   return-object
@@ -239,6 +239,7 @@ export default {
     };
   },
   methods: {
+    text: item => item.nombre + ' - ' + item.apellido,
     eliminarPersona() {
       this.dialogEliminar = true;
     },
