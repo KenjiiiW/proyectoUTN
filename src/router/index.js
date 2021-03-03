@@ -16,6 +16,7 @@ import AltaTesisLicenciatura from '@/views/AltaTesisLicenciatura.vue'
 
 import ProyectoFinal from '@/views/ProyectoFinal.vue'
 import AltaProyectoFinal from '@/views/AltaProyectoFinal.vue'
+import ModificacionTesisLicenciatura from '@/views/ModificacionTesisLicenciatura.vue'
 
 import PracticaSupervisadaIngenieria from '@/views/PracticaSupervisadaIngenieria.vue'
 import AltaPracticaSupervisadaIngenieria from '@/views/AltaPracticaSupervisadaIngenieria.vue'
@@ -122,6 +123,11 @@ const routes = [{
         component: Detalles
     },
 
+    {
+        path: '/ModificacionTesisLicenciatura',
+        component: ModificacionTesisLicenciatura,
+        name: "ModificacionTesisLicenciatura"
+    }
 ]
 
 const router = new VueRouter({
