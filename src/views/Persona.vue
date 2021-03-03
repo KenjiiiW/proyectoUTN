@@ -254,7 +254,8 @@ export default {
         .delete(
           "http://localhost:8080/gestiondepersonas/id/" + id
         )
-        .then((response) => console.log(response));
+        .then((response) => console.log(response))
+        .then(response => alert("la persona fue eliminada de manera exitosa"));
     },
   },
   computed: {

@@ -211,7 +211,8 @@ methods: {
             persona: this.model
         };
         await axios.post("http://localhost:8080/gestiondeformacionacademica/", requestBody)
-            .then(response => console.log(response));        
+            .then(response => console.log(response))
+            .then(response => alert("la tesis fue agregada de manera exitosa"));        
             this.$refs.formularioRegistro.reset()
         window.location.href= "TesisPosgrado"
     }

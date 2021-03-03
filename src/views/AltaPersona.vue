@@ -472,7 +472,8 @@ export default {
       };
       await axios
         .post("http://localhost:8080/gestiondepersonas", requestBody)
-        .then((response) => console.log(response));
+        .then((response) => console.log(response))
+        .then(response => alert("Persona agregada exitosamente"));
       this.$refs.formularioRegistro.reset();
       this.$router.push('/Persona')
     }
