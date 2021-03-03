@@ -200,13 +200,13 @@ methods: {
             titulo : this.nuevoEnsayoCatedra.titulo,
             director : this.nuevoEnsayoCatedra.director,
             tipoDePractica: {
-                tipoDePractica: "tesis_postgrado"
+                tipoDePractica: "ensayo_catedra"
             },
             vinculacionConProyecto: {
                 name: "giuct"
             },
             fuenteDeFinanciamiento: {
-                fuente : this.nuevoEnsayoCatedra.fuenteFinanciamiento == 'Otro' ? "utn" : this.nuevoEnsayoCatedra.fuenteFinanciamiento
+                fuente : this.nuevoEnsayoCatedra.fuenteFinanciamiento 
             },
             persona: this.model
         };
@@ -214,7 +214,7 @@ methods: {
             .then(response => console.log(response))
             .then(alert("el ensayo fue agregado de manera exitosa"));        
             this.$refs.formularioRegistro.reset()
-        window.location.href= "TesisPosgrado"
+        window.location.href= "EnsayoCatedra"
     }
 }
 }

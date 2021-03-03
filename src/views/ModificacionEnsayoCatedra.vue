@@ -239,7 +239,7 @@ export default {
         .then((response) => console.log(response))
         .then(alert("Se ha modificado el ensayo exitosamente"));
       this.$refs.formularioRegistro.reset();
-      this.$router.push('/TesisPosgrado');
+      this.$router.push('/EnsayoCatedra');
     },
   },
   mounted: function () {

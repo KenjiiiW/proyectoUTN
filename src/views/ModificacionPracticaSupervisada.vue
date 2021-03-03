@@ -220,7 +220,7 @@ export default {
         titulo: this.practicaAModificar.titulo,
         director: this.practicaAModificar.director,
         tipoDePractica: {
-          tipoDePractica: "proyecto_final_ingenieria",
+          tipoDePractica: "practica_supervisada",
         },
         vinculacionConProyecto: {
           name: "giuct",
@@ -239,7 +239,7 @@ export default {
         .then((response) => console.log(response))
         .then(alert("Se ha modificado la practica exitosamente"));
       this.$refs.formularioRegistro.reset();
-      this.$router.push('/ProyectoFinal');
+      this.$router.push('/PracticaSupervisadaIngenieria');
     },
   },
   mounted: function () {

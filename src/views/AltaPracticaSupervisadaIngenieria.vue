@@ -206,15 +206,15 @@ methods: {
                 name: "giuct"
             },
             fuenteDeFinanciamiento: {
-                fuente : this.nuevaPracticaSupervisada.fuenteFinanciamiento == 'Otro' ? "utn" : this.nuevaPracticaSupervisada.fuenteFinanciamiento
+                fuente : this.nuevaPracticaSupervisada.fuenteFinanciamiento
             },
             persona: this.model
         };
         await axios.post("http://localhost:8080/gestiondeformacionacademica/", requestBody)
             .then(response => console.log(response))
             .then(alert("la practica fue agregada de manera exitosa"));        
-            this.$refs.formularioRegistro.reset()
-        window.location.href= "TesisLicenciatura"
+            this.$refs.formularioRegistro.reset();
+            window.location.href= "PracticaSupervisadaIngenieria"
     }
 }
 }

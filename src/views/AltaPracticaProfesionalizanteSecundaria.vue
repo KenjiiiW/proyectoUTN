@@ -200,13 +200,13 @@ methods: {
             titulo : this.nuevaPracticaProfesionalizante.titulo,
             director : this.nuevaPracticaProfesionalizante.director,
             tipoDePractica: {
-                tipoDePractica: "tesis_licenciatura"
+                tipoDePractica: "practica_profesionalizante"
             },
             vinculacionConProyecto: {
                 name: "giuct"
             },
             fuenteDeFinanciamiento: {
-                fuente : this.nuevaPracticaProfesionalizante.fuenteFinanciamiento == 'Otro' ? "utn" : this.nuevaPracticaProfesionalizante.fuenteFinanciamiento
+                fuente : this.nuevaPracticaProfesionalizante.fuenteFinanciamiento
             },
             persona: this.model
         };
@@ -214,7 +214,7 @@ methods: {
             .then(response => console.log(response))
             .then(alert("la practica fue agregada de manera exitosa"));        
             this.$refs.formularioRegistro.reset()
-        window.location.href= "TesisLicenciatura"
+        window.location.href= "PracticaProfesionalizanteSecundaria"
     }
 }
 }
