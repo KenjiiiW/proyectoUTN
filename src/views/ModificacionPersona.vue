@@ -426,6 +426,7 @@ export default {
     },
     async modificarPersona() {
       this.$refs.formularioRegistro.validate();
+      var resultadoPositivo = false;
       var requestBody = {
         nombre: this.personaAModificar.nombre,
         apellido: this.personaAModificar.apellido,
@@ -451,9 +452,15 @@ export default {
         }
       };
       axios
-        .post("http://localhost:8080/gestiondepersonas/id/"+this.personaAModificar.id, requestBody)
-        .then((response) => console.log(response));
+        .put("http://localhost:8080/gestiondepersonas/id/"+this.personaAModificar.id, requestBody)
+        .then((response) => console.log(response))
+        .then(resultadoPositivo = true);
+        if (resultadoPositivo) {
+            alert("persona modificada con exito");
+        }
       this.$refs.formularioRegistro.reset();
+      this.$router.push('/Persona')
+
     }
   },
   created() {
