@@ -2,14 +2,26 @@
     <v-container>
         <v-card elevation="12">
             <v-card-title class="justify-center blue lighten-5">
-                REGISTRO DE PRACTICAS SUPERVISADAS DE INGENIERÍA
+                REGISTRO DE PRACTICA SUPERVISADA
             </v-card-title>
             <v-card-text>
                 <v-form v-model="validoFormulario" ref="formularioRegistro">
                     <v-row>
-                        <v-col>
-                            <v-btn block>SELECCIONAR PERSONA A CARGO DE LA PRÁCTICA</v-btn>
-                        </v-col>
+<v-card-text>
+                <v-autocomplete
+                  v-model="model"
+                  :items="this.personas"
+                  :search-input.sync="search"
+                  color="white"
+                  hide-no-data
+                  hide-selected
+                  :item-text="item => item.nombre +' - '+ item.apellido + ' | DNI: '+item.dni"
+                  placeholder="Seleccione persona a cargo"
+                  prepend-icon="mdi-account-search"
+                  return-object
+                ></v-autocomplete>
+              </v-card-text>
+              <v-divider></v-divider>
                     </v-row>
                     
                     <v-row>
@@ -84,7 +96,7 @@
                     <v-row>
                         <v-col>
                             <v-text-field
-                            label="Título de la práctica*"
+                            label="Título de la practica*"
                             v-model="nuevaPracticaSupervisada.titulo"
                             :rules="reglaCampoVacio"></v-text-field>
                         </v-col>
@@ -100,27 +112,16 @@
                     <v-row>
                         <v-col>
                             <v-text-field
-                            label="Tutor UCT"
-                            hint="Escriba nombre y apellido del tutor"
-                            v-model="nuevaPracticaSupervisada.tutorUct"></v-text-field>
+                            label="Vinculación de la practica*"
+                            hint="Escriba la vinculación de la practica con PID o la iniciativa de investigación en la UCT"
+                            v-model="nuevaPracticaSupervisada.vinculacion"
+                            :rules="reglaCampoVacio"></v-text-field>
                         </v-col>
                         <v-col>
                             <v-select
                             label="Fuente de financiamiento"
                             v-model="nuevaPracticaSupervisada.fuenteFinanciamiento"
                             :items="fuentesFinanciamiento"></v-select>
-                        </v-col>
-                    </v-row>
-                    <v-row>
-                        <v-col>
-                            <v-text-field
-                            label="Vinculación de la práctica*"
-                            hint="Escriba la vinculación de la práctica con PID o la iniciativa de investigación en la UCT"
-                            v-model="nuevaPracticaSupervisada.vinculacion"
-                            :rules="reglaCampoVacio"></v-text-field>
-                        </v-col>
-                        <v-col>
-
                         </v-col>
                     </v-row>
 
@@ -139,9 +140,13 @@
 
 <script>
 var axios = require('axios');
+var vuetify = require('vuetify');
 export default {
 data () {
     return {
+        vuetify: vuetify,
+        personas: null,
+        model:null,
         nuevaPracticaSupervisada: {
             fechaInicio:'',
             fechaFinalizacion:'',
@@ -149,16 +154,13 @@ data () {
             universidad:'',
             titulo:'',
             director:'',
-            tutorUct:'',
             vinculacion:'',
-            fuenteFinanciamiento:'',
-            nombre: '',
-            apellido:''
+            fuenteFinanciamiento:''
         },
         personaExistente: {},
-        validoFormulario:false,
         menu:false,
         menu2:false,
+        validoFormulario:false,
         reglaCampoVacio:[
             (texto)=>{
                 if(texto){
@@ -178,6 +180,11 @@ data () {
         ]
     }
 },
+mounted: function() {
+    axios.get("http://localhost:8080/gestiondepersonas/")
+         .then(response => {this.personas = response.data})
+         .finally(response => console.log(response));        
+},
 methods: {
     limpiar(){
         this.$refs.formularioRegistro.reset()
@@ -185,9 +192,6 @@ methods: {
     },
     async validar(){
         this.$refs.formularioRegistro.validate()
-        // await axios.get('http://localhost:8080/gestiondepersonas/nombre/'+ this.nuevaTesisPosgrado.nombre)
-        // .then(response => {this.personaExistente = response.data})
-        // .finally(response => console.log(response));  
         var requestBody = {
             fechaInicio : this.nuevaPracticaSupervisada.fechaInicio,
             fechaFinal : this.nuevaPracticaSupervisada.fechaFinalizacion,
@@ -196,22 +200,22 @@ methods: {
             titulo : this.nuevaPracticaSupervisada.titulo,
             director : this.nuevaPracticaSupervisada.director,
             tipoDePractica: {
-                tipoDePractica: "practica_supervisada"
+                tipoDePractica: "tesis_licenciatura"
             },
             vinculacionConProyecto: {
                 name: "giuct"
             },
             fuenteDeFinanciamiento: {
                 fuente : this.nuevaPracticaSupervisada.fuenteFinanciamiento == 'Otro' ? "utn" : this.nuevaPracticaSupervisada.fuenteFinanciamiento
-            }
-            // },
-            // persona: this.personaExistente
+            },
+            persona: this.model
         };
-        axios.post("http://localhost:8080/gestiondeformacionacademica/", requestBody)
-            .then(response => console.log(response));        
+        await axios.post("http://localhost:8080/gestiondeformacionacademica/", requestBody)
+            .then(response => console.log(response))
+            .then(alert("la practica fue agregada de manera exitosa"));        
             this.$refs.formularioRegistro.reset()
+        window.location.href= "TesisLicenciatura"
     }
 }
-    
 }
 </script>

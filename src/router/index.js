@@ -22,9 +22,11 @@ import ModificacionProyectoFinal from '@/views/ModificacionProyectoFinal.vue'
 
 import PracticaSupervisadaIngenieria from '@/views/PracticaSupervisadaIngenieria.vue'
 import AltaPracticaSupervisadaIngenieria from '@/views/AltaPracticaSupervisadaIngenieria.vue'
+import ModificacionPracticaSupervisada from '@/views/ModificacionPracticaSupervisada.vue'
 
 import PracticaProfesionalizanteSecundaria from '@/views/PracticaProfesionalizanteSecundaria.vue'
 import AltaPracticaProfesionalizanteSecundaria from '@/views/AltaPracticaProfesionalizanteSecundaria.vue'
+import ModificacionPracticaProfesionalizante from '@/views/ModificacionPracticaProfesionalizante.vue'
 
 import EnsayoCatedra from '@/views/EnsayoCatedra.vue'
 import AltaEnsayoCatedra from '@/views/AltaEnsayoCatedra.vue'
@@ -168,6 +170,16 @@ const routes = [{
         path: '/ModificacionProyectoFinal',
         component: ModificacionProyectoFinal,
         name: "ModificacionProyectoFinal"
+    },
+    {
+        path: '/ModificacionPracticaSupervisada',
+        component: ModificacionPracticaSupervisada,
+        name: "ModificacionPracticaSupervisada"
+    },
+    {
+        path: '/ModificacionPracticaProfesionalizante',
+        component: ModificacionPracticaProfesionalizante,
+        name: "ModificacionPracticaProfesionalizante"
     }
 ]
 
