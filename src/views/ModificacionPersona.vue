@@ -453,7 +453,7 @@ export default {
       axios
         .put("http://localhost:8080/gestiondepersonas/id/"+this.personaAModificar.id, requestBody)
         .then((response) => console.log(response))
-        .then(response => alert("la persona fue modificada de manera exitosa"));
+        .then(alert("la persona fue modificada de manera exitosa"));
         this.$refs.formularioRegistro.reset();
       this.$router.push('/Persona')
 

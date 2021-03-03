@@ -248,7 +248,6 @@ export default {
       .then((response) => {
         this.personas = response.data;
       })
-      .then(response => alert("la tesis fue modificada de manera exitosa"))
       .finally((response) => console.log(response));
   },
   created() {

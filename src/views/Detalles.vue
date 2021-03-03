@@ -1,21 +1,5 @@
 <template>
     <v-container>
- <v-alert
-  value='requestSubmitted'
-  color="green"
-  dismissible
-  elevation="7"
-  type="success"
-  width="400"   
->Texto</v-alert>
- <v-alert
-  value='dfgdfg'
-  color="red"
-  dismissible
-  elevation="7"
-  type="error"
-  width="400"   
->Texto</v-alert>
         <v-card>
             <v-card-title style="background-color:#EEEEEE" class="justify-center titulo">
                 <strong>DETALLES</strong>
@@ -72,8 +56,13 @@ data(){
                 class: 'black--text'
             },
             {
-                text: 'Persona',
-                value: 'persona.nombre',
+                text: 'Nombre',
+                value: "persona.nombre",
+                class: 'black--text'
+            },
+            {
+                text: 'Apellido',
+                value: "persona.apellido",
                 class: 'black--text'
             }
         ],

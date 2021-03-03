@@ -136,10 +136,10 @@
                           <v-list-item color="rgba(0, 0, 0, .4)" dark>
                             <v-list-item-content>
                               <v-list-item-title class="title">
-                                {{ fields[7].value}}
+                                {{ fields[8].value}}
                               </v-list-item-title>
                               <v-list-item-subtitle>{{
-                                fields[6].value
+                                fields[7].value
                               }}</v-list-item-subtitle>
                             </v-list-item-content>
                           </v-list-item>
@@ -180,11 +180,11 @@
 
                         <v-card-title style="background-color: #17c0c5">
                           FUENTE:
-                          {{ model.fuenteDeFinanciamiento }}
+                          {{ model.fuenteDeFinanciamiento.fuente }}
                         </v-card-title>
 
                         <v-card-title style="background-color: #17c0c5">
-                          VINCULACION:{{ model.vinculacionConProyecto }}
+                          VINCULACION:{{ model.vinculacionConProyecto.name }}
                         </v-card-title>
                       </v-card>
                     </v-col>
@@ -194,14 +194,6 @@
                   <v-col>
                     <v-col>
                       <v-card color="blue dark-4" dark>
-                        <v-card-title style="background-color: #a0a0a0">
-                          TUTOR:
-                          {{ model.tutor }}
-                        </v-card-title>
-                        <v-card-title style="background-color: #a0a0a0">
-                          DOCENTE:
-                          {{ model.docente }}
-                        </v-card-title>
                         <v-card-title style="background-color: #a0a0a0">
                           CARRERA:
                           {{ model.carrera }}
@@ -270,7 +262,7 @@ export default {
     };
   },
   methods: {
-    eliminarPersona() {
+    eliminar() {
       this.dialogEliminar = true;
     },
     cerrarDialogEliminar() {
@@ -281,9 +273,9 @@ export default {
       var id = this.model.id;
       this.model = null;
       await axios
-        .delete("http://localhost:8080/gestiondepersonas/id/" + id)
+        .delete("http://localhost:8080/gestiondeformacionacademica/id/" + id)
         .then((response) => console.log(response))
-        .then(response => alert("la persona fue eliminada de manera exitosa"));
+        .then(alert("la tesis fue eliminada de manera exitosa"));
     },
   },
   computed: {

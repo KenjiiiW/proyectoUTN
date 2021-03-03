@@ -454,7 +454,7 @@ export default {
         direccionPostal: this.nuevaPersona.direccionPostal,
         emailInstitucional: this.nuevaPersona.emailInstitucional,
         emailPersonal: this.nuevaPersona.emailPersonal,
-        telefono: this.nuevaPersona.celular,
+        telefono: this.nuevaPersona.telefono,
         situacionAcademica: this.nuevaPersona.situacionAcademica,
         pasaporte: !this.tienePasaporte
           ? null
@@ -464,7 +464,7 @@ export default {
             },
         investigador: {
           categoriaDeInvestigador: this.nuevaPersona.investigador.categoriaDeInvestigador,
-          tipoDeInvestigador: this.nuevaPersona.investigador.tipoInvestigtipoDeInvestigadorador,
+          tipoDeInvestigador: this.nuevaPersona.investigador.tipoDeInvestigador,
           cantidadDeHoras: this.nuevaPersona.investigador.cantidadDeHoras,
           fechaDeObtencionDeCategoria: this.nuevaPersona.investigador.fechaDeObtencionDeCategoria,
           numeroDeResolucion: this.nuevaPersona.investigador.numeroDeResolucion,
@@ -473,7 +473,7 @@ export default {
       await axios
         .post("http://localhost:8080/gestiondepersonas", requestBody)
         .then((response) => console.log(response))
-        .then(response => alert("Persona agregada exitosamente"));
+        .then(alert("Persona agregada exitosamente"));
       this.$refs.formularioRegistro.reset();
       this.$router.push('/Persona')
     }
